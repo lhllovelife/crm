@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!--LogImpl:指定Mybatis所用日志的具体实现，未指定时将自动查找
+            STDOUT_LOGGING：该值指定日志中打印出sql语句
+           -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <typeAliases>
+        <!-- 类型名配置包名，写参数类型和返回值类型时，只需写简单类名，不必写完整类名    -->
+        <package name="cn.andylhl.crm.domain"/>
+    </typeAliases>
+
+    <mappers>
+        <!--配置sql映射文件的位置        -->
+        <!-- sql映射文件，配置包名，则指向该包下所有的sql映射文件       -->
+        <package name="cn.andylhl.crm.dao"/>
+    </mappers>
+
+
+</configuration>
