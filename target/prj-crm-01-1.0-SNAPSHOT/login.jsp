@@ -15,7 +15,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		$(function () {
 			//页面加载完毕执行此处函数
 			//1. 登录页面加载完毕后，光标聚焦到账号输入框
-			$("#logAct").focus();
+			$("#loginAct").focus();
 			//2. 为登录按钮绑定点击事件
 			$("#loginbtn").click(function () {
 				login();
@@ -29,17 +29,17 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		})
 		//封装好的自定义方法，写在$(function(){})外面
 		function login() {
-			var logAct = $("#logAct").val();
-			var logPwd = $("#logPwd").val();
-			if (logAct.trim() == "" || logPwd.trim() == "") {
+			var loginAct = $("#loginAct").val();
+			var loginPwd = $("#loginPwd").val();
+			if (loginAct.trim() == "" || loginPwd.trim() == "") {
 				$("#msg").html("用户名和密码不能为空");
 				return ;
 			}
 			$.ajax({
 				url: "settings/user/login.do",
 				data: {
-					"logAct" : logAct,
-					"logPwd" : logPwd
+					"loginAct" : loginAct,
+					"loginPwd" : loginPwd
 				},
 				type: "post",
 				dataType: "json",
@@ -73,10 +73,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			<form action="workbench/index.html" class="form-horizontal" role="form">
 				<div class="form-group form-group-lg">
 					<div style="width: 350px;">
-						<input class="form-control" type="text" placeholder="用户名" name="logAct" id="logAct">
+						<input class="form-control" type="text" placeholder="用户名" name="loginAct" id="loginAct">
 					</div>
 					<div style="width: 350px; position: relative;top: 20px;">
-						<input class="form-control" type="password" placeholder="密码" name="logPwd" id="logPwd">
+						<input class="form-control" type="password" placeholder="密码" name="loginPwd" id="loginPwd">
 					</div>
 					<div class="checkbox"  style="position: relative;top: 30px; left: 10px;">
 						

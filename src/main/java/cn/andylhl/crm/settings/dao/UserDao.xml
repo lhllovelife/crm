@@ -6,4 +6,9 @@
 <!--命名空间为接口的全限定名称-->
 <mapper namespace="cn.andylhl.crm.settings.dao.UserDao">
 
+    <!--根据用户名和密码进行查询用户信息，封装到User对象中-->
+    <select id="login" parameterType="Map" resultType="User">
+        select * from tbl_user where loginAct = #{loginAct} and loginPwd = #{loginPwd}
+    </select>
+
 </mapper>
