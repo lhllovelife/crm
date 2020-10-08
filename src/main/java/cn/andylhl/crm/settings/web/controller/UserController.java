@@ -5,6 +5,7 @@ import cn.andylhl.crm.settings.service.UserService;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,9 +21,6 @@ import java.io.IOException;
  */
 @WebServlet(urlPatterns = {"/settings/user/login.do"})
 public class UserController extends HttpServlet {
-
-    //获取IoC容器中的userService代理对象
-//    private UserService userService = (UserService) WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext()).getBean("userServiceImpl");
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -48,9 +46,5 @@ public class UserController extends HttpServlet {
     private void doLogin(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("进入到验证登录");
         WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
-        UserService userService = (UserService) ac.getBean("userServiceImpl");
-        System.out.println(userService.getClass().getName());
     }
-
-
 }

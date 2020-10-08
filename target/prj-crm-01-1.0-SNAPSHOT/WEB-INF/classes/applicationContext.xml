@@ -44,6 +44,7 @@
     <tx:advice id="crmAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="insert*" propagation="REQUIRED" isolation="DEFAULT"/>
+            <tx:method name="login" propagation="REQUIRED" isolation="DEFAULT"/>
         </tx:attributes>
     </tx:advice>
     <!--3.配置AOP -->
