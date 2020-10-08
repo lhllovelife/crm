@@ -64,3 +64,7 @@ prj-crm-01
         3. 验证锁定状态
         4. 验证ip地址
     4. 添加字符编码过滤器
+    5. 登录后从session中取user,展示在主页上
+       ${sesscionScope.user.name}
+       EL表达式中带scope的域对象可以省略
+    6. 登录拦截过滤器

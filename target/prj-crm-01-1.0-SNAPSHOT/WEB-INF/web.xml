@@ -34,6 +34,18 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+  <!--登录拦截过滤器-->
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>cn.andylhl.crm.web.filter.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+    <url-pattern>*.html</url-pattern>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+
   <!--字符编码过滤器-->
   <filter>
     <filter-name>EncodingFilter</filter-name>

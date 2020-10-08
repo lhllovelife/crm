@@ -46,11 +46,11 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				success: function (data) {
 					if (data.success){
 						//登录成功,跳转到主页
-						window.location,href = "workbench/index.html";
+						window.location.href = "workbench/index.jsp";
 					}
 					else {
 						//登录失败，显示错误信息
-						$("msg").html(data.msg);
+						$("#msg").html(data.msg);
 					}
 				}
 			})
@@ -70,7 +70,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			<div class="page-header">
 				<h1>登录</h1>
 			</div>
-			<form action="workbench/index.html" class="form-horizontal" role="form">
+			<form action="workbench/index.jsp" class="form-horizontal" role="form">
 				<div class="form-group form-group-lg">
 					<div style="width: 350px;">
 						<input class="form-control" type="text" placeholder="用户名" name="loginAct" id="loginAct">
