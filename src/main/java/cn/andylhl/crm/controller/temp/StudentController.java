@@ -46,16 +46,22 @@ public class StudentController extends HttpServlet {
      * @param response
      */
     private void doInsert(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //获取参数
         String id = request.getParameter("id");
         String name = request.getParameter("name");
         Integer age = Integer.valueOf(request.getParameter("age"));
+
         WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
         System.out.println("ioc对象地址：" + ac);
         StudentService service = (StudentService) ac.getBean("studentService");
         Student student = new Student(id, name, age);
+        Student student1 = new Student(id+"bake", name+"bake", age+1);
+        //调用service
         int count = service.insertStu(student);
+        Integer.valueOf("abc");
+        count += service.insertStu(student1);
         //{"success" : true}
-        String json = "{\"success\" : " + (count == 1)+ "}";
+        String json = "{\"success\" : " + (count == 2)+ "}";
         response.setContentType("application/json;charset=utf-8");
         PrintWriter out = response.getWriter();
         out.println(json);

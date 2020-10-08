@@ -2,9 +2,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <!--spring整和mybatis共需三步-->
+
+<!--spring整和mybatis共需三步-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <!--1. 配置数据源（druid数据库连接池）-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
@@ -26,6 +33,36 @@
         <!--指定要扫描的包，即存放dao接口的包-->
         <property name="basePackage" value="cn.andylhl.crm.dao"/>
     </bean>
+
+    <!--使用Aspect AOP配置声明式事务-->
+    <!--1. 声明事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--配置数据源属性-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--2. 声明事务属性-->
+    <tx:advice id="crmAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="insert*" propagation="REQUIRED" isolation="DEFAULT"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--3.配置AOP -->
+    <aop:config>
+        <!--配置切入点表达式：指定哪些包中类，要使用事务
+            id:切入点表达式的名称，唯一值
+            expression：切入点表达式，指定哪些类要使用事务，aspectj会创建代理对象
+            com.bjpowernode.service
+            com.crm.service
+            com.service
+        -->
+        <aop:pointcut id="servicePt" expression="execution(* *..service..*.*(..))"/>
+
+        <!--配置增强器：关联adivce和pointcut
+           advice-ref:通知，上面tx:advice哪里的配置
+           pointcut-ref：切入点表达式的id
+        -->
+        <aop:advisor advice-ref="crmAdvice" pointcut-ref="servicePt" />
+    </aop:config>
 
     <!--配置StudentServiceImpl-->
     <bean id="studentService" class="cn.andylhl.crm.service.impl.StudentServiceImpl">

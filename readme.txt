@@ -41,4 +41,6 @@ prj-crm-01
                 <!--指定 mybatis主配置文件-->
                 <property name="configLocation" value="classpath:mybatis-config.xml"/>
             </bean>
+    - 使用AspectJ的AOP配置事务管理
+
 

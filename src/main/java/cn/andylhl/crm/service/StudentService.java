@@ -2,6 +2,8 @@ package cn.andylhl.crm.service;
 
 import cn.andylhl.crm.domain.Student;
 
+import java.util.List;
+
 /***
  * @Title: StudentService
  * @Description:
@@ -11,4 +13,6 @@ import cn.andylhl.crm.domain.Student;
 public interface StudentService {
 
     int insertStu(Student student);
+
+    int insertStus(List<Student> list);
 }
