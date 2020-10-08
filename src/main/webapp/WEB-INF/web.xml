@@ -34,4 +34,14 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+  <!--字符编码过滤器-->
+  <filter>
+    <filter-name>EncodingFilter</filter-name>
+    <filter-class>cn.andylhl.crm.web.filter.EncodingFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+
 </web-app>
