@@ -4,6 +4,8 @@ import cn.andylhl.crm.domain.Student;
 import cn.andylhl.crm.service.StudentService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import sun.net.httpserver.HttpServerImpl;
 
 import javax.servlet.ServletException;
@@ -44,11 +46,13 @@ public class StudentController extends HttpServlet {
      * @param response
      */
     private void doInsert(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String id = request.getParameter("id");
         String name = request.getParameter("name");
         Integer age = Integer.valueOf(request.getParameter("age"));
-        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        System.out.println("ioc对象地址：" + ac);
         StudentService service = (StudentService) ac.getBean("studentService");
-        Student student = new Student("A_0005", name, age);
+        Student student = new Student(id, name, age);
         int count = service.insertStu(student);
         //{"success" : true}
         String json = "{\"success\" : " + (count == 1)+ "}";
