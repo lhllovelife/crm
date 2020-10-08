@@ -43,4 +43,11 @@ prj-crm-01
             </bean>
     - 使用AspectJ的AOP配置事务管理
 
+二 、用户模块
+
+    - 后端模块搭建
+    1. 创建目录结构,提供相关工具类
+    2. 创建用户表(tbl_user)，提供基础数据
+    3. 封装User bean, 跟表中字段一致，提供set get方法
+    4. 创建UserDao, Usermapper，
 

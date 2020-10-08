@@ -31,7 +31,7 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!--指定要扫描的包，即存放dao接口的包-->
-        <property name="basePackage" value="cn.andylhl.crm.dao"/>
+        <property name="basePackage" value="cn.andylhl.crm.settings.dao"/>
     </bean>
 
     <!--使用Aspect AOP配置声明式事务-->
@@ -44,6 +44,7 @@
     <tx:advice id="crmAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="insert*" propagation="REQUIRED" isolation="DEFAULT"/>
+            <tx:method name="login" propagation="REQUIRED" isolation="DEFAULT"/>
         </tx:attributes>
     </tx:advice>
     <!--3.配置AOP -->
@@ -64,9 +65,14 @@
         <aop:advisor advice-ref="crmAdvice" pointcut-ref="servicePt" />
     </aop:config>
 
-    <!--配置StudentServiceImpl-->
-    <bean id="studentService" class="cn.andylhl.crm.service.impl.StudentServiceImpl">
-        <property name="studentDao" ref="studentDao"/>
+<!--    &lt;!&ndash;配置StudentServiceImpl&ndash;&gt;-->
+<!--    <bean id="studentService" class="cn.andylhl.crm.service.impl.StudentServiceImpl">-->
+<!--        <property name="studentDao" ref="studentDao"/>-->
+<!--    </bean>-->
+
+    <!--配置UserServiceImpl中的dao属性，通过包扫描器，IoC容器自动帮我们创建好了所有的Dao对象-->
+    <bean id="userServiceImpl" class="cn.andylhl.crm.settings.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
     </bean>
 
 </beans>
