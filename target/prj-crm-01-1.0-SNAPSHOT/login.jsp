@@ -13,6 +13,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
 	<script>
 		$(function () {
+
+			//当前窗口不是顶级窗口时，将其设置为顶级窗口
+			if(window.top!=window){
+				window.top.location=window.location;
+			}
+
 			//页面加载完毕执行此处函数
 			//1. 登录页面加载完毕后，光标聚焦到账号输入框
 			$("#loginAct").focus();

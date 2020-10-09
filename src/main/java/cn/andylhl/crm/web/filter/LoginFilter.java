@@ -20,9 +20,9 @@ public class LoginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        System.out.println("进入登录拦截过滤器");
         HttpServletRequest request = (HttpServletRequest)req;
         HttpServletResponse response = (HttpServletResponse)res;
+        System.out.println("进入登录拦截过滤器。来访地址为：" + request.getServletPath());
         String path = request.getServletPath();
         if ("/settings/user/login.do".equals(path) || "/login.jsp".equals(path)){
             //登录页面和处理登录的接口允许访问
@@ -36,6 +36,7 @@ public class LoginFilter implements Filter {
             }
             else {
                 //重定向到登录页面
+                System.out.println("该资源禁止访问."  +request.getServletPath()  + " 请先登录");
                 response.sendRedirect(request.getContextPath() + "/login.jsp");
             }
         }
