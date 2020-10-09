@@ -83,3 +83,10 @@ prj-crm-01
     7. service层：ActivityService impl.ActivityServiceImpl 处理市场活动业务
     8. controller层: ActivityController 市场活动控制器 (/workbench/activity/***.do)
 
+    - 处理模态窗口
+        1. 给按钮绑定单击事件，在自定义函数中展开模态窗口 $("#btnid").modal("show");
+        2. 走后台，取得用户信息列表，为所有者下拉框铺值。（AJAX请求）
+        3. 将所有者框中默认选中的是“当前登录用户"，从session中取
+        4. 添加日历控件
+
+

@@ -2,6 +2,8 @@ package cn.andylhl.crm.settings.dao;
 
 import cn.andylhl.crm.settings.domain.User;
 
+import java.awt.*;
+import java.util.List;
 import java.util.Map;
 
 /***
@@ -18,4 +20,6 @@ public interface UserDao {
      * @return User对象
      */
     User login(Map<String, Object> map);
+
+    List<User> getUerList();
 }

@@ -11,6 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /***
@@ -34,6 +35,17 @@ public class TestUserController {
         User user = userDao.login(map);
         System.out.println("*--查询结果--");
         System.out.println(user);
+
+    }
+
+    @Test
+    public void test02(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        UserDao userDao = (UserDao) ac.getBean("userDao");
+        List<User> userList = userDao.getUerList();
+        for (User u : userList){
+            System.out.println(u);
+        }
 
 
     }

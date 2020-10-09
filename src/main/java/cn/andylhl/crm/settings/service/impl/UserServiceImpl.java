@@ -9,6 +9,7 @@ import cn.andylhl.crm.utils.DateUtil;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /***
@@ -62,5 +63,15 @@ public class UserServiceImpl implements UserService {
         }
         //指定到这里，验证成功
         return user;
+    }
+
+    /**
+     * 获取所有用户信息封装到一个List集合中
+     * @return
+     */
+    @Override
+    public List<User> getUserList() {
+
+        return userDao.getUerList();
     }
 }

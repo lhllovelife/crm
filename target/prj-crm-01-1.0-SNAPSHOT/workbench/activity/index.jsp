@@ -21,7 +21,44 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 		$(function(){
 
+			$("#createBtn").click(function () {
 
+				//加载日历控件
+				$(".time").datetimepicker({
+					minView: "month",
+					language:  'zh-CN',
+					format: 'yyyy-mm-dd',
+					autoclose: true,
+					todayBtn: true,
+					pickerPosition: "bottom-left"
+				});
+
+				//提交ajax请求，获取用户信息，为所有者下拉框铺值
+				$.ajax({
+					url: "workbench/activity/getUserList.do",
+					type: "get",
+					dataType: "json",
+					success: function (data) {
+						//展示返回的json数组
+						var html = "";
+						$.each(data, function (i, n) {
+							html += "<option value='" + n.id + "'>" + n.name + "</option>";
+						})
+						$("#create-owner").html(html);
+						////将所有者框中默认选中的是“当前登录用户"，从session中取
+						// js代码中使用el表达式需要用双引号括起来
+						var id = "${sessionScope.user.id}";
+						//根据value设置下拉框的值
+						$("#create-owner").val(id);
+						$("#createActivityModal").modal("show");
+
+					}
+				})
+
+				// $("#create-owner").val("40f6cdea0bd34aceb77492a1656d9fb3");
+				//展现模态窗口
+
+			})
 
 		});
 	
@@ -46,10 +83,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						<div class="form-group">
 							<label for="create-marketActivityOwner" class="col-sm-2 control-label">所有者<span style="font-size: 15px; color: red;">*</span></label>
 							<div class="col-sm-10" style="width: 300px;">
-								<select class="form-control" id="create-marketActivityOwner">
-								  <option>zhangsan</option>
-								  <option>lisi</option>
-								  <option>wangwu</option>
+								<select class="form-control" id="create-owner">
+
 								</select>
 							</div>
                             <label for="create-marketActivityName" class="col-sm-2 control-label">名称<span style="font-size: 15px; color: red;">*</span></label>
@@ -59,13 +94,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						</div>
 						
 						<div class="form-group">
-							<label for="create-startTime" class="col-sm-2 control-label">开始日期</label>
+							<label for="create-startTime" class="col-sm-2 control-label ">开始日期</label>
 							<div class="col-sm-10" style="width: 300px;">
-								<input type="text" class="form-control" id="create-startTime">
+								<input type="text" class="form-control time" id="create-startTime" >
 							</div>
 							<label for="create-endTime" class="col-sm-2 control-label">结束日期</label>
 							<div class="col-sm-10" style="width: 300px;">
-								<input type="text" class="form-control" id="create-endTime">
+								<input type="text" class="form-control time" id="create-endTime" >
 							</div>
 						</div>
                         <div class="form-group">
@@ -208,7 +243,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			</div>
 			<div class="btn-toolbar" role="toolbar" style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
 				<div class="btn-group" style="position: relative; top: 18%;">
-				  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createActivityModal"><span class="glyphicon glyphicon-plus"></span> 创建</button>
+				  <button type="button" class="btn btn-primary" id="createBtn"><span class="glyphicon glyphicon-plus"></span> 创建</button>
 				  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editActivityModal"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
 				  <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除</button>
 				</div>

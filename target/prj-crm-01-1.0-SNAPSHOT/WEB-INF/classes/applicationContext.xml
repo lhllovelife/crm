@@ -31,7 +31,8 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!--指定要扫描的包，即存放dao接口的包-->
-        <property name="basePackage" value="cn.andylhl.crm.settings.dao"/>
+        <!--在basePackage中使用逗号或者分号作为分隔符去给映射器接口文件设置多个包的路径，让其能够被递归扫描到。-->
+        <property name="basePackage" value="cn.andylhl.crm.settings.dao,cn.andylhl.crm.workbench.dao"/>
     </bean>
 
     <!--使用Aspect AOP配置声明式事务-->
@@ -73,6 +74,12 @@
     <!--配置UserServiceImpl中的dao属性，通过包扫描器，IoC容器自动帮我们创建好了所有的Dao对象-->
     <bean id="userServiceImpl" class="cn.andylhl.crm.settings.service.impl.UserServiceImpl">
         <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <!--声明ActivityServiceImpl-->
+    <bean id="activityServiceImpl" class="cn.andylhl.crm.workbench.service.impl.ActivityServiceImpl">
+        <!--set注入-->
+        <property name="activityDao" ref="activityDao"/>
     </bean>
 
 </beans>
