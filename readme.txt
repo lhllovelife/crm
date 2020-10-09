@@ -78,3 +78,8 @@ prj-crm-01
     2. 前端资源修改，解决404
     3. 登录页不是顶层窗口时，将当前窗口设置为顶层窗口
     4. 创建工作台包结构
+    5. 创建表对应的实体类；Activity ActivityRemark
+    6. dao层：ActivityDao.java ActivityDao.xml.修改mybatis主配置文件
+    7. service层：ActivityService impl.ActivityServiceImpl 处理市场活动业务
+    8. controller层: ActivityController 市场活动控制器 (/workbench/activity/***.do)
+
