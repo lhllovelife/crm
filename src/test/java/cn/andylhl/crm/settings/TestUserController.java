@@ -1,9 +1,14 @@
 package cn.andylhl.crm.settings;
 
+import cn.andylhl.crm.exception.ActivityExecption;
 import cn.andylhl.crm.settings.dao.UserDao;
 import cn.andylhl.crm.settings.domain.User;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.MD5Util;
+import cn.andylhl.crm.utils.UUIDUtil;
+import cn.andylhl.crm.workbench.dao.ActivityDao;
+import cn.andylhl.crm.workbench.domain.Activity;
+import cn.andylhl.crm.workbench.service.ActivityService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -46,7 +51,21 @@ public class TestUserController {
         for (User u : userList){
             System.out.println(u);
         }
+    }
 
-
+    @Test
+    public void test003(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        System.out.println("servcice: "+ service.getClass().getName());
+        Activity activity = new Activity();
+        activity.setId(UUIDUtil.getUUID());
+        try {
+            service.save(activity);
+            System.out.println("没有异常出现");
+        } catch (ActivityExecption activityExecption) {
+            activityExecption.printStackTrace();
+            System.out.println("异常已经被捕捉");
+        }
     }
 }

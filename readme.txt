@@ -46,42 +46,42 @@ prj-crm-01
 二 、用户模块
 
     - 后端模块搭建
-    1. 创建目录结构,提供相关工具类
-    2. 创建用户表(tbl_user)，提供基础数据
-    3. 封装User bean, 跟表中字段一致，提供set get方法
-    4. 创建UserDao, Usermapper，
+        1. 创建目录结构,提供相关工具类
+        2. 创建用户表(tbl_user)，提供基础数据
+        3. 封装User bean, 跟表中字段一致，提供set get方法
+        4. 创建UserDao, Usermapper，
     - 登录前端页面修改
-    1. 登录页面加载完毕后，光标聚焦到账号输入框
-    2. 为登录按钮绑定点击事件
-    3. 为当前窗口绑定敲键盘事件，使敲键盘也能进行登录
-    4. 养成习惯，封装好的自定义方法，写在$(function(){})外面
+        1. 登录页面加载完毕后，光标聚焦到账号输入框
+        2. 为登录按钮绑定点击事件
+        3. 为当前窗口绑定敲键盘事件，使敲键盘也能进行登录
+        4. 养成习惯，封装好的自定义方法，写在$(function(){})外面
     - 登录模块后端
-    1. 自定义异常
-    2. Dao层 根据用户名和密码查询，将查询结果封装为一个User对象
-    3. Service层
-        1. 验证用户名密码
-        2. 验证失效时间
-        3. 验证锁定状态
-        4. 验证ip地址
-    4. 添加字符编码过滤器
-    5. 登录后从session中取user,展示在主页上
-       ${sesscionScope.user.name}
-       EL表达式中带scope的域对象可以省略
-    6. 登录拦截过滤器. 有时浏览器会走缓存，所以不经过过滤器
-    7. 登录页面：如果登录页面不是顶级窗口，将其设置为顶级窗口
+        1. 自定义异常
+        2. Dao层 根据用户名和密码查询，将查询结果封装为一个User对象
+        3. Service层
+            1. 验证用户名密码
+            2. 验证失效时间
+            3. 验证锁定状态
+            4. 验证ip地址
+        4. 添加字符编码过滤器
+        5. 登录后从session中取user,展示在主页上
+           ${sesscionScope.user.name}
+           EL表达式中带scope的域对象可以省略
+        6. 登录拦截过滤器. 有时浏览器会走缓存，所以不经过过滤器
+        7. 登录页面：如果登录页面不是顶级窗口，将其设置为顶级窗口
 
 三 、市场活动模块
     - 准备工作
-    1. 建表
-    	tbl_activity 市场活动表
-    	tb_activity_remark  市场活动备注表
-    2. 前端资源修改，解决404
-    3. 登录页不是顶层窗口时，将当前窗口设置为顶层窗口
-    4. 创建工作台包结构
-    5. 创建表对应的实体类；Activity ActivityRemark
-    6. dao层：ActivityDao.java ActivityDao.xml.修改mybatis主配置文件
-    7. service层：ActivityService impl.ActivityServiceImpl 处理市场活动业务
-    8. controller层: ActivityController 市场活动控制器 (/workbench/activity/***.do)
+        1. 建表
+            tbl_activity 市场活动表
+            tb_activity_remark  市场活动备注表
+        2. 前端资源修改，解决404
+        3. 登录页不是顶层窗口时，将当前窗口设置为顶层窗口
+        4. 创建工作台包结构
+        5. 创建表对应的实体类；Activity ActivityRemark
+        6. dao层：ActivityDao.java ActivityDao.xml.修改mybatis主配置文件
+        7. service层：ActivityService impl.ActivityServiceImpl 处理市场活动业务
+        8. controller层: ActivityController 市场活动控制器 (/workbench/activity/***.do)
 
     - 处理模态窗口
         1. 给按钮绑定单击事件，在自定义函数中展开模态窗口 $("#btnid").modal("show");
@@ -89,4 +89,9 @@ prj-crm-01
         3. 将所有者框中默认选中的是“当前登录用户"，从session中取
         4. 添加日历控件
 
+    - 创建市场活动
+        1. AJAX提交表单数据
+        2. $.trim() 去空格
+        3. 登录业务，自定义异常. spring配置文件为方法指定需要回滚的异常。aspectj代理对象中抓住异常后是会上抛的。
+        4. 手动关闭模块窗口前，清空添加操作模态窗口中的数据
 

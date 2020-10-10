@@ -1,6 +1,8 @@
 package cn.andylhl.crm.workbench.service.impl;
 
+import cn.andylhl.crm.exception.ActivityExecption;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
+import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.service.ActivityService;
 
 /***
@@ -17,4 +19,15 @@ public class ActivityServiceImpl implements ActivityService {
         this.activityDao = activityDao;
     }
 
+    /**
+     * 保存市场活动信息
+     * @param activity
+     */
+    @Override
+    public void save(Activity activity) throws ActivityExecption {
+        int count = activityDao.save(activity);
+        if (count != 1){
+            throw new ActivityExecption("保存市场活动信息失败");
+        }
+    }
 }

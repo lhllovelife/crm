@@ -5,4 +5,36 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityDao">
 
+    <!--保存市场活动信息-->
+    <insert id="save" parameterType="Activity">
+        insert into tbl_activity
+            (
+            id,
+            owner,
+            name,
+            startDate,
+            endDate,
+            cost,
+            description,
+            createTime,
+            createBy,
+            editTime,
+            editBy
+        )
+        values
+            (
+            #{id},
+            #{owner},
+            #{name},
+            #{startDate},
+            #{endDate},
+            #{cost},
+            #{description},
+            #{createTime},
+            #{createBy},
+            #{editTime},
+            #{editBy}
+        )
+
+    </insert>
 </mapper>

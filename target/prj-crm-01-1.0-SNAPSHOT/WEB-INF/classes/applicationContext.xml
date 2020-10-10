@@ -44,8 +44,8 @@
     <!--2. 声明事务属性-->
     <tx:advice id="crmAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="insert*" propagation="REQUIRED" isolation="DEFAULT"/>
-            <tx:method name="login" propagation="REQUIRED" isolation="DEFAULT"/>
+            <tx:method name="save*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="java.lang.Exception"/>
+            <tx:method name="login" propagation="REQUIRED" isolation="DEFAULT" rollback-for="java.lang.Exception"/>
         </tx:attributes>
     </tx:advice>
     <!--3.配置AOP -->
