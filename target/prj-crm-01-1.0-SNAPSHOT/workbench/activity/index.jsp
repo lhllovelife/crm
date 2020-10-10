@@ -93,17 +93,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			//为查询按钮绑定事件
 			$("#searchBtn").click(function () {
 				//将查询条件保存在隐藏域中，在分页查询时候将隐藏域的值设置到参数框中。
-				/*
-				hidden-name
-				hidden-owner
-				hidden-startDate
-				hidden-endDate
-
-				serach-name
-				serach-owner
-				serach-startDate
-				search-endDate
-				 */
 				//点击查询按钮时候，将查询条件保存到隐藏域
 				$("#hidden-name").val($("#serach-name").val());
 				$("#hidden-owner").val($("#serach-owner").val());
@@ -112,9 +101,22 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				pageList(1,3);
 			})
 
+			//为全选按钮绑定事件
+			$("#qx").click(function () {
+				//全选框改动时候，
+				$("input[name='xz']").prop("checked", this.checked);
+			})
+
+			//为单选按钮绑定事件
+			$("#activityBody").on("click", $("input[name=xz]"), function () {
+				$("#qx").prop("checked", $("input[name='xz']:checked").size() == $("input[name='xz']").size())
+			})
+
 		});
 
 		function pageList(pageNo, pageSize) {
+			//分页后，将全选框干掉
+			$("#qx").prop("checked", false);
 			//执行分页查询 ajax发送请求
 			// alert("发起分页查询123");
 			//在执行分页带参查询时候，将隐藏域的值设置到条件框中
@@ -139,7 +141,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					var html = "";
 					$.each(data.dataList, function (i, n) {
 						html += '<tr class="active">';
-						html += '<td><input type="checkbox" value="'+n.id+'"/></td>';
+						html += '<td><input type="checkbox" name="xz" value="'+n.id+'"/></td>';
 						html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=\'detail.jsp\';">'+n.name+'</a></td>';
 						html += '<td>'+n.owner+'</td>';
 						html += '<td>'+n.startDate+'</td>';
@@ -370,7 +372,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<table class="table table-hover">
 					<thead>
 						<tr style="color: #B3B3B3;">
-							<td><input type="checkbox" /></td>
+							<td><input type="checkbox" id="qx"/></td>
 							<td>名称</td>
                             <td>所有者</td>
 							<td>开始日期</td>
