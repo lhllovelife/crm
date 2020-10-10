@@ -16,22 +16,25 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
-
+	<%--分页插件--%>
+	<link rel="stylesheet" type="text/css" href="jquery/bs_pagination/jquery.bs_pagination.min.css">
+	<script type="text/javascript" src="jquery/bs_pagination/jquery.bs_pagination.min.js"></script>
+	<script type="text/javascript" src="jquery/bs_pagination/en.js"></script>
 	<script type="text/javascript">
 
 		$(function(){
 
-			$("#createBtn").click(function () {
+			//加载日历控件
+			$(".time").datetimepicker({
+				minView: "month",
+				language:  'zh-CN',
+				format: 'yyyy-mm-dd',
+				autoclose: true,
+				todayBtn: true,
+				pickerPosition: "bottom-left"
+			});
 
-				//加载日历控件
-				$(".time").datetimepicker({
-					minView: "month",
-					language:  'zh-CN',
-					format: 'yyyy-mm-dd',
-					autoclose: true,
-					todayBtn: true,
-					pickerPosition: "bottom-left"
-				});
+			$("#createBtn").click(function () {
 
 				//提交ajax请求，获取用户信息，为所有者下拉框铺值
 				$.ajax({
@@ -85,13 +88,40 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				})
 			})
 			//页面加载完执行
-			pageList(1,2);
+			pageList(1,3)
+
+			//为查询按钮绑定事件
+			$("#searchBtn").click(function () {
+				//将查询条件保存在隐藏域中，在分页查询时候将隐藏域的值设置到参数框中。
+				/*
+				hidden-name
+				hidden-owner
+				hidden-startDate
+				hidden-endDate
+
+				serach-name
+				serach-owner
+				serach-startDate
+				search-endDate
+				 */
+				//点击查询按钮时候，将查询条件保存到隐藏域
+				$("#hidden-name").val($("#serach-name").val());
+				$("#hidden-owner").val($("#serach-owner").val());
+				$("#hidden-startDate").val($("#serach-startDate").val());
+				$("#hidden-endDate").val($("#search-endDate").val());
+				pageList(1,3);
+			})
 
 		});
 
 		function pageList(pageNo, pageSize) {
 			//执行分页查询 ajax发送请求
-			alert("发起分页查询")
+			// alert("发起分页查询123");
+			//在执行分页带参查询时候，将隐藏域的值设置到条件框中
+			$("#serach-name").val($("#hidden-name").val());
+			$("#search-owner").val($("#hidden-owner").val());
+			$("#search-startDate").val($("#hidden-startDate").val());
+			$("#search-endDate").val($("#hidden-endDate").val());
 			$.ajax({
 				url: "workbench/activity/pageList.do",
 				data: {
@@ -105,9 +135,40 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				type: "get",
 				dataType: "json",
 				success: function (data) {
-					//需要返回的数据是：
-					//总记录条数 total
-					//[ActiObj1, ActiObj2]
+					//动态展现分页数据
+					var html = "";
+					$.each(data.dataList, function (i, n) {
+						html += '<tr class="active">';
+						html += '<td><input type="checkbox" value="'+n.id+'"/></td>';
+						html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=\'detail.jsp\';">'+n.name+'</a></td>';
+						html += '<td>'+n.owner+'</td>';
+						html += '<td>'+n.startDate+'</td>';
+						html += '<td>'+n.endDate+'</td>';
+						html += '</tr>';
+					})
+					//将拼接数据展示到tbody中
+					$("#activityBody").html(html);
+					//加入分页组件
+					var totalPages = (data.total % pageSize == 0) ? (data.total / pageSize) : ( (parseInt(data.total / pageSize)+1));
+					$("#activityPage").bs_pagination({
+						currentPage: pageNo, // 页码
+						rowsPerPage: pageSize, // 每页显示的记录条数
+						maxRowsPerPage: 20, // 每页最多显示的记录条数
+						totalPages: totalPages, // 总页数
+						totalRows: data.total, // 总记录条数
+
+						visiblePageLinks: 3, // 显示几个卡片
+
+						showGoToPage: true,
+						showRowsPerPage: true,
+						showRowsInfo: true,
+						showRowsDefaultInfo: true,
+
+						onChangePage : function(event, data){
+							pageList(data.currentPage , data.rowsPerPage);
+						}
+					});
+
 				}
 			})
 
@@ -258,11 +319,16 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		<div style="width: 100%; position: absolute;top: 5px; left: 10px;">
 		
 			<div class="btn-toolbar" role="toolbar" style="height: 80px;">
+				<%--隐藏域暂时存储查询参数--%>
+				<input type="hidden" id="hidden-name">
+				<input type="hidden" id="hidden-owner">
+				<input type="hidden" id="hidden-startDate">
+				<input type="hidden" id="hidden-endDate">
 				<form class="form-inline" role="form" style="position: relative;top: 8%; left: 5px;">
 				  
 				  <div class="form-group">
 				    <div class="input-group">
-				      <div class="input-group-addon">名称123</div>
+				      <div class="input-group-addon">名称</div>
 				      <input class="form-control" type="text" id="serach-name">
 				    </div>
 				  </div>
@@ -278,17 +344,17 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				  <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">开始日期</div>
-					  <input class="form-control" type="text" id="serach-startDate" />
+					  <input class="form-control time" type="text" id="serach-startDate" />
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">结束日期</div>
-					  <input class="form-control" type="text" id="search-endDate">
+					  <input class="form-control time" type="text" id="search-endDate">
 				    </div>
 				  </div>
 				  
-				  <button type="submit" class="btn btn-default">查询</button>
+				  <button type="button" class="btn btn-default" id="searchBtn">查询</button>
 				  
 				</form>
 			</div>
@@ -311,58 +377,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<td>结束日期</td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr class="active">
-							<td><input type="checkbox" /></td>
-							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">发传单</a></td>
-                            <td>zhangsan</td>
-							<td>2020-10-10</td>
-							<td>2020-10-20</td>
-						</tr>
-                        <tr class="active">
-                            <td><input type="checkbox" /></td>
-                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">发传单</a></td>
-                            <td>zhangsan</td>
-                            <td>2020-10-10</td>
-                            <td>2020-10-20</td>
-                        </tr>
+					<tbody id="activityBody">
 					</tbody>
 				</table>
 			</div>
 			
 			<div style="height: 50px; position: relative;top: 30px;">
-				<div>
-					<button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
-				</div>
-				<div class="btn-group" style="position: relative;top: -34px; left: 110px;">
-					<button type="button" class="btn btn-default" style="cursor: default;">显示</button>
-					<div class="btn-group">
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							10
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">20</a></li>
-							<li><a href="#">30</a></li>
-						</ul>
-					</div>
-					<button type="button" class="btn btn-default" style="cursor: default;">条/页</button>
-				</div>
-				<div style="position: relative;top: -88px; left: 285px;">
-					<nav>
-						<ul class="pagination">
-							<li class="disabled"><a href="#">首页</a></li>
-							<li class="disabled"><a href="#">上一页</a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">下一页</a></li>
-							<li class="disabled"><a href="#">末页</a></li>
-						</ul>
-					</nav>
-				</div>
+				<div id="activityPage"></div>
 			</div>
 			
 		</div>
