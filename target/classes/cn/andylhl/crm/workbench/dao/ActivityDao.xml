@@ -5,6 +5,78 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityDao">
 
+    <!--带参数查询总记录条数-->
+    <select id="getTotalByCondition" parameterType="Map" resultType="int">
+        select
+            count(*)
+        from
+        tbl_activity a
+        join
+        tbl_user u
+        on
+        a.owner = u.id
+        <where>
+            <if test="name != null and name != ''">
+                and a.name like '%' #{name} '%'
+            </if>
+
+            <if test="owner != null and owner != ''">
+                and u.name like '%' #{owner} '%'
+            </if>
+
+            <if test="startDate != null and startDate != ''">
+                and a.startDate &gt; #{startDate}
+            </if>
+
+            <if test="endDate != null and endDate != ''">
+                and a.endDate &lt; #{endDate}
+            </if>
+        </where>
+    </select>
+
+    <!--查询市场活动信息-->
+    <select id="getActivityByCondition" parameterType="Map" resultType="Activity">
+        select
+            a.id,
+            u.name as owner,
+            a.name,
+            a.startDate,
+            a.endDate,
+            a.cost,
+            a.description,
+            a.createTime,
+            a.createBy,
+            a.editTime,
+            a.editBy
+        from
+            tbl_activity a
+        join
+            tbl_user u
+        on
+            a.owner = u.id
+        <where>
+            <if test="name != null and name != ''">
+               and a.name like '%' #{name} '%'
+            </if>
+
+            <if test="owner != null and owner != ''">
+                and u.name like '%' #{owner} '%'
+            </if>
+
+            <if test="startDate != null and startDate != ''">
+                and a.startDate &gt; #{startDate}
+            </if>
+
+            <if test="endDate != null and endDate != ''">
+                and a.endDate &lt; #{endDate}
+            </if>
+        </where>
+            order by a.createTime desc
+            limit #{pageNo}, #{pageSize}
+
+
+    </select>
+
     <!--保存市场活动信息-->
     <insert id="save" parameterType="Activity">
         insert into tbl_activity

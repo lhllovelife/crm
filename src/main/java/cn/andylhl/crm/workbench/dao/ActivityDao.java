@@ -2,6 +2,9 @@ package cn.andylhl.crm.workbench.dao;
 
 import cn.andylhl.crm.workbench.domain.Activity;
 
+import java.util.List;
+import java.util.Map;
+
 /***
  * @Title: ActivityDao
  * @Description:
@@ -11,4 +14,8 @@ import cn.andylhl.crm.workbench.domain.Activity;
 public interface ActivityDao {
 
     int save(Activity activity);
+
+    int getTotalByCondition(Map<String, Object> conditionMap);
+
+    List<Activity> getActivityByCondition(Map<String, Object> conditionMap);
 }

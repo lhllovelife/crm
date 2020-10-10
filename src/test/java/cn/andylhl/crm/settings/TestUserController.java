@@ -9,6 +9,7 @@ import cn.andylhl.crm.utils.UUIDUtil;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
 import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.service.ActivityService;
+import org.apache.ibatis.javassist.util.HotSwapAgent;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -54,7 +55,7 @@ public class TestUserController {
     }
 
     @Test
-    public void test003(){
+    public void test03(){
         ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
         ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
         System.out.println("servcice: "+ service.getClass().getName());
@@ -67,5 +68,34 @@ public class TestUserController {
             activityExecption.printStackTrace();
             System.out.println("异常已经被捕捉");
         }
+    }
+
+    @Test
+    public void test04(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ActivityDao activityDao = (ActivityDao) ac.getBean("activityDao");
+        Map<String, Object> conditionMap = new HashMap<>();
+//        String name = request.getParameter("name");
+//        String owner = request.getParameter("owner");
+//        String startDate = request.getParameter("startDate");
+//        String endDate = request.getParameter("endDate");
+//        String pageNoStr = request.getParameter("pageNo");
+//        String pageSizeStr = request.getParameter("pageSize");
+//        int pageNo = Integer.valueOf(pageNoStr);
+//        int pageSize = Integer.valueOf(pageSizeStr);
+        conditionMap.put("pageNo", 0);
+        conditionMap.put("pageSize", 10);
+        conditionMap.put("name", "2");
+//        conditionMap.put("owner", "李四");
+//        conditionMap.put("startDate", "2020-11-09");
+//        conditionMap.put("endDate", );
+
+        int total = activityDao.getTotalByCondition(conditionMap);
+        List<Activity> dataList = activityDao.getActivityByCondition(conditionMap);
+        System.out.println("------总记录条数：----" + total);
+        for (Activity a : dataList){
+            System.out.println(a);
+        }
+
     }
 }

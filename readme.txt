@@ -94,4 +94,9 @@ prj-crm-01
         2. $.trim() 去空格
         3. 登录业务，自定义异常. spring配置文件为方法指定需要回滚的异常。aspectj代理对象中抓住异常后是会上抛的。
         4. 手动关闭模块窗口前，清空添加操作模态窗口中的数据
+    - 分页查询市场活动信息列表(带参数)
+        1. 页面加载完毕触发一个方法，pageList(pageNo, pageSize)
+        2. 后台方法：(/workbench/activity/pageList.do)
+        3. 后台MVC
+        . 创建通用的vo，用于给前端传值的. Pagination<T>
 

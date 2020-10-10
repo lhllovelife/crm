@@ -57,6 +57,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			})
 
 
+			//点击保存按钮，将数据持久化
 			$("#saveBtn").click(function () {
 				//ajax请求保存表单数据
 				$.ajax({
@@ -74,7 +75,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					success: function (data) {
 						if(data.success){
 							//清空表单内容
-							$("#activityForm").get(0).reset();
+							// $("#activityForm").get(0).reset();
 							$("#createActivityModal").modal("hide");
 						}
 						else {
@@ -83,9 +84,34 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					}
 				})
 			})
-
+			//页面加载完执行
+			pageList(1,2);
 
 		});
+
+		function pageList(pageNo, pageSize) {
+			//执行分页查询 ajax发送请求
+			alert("发起分页查询")
+			$.ajax({
+				url: "workbench/activity/pageList.do",
+				data: {
+					pageNo : pageNo,
+					pageSize: pageSize,
+					name: $.trim($("#serach-name").val()),
+					owner: $.trim($("#serach-owner").val()),
+					startDate: $.trim($("#serach-startDate").val()),
+					endDate: $.trim($("#end-endDate").val())
+				},
+				type: "get",
+				dataType: "json",
+				success: function (data) {
+					//需要返回的数据是：
+					//总记录条数 total
+					//[ActiObj1, ActiObj2]
+				}
+			})
+
+		}
 	
 	</script>
 </head>
@@ -236,15 +262,15 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				  
 				  <div class="form-group">
 				    <div class="input-group">
-				      <div class="input-group-addon">名称</div>
-				      <input class="form-control" type="text">
+				      <div class="input-group-addon">名称123</div>
+				      <input class="form-control" type="text" id="serach-name">
 				    </div>
 				  </div>
 				  
 				  <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">所有者</div>
-				      <input class="form-control" type="text">
+				      <input class="form-control" type="text" id="serach-owner">
 				    </div>
 				  </div>
 
@@ -252,13 +278,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				  <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">开始日期</div>
-					  <input class="form-control" type="text" id="startTime" />
+					  <input class="form-control" type="text" id="serach-startDate" />
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">结束日期</div>
-					  <input class="form-control" type="text" id="endTime">
+					  <input class="form-control" type="text" id="search-endDate">
 				    </div>
 				  </div>
 				  
