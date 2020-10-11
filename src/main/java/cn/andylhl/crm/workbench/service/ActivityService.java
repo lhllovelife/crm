@@ -1,6 +1,7 @@
 package cn.andylhl.crm.workbench.service;
 
 import cn.andylhl.crm.exception.ActivityExecption;
+import cn.andylhl.crm.exception.ActivityRemarkExecption;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.domain.Activity;
 
@@ -21,4 +22,11 @@ public interface ActivityService {
      * @return
      */
     PaginationVO<Activity> pageList(Map<String, Object> conditionMap);
+
+    /**
+     * 批量删除市场活动
+     * @param ids
+     * @return
+     */
+    void deleteAct(String[] ids) throws ActivityRemarkExecption, ActivityExecption;
 }

@@ -1,12 +1,14 @@
 package cn.andylhl.crm.settings;
 
 import cn.andylhl.crm.exception.ActivityExecption;
+import cn.andylhl.crm.exception.ActivityRemarkExecption;
 import cn.andylhl.crm.settings.dao.UserDao;
 import cn.andylhl.crm.settings.domain.User;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.MD5Util;
 import cn.andylhl.crm.utils.UUIDUtil;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
+import cn.andylhl.crm.workbench.dao.ActivityRemarkDao;
 import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.service.ActivityService;
 import org.apache.ibatis.javassist.util.HotSwapAgent;
@@ -95,6 +97,25 @@ public class TestUserController {
         System.out.println("------总记录条数：----" + total);
         for (Activity a : dataList){
             System.out.println(a);
+        }
+
+    }
+
+    @Test
+    public void test05(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        String[] ids = { "6c6392eadc7849ffad8ce8c1afa4a4fe"};
+//        int cnt1 = activityRemarkDao.getCountByIds(ids);
+//        System.out.println("---------查询备注数目：" + cnt1);
+//        int cnt2 = activityRemarkDao.deleteActRemByIds(ids);
+//        System.out.println("---------删除备注数目：" + cnt2);
+        try {
+            service.deleteAct(ids);
+            System.out.println("----删除成功，无异常---");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("----删除失败，无异常---");
         }
 
     }

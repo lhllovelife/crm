@@ -46,6 +46,7 @@
         <tx:attributes>
             <tx:method name="save*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="java.lang.Exception"/>
             <tx:method name="login" propagation="REQUIRED" isolation="DEFAULT" rollback-for="java.lang.Exception"/>
+            <tx:method name="delete*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="java.lang.Exception"/>
         </tx:attributes>
     </tx:advice>
     <!--3.配置AOP -->
@@ -80,6 +81,7 @@
     <bean id="activityServiceImpl" class="cn.andylhl.crm.workbench.service.impl.ActivityServiceImpl">
         <!--set注入-->
         <property name="activityDao" ref="activityDao"/>
+        <property name="activityRemarkDao" ref="activityRemarkDao"/>
     </bean>
 
 </beans>

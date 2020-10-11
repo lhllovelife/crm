@@ -115,6 +115,43 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			$("#activityBody").on("click", $("input[name=xz]"), function () {
 				$("#qx").prop("checked", $("input[name='xz']:checked").size() == $("input[name='xz']").size())
 			})
+			//为修改按钮绑定事件 执行单个删除或批量删除
+			$("#deleteBtn").click(function () {
+				//获取选中按钮数量
+				var num = $("input[name='xz']:checked").size();
+				if (num == 0) {
+					alert("请选择删除项");
+					return ;
+				}
+				//执行到这里说明删除项已经勾选（>=1）
+				//拼接发送数据 id=12312313&id=12132123
+				var str = "";
+				var $xz = $("input[name='xz']:checked");
+				for (var i = 0; i < $xz.size(); i++){
+					str += "id=";
+					str += $xz.get(i).value;
+					if (i < $xz.size() - 1) {
+						str += "&";
+					}
+				}
+				if (window.confirm("您确定要删除吗？")){
+					$.ajax({
+						url: "workbench/activity/delete.do",
+						data: str,
+						type: "post",
+						dataType: "json",
+						success: function (data) {
+							if (data.success){
+								alert("删除成功");
+								pageList(1, 3);
+							}
+							else{
+								alert("删除失败")
+							}
+						}
+					})
+				}
+			})
 
 		});
 
@@ -367,8 +404,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			<div class="btn-toolbar" role="toolbar" style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
 				<div class="btn-group" style="position: relative; top: 18%;">
 				  <button type="button" class="btn btn-primary" id="createBtn"><span class="glyphicon glyphicon-plus"></span> 创建</button>
-				  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editActivityModal"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
-				  <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除</button>
+				  <button type="button" class="btn btn-default" id="editBtn"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
+				  <button type="button" class="btn btn-danger" id="deleteBtn"><span class="glyphicon glyphicon-minus"></span> 删除</button>
 				</div>
 				
 			</div>

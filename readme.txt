@@ -118,5 +118,5 @@ prj-crm-01
             查询需要删除的备注数量
             删除备注，返回收到影响的条数
             删除市场活动
-        6. window.confirm()
+        6. if(window.confirm("msg")){执行相应操作}
 

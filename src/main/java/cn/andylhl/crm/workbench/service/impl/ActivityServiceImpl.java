@@ -1,8 +1,10 @@
 package cn.andylhl.crm.workbench.service.impl;
 
 import cn.andylhl.crm.exception.ActivityExecption;
+import cn.andylhl.crm.exception.ActivityRemarkExecption;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
+import cn.andylhl.crm.workbench.dao.ActivityRemarkDao;
 import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.service.ActivityService;
 
@@ -18,9 +20,14 @@ import java.util.Map;
 public class ActivityServiceImpl implements ActivityService {
 
     private ActivityDao activityDao;
+    private ActivityRemarkDao activityRemarkDao;
 
     public void setActivityDao(ActivityDao activityDao) {
         this.activityDao = activityDao;
+    }
+
+    public void setActivityRemarkDao(ActivityRemarkDao activityRemarkDao) {
+        this.activityRemarkDao = activityRemarkDao;
     }
 
     /**
@@ -51,5 +58,29 @@ public class ActivityServiceImpl implements ActivityService {
         paginationVO.setTotal(total);
         paginationVO.setDataList(dataList);
         return paginationVO;
+    }
+
+    /**
+     * 批量删除市场活动
+     * @param ids
+     * @return
+     */
+    @Override
+    public void deleteAct(String[] ids) throws ActivityRemarkExecption, ActivityExecption {
+        //查询该总共需要删除的备注数量
+        int remarkCount1 = activityRemarkDao.getCountByIds(ids);
+        //执行删除，返回收到影响的记录条数
+        int remarkCount2 = activityRemarkDao.deleteActRemByIds(ids);
+
+        if (remarkCount1 != remarkCount2){
+            throw new ActivityRemarkExecption("市场活动备注删除数目异常");
+        }
+        //删除市场活动
+        int actCount1 = ids.length;
+        int actCount2 = activityDao.deleteActByIds(ids);
+        if (actCount1 != actCount2) {
+            throw new ActivityExecption("市场活动删除数目异常");
+        }
+
     }
 }

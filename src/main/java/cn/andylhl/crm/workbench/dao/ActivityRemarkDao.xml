@@ -5,4 +5,25 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityRemarkDao">
 
+    <!--    //根据id获取备注数量
+    int getCountByIds(String[] ids);-->
+    <select id="getCountByIds" parameterType="String" resultType="int">
+        select
+            count(*)
+        from
+            tbl_activity_remark
+        where
+            activityId in
+        <foreach collection="array" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--int deleteActRemByIds(String[] ids);-->
+    <delete id="deleteActRemByIds" parameterType="String">
+        delete from tbl_activity_remark where activityId in
+        <foreach collection="array" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

@@ -1,5 +1,7 @@
 package cn.andylhl.crm.workbench.web.controller;
 
+import cn.andylhl.crm.exception.ActivityExecption;
+import cn.andylhl.crm.exception.ActivityRemarkExecption;
 import cn.andylhl.crm.settings.domain.User;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.Const;
@@ -32,7 +34,7 @@ import java.util.Map;
  * @date: 2020/10/9 15:19
  */
 
-@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do"})
+@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do"})
 public class ActivityController extends HttpServlet {
 
     @Override
@@ -56,8 +58,33 @@ public class ActivityController extends HttpServlet {
         else if ("/workbench/activity/pageList.do".equals(path)){
             pageList(request, response);
         }
+        else if("/workbench/activity/delete.do".equals(path)){
+            delete(request, response);
+        }
         else {
             System.out.println("无效访问地址");
+        }
+    }
+
+    /**
+     * 市场活动单个删除和批量删除
+     * @param request
+     * @param response
+     */
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("市场活动单个删除和批量删除");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        //准备数据
+        String[] ids = request.getParameterValues("id");
+        try {
+            service.deleteAct(ids);
+            //能执行到这里，说明没有异常发生
+            PrintJson.printJsonFlag(response, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //执行到这里，说明出现异常
+            PrintJson.printJsonFlag(response, false);
         }
     }
 

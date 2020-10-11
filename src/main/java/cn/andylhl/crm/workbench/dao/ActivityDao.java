@@ -18,4 +18,7 @@ public interface ActivityDao {
     int getTotalByCondition(Map<String, Object> conditionMap);
 
     List<Activity> getActivityByCondition(Map<String, Object> conditionMap);
+
+    //根绝id删除市场活动
+    int deleteActByIds(String[] ids);
 }

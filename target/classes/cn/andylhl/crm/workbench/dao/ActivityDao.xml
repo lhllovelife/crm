@@ -5,6 +5,14 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityDao">
 
+    <!--根绝id删除市场活动 int deleteActByIds(String[] ids);-->
+    <delete id="deleteActByIds" parameterType="String">
+        delete from tbl_activity where id in
+        <foreach collection="array" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
     <!--带参数查询总记录条数-->
     <select id="getTotalByCondition" parameterType="Map" resultType="int">
         select
