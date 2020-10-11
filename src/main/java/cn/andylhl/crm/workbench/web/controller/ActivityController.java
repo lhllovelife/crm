@@ -34,7 +34,7 @@ import java.util.Map;
  * @date: 2020/10/9 15:19
  */
 
-@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do"})
+@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do", "/workbench/activity/update.do"})
 public class ActivityController extends HttpServlet {
 
     @Override
@@ -64,9 +64,40 @@ public class ActivityController extends HttpServlet {
         else if ("/workbench/activity/getUserListAndActivity.do".equals(path)){
             getUserListAndActivity(request, response);
         }
+        else if ("/workbench/activity/update.do".equals(path)){
+            update(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 更新市场活动
+     * @param request
+     * @param response
+     */
+    private void update(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到市场活动更新");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        //接收参数
+        Activity activity = new Activity();
+        WebUtil.makeRequestToObject(request, activity);
+        HttpSession session = request.getSession(false);
+        String editBy = ((User)session.getAttribute("user")).getName();
+        activity.setEditBy(editBy);
+        activity.setEditTime(DateUtil.format(new Date(), Const.DATE_Format_ALL));
+        //执行更新
+        try {
+            service.updateActivity(activity);
+            PrintJson.printJsonFlag(response, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            PrintJson.printJsonFlag(response, false);
+        }
+
+
     }
 
     /**

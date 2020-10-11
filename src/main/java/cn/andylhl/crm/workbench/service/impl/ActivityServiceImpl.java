@@ -93,4 +93,12 @@ public class ActivityServiceImpl implements ActivityService {
     public Activity getActById(String id) {
         return activityDao.getActById(id);
     }
+
+    @Override
+    public void updateActivity(Activity activity) throws ActivityExecption {
+        int count = activityDao.updateActivity(activity);
+        if (count != 1){
+            throw new ActivityExecption("市场活动信息更新异常");
+        }
+    }
 }

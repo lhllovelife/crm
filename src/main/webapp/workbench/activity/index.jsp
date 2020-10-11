@@ -78,8 +78,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					success: function (data) {
 						if(data.success){
 							//清空表单内容
-							// $("#activityForm").get(0).reset();
-							pageList(1,3);
+							$("#activityForm").get(0).reset();
+							pageList(1 , $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
+
 							$("#createActivityModal").modal("hide");
 						}
 						else {
@@ -116,7 +117,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			$("#activityBody").on("click", $("input[name=xz]"), function () {
 				$("#qx").prop("checked", $("input[name='xz']:checked").size() == $("input[name='xz']").size())
 			})
-			//为修改按钮绑定事件 执行单个删除或批量删除
+			//为删除按钮绑定事件 执行单个删除或批量删除
 			$("#deleteBtn").click(function () {
 				//获取选中按钮数量
 				var num = $("input[name='xz']:checked").size();
@@ -144,7 +145,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						success: function (data) {
 							if (data.success){
 								alert("删除成功");
-								pageList(1, 3);
+								pageList(1 , $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
 							}
 							else{
 								alert("删除失败")
@@ -184,6 +185,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							html += "<option value='"+n.id+"'>"+n.name+"</option>";
 						})
 						$("#edit-owner").html(html);
+						$("#edit-id").val(data.act.id);
 						$("#edit-name").val(data.act.name);
 						$("#edit-startDate").val(data.act.startDate);
 						$("#edit-endDate").val(data.act.endDate);
@@ -192,6 +194,37 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						//下拉框默认值为当前活动创建者
 						$("#edit-owner").val(data.act.owner);
 						$("#editActivityModal").modal("show");
+					}
+				})
+			})
+
+			//为更新按钮绑定事件
+			$("#updateBtn").click(function () {
+				//发送ajax, 执行更新操作
+				$.ajax({
+					url: "workbench/activity/update.do",
+					data: {
+						id: $("#edit-id").val(),
+						owner : $("#edit-owner").val(),
+						name :$("#edit-name").val(),
+						startDate : $("#edit-startDate").val(),
+						endDate : $("#edit-endDate").val(),
+						cost : $("#edit-cost").val(),
+						description : $("#edit-description").val()
+					},
+					type: "post",
+					dataType: "json",
+					success: function (data) {
+						if(data.success){
+							alert("更新成功");
+							//执行更新后回到当前页
+							pageList($("#activityPage").bs_pagination('getOption', 'currentPage')
+									,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
+							$("#editActivityModal").modal("hide");
+						}
+						else {
+							alert("更新失败");
+						}
 					}
 				})
 			})
@@ -328,6 +361,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	
 	<!-- 修改市场活动的模态窗口 -->
 	<div class="modal fade" id="editActivityModal" role="dialog">
+		<input type="hidden" id="edit-id">
 		<div class="modal-dialog" role="document" style="width: 85%;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -382,7 +416,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">更新</button>
+					<button type="button" class="btn btn-primary" id="updateBtn">更新</button>
 				</div>
 			</div>
 		</div>

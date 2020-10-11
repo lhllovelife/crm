@@ -5,6 +5,23 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityDao">
 
+    <!--更新市场果冻信息int updateActivity(Activity activity);-->
+    <update id="updateActivity" parameterType="Activity">
+        update tbl_activity set
+
+        owner = #{owner},
+        name = #{name},
+        startDate = #{startDate},
+        endDate = #{endDate},
+        cost = #{cost},
+        description = #{description},
+        editTime = #{editTime},
+        editBy = #{editBy}
+        where id = #{id}
+
+    </update>
+
+
     <!--根据id查单条 Activity getActById(String id);-->
     <select id="getActById" parameterType="String" resultType="Activity">
         select * from tbl_activity where id = #{id}

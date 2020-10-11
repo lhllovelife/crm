@@ -31,4 +31,10 @@ public interface ActivityService {
     void deleteAct(String[] ids) throws ActivityRemarkExecption, ActivityExecption;
 
     Activity getActById(String id);
+
+    /**
+     * 更新市场活动信息
+     * @param activity
+     */
+    void updateActivity(Activity activity) throws ActivityExecption;
 }

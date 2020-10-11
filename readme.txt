@@ -99,6 +99,8 @@ prj-crm-01
         分页查询入口：
             one. 页面加载完毕时，自动调用分页查询
             two：点击查询按钮
+            three: 添加 修改 删除 之后
+            four: 点击分页组件
         1. 页面加载完毕触发一个方法，pageList(pageNo, pageSize)
         2. 后台方法：(/workbench/activity/pageList.do)
         3. 后台MVC. 创建通用的vo，用于给前端传值的. Pagination<T>
