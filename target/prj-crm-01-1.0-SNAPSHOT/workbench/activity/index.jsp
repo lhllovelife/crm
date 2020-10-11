@@ -95,9 +95,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				//将查询条件保存在隐藏域中，在分页查询时候将隐藏域的值设置到参数框中。
 				//点击查询按钮时候，将查询条件保存到隐藏域
 				$("#hidden-name").val($("#serach-name").val());
-				$("#hidden-owner").val($("#serach-owner").val());
-				$("#hidden-startDate").val($("#serach-startDate").val());
-				$("#hidden-endDate").val($("#search-endDate").val());
+                $("#hidden-owner").val($("#serach-owner").val());
+                $("#hidden-startDate").val($("#serach-startDate").val());
+                $("#hidden-endDate").val($("#search-endDate").val());
+                // alert("隐藏域:" + $("#hidden-name").val());
+                // alert("隐藏域:" + $("#hidden-owner").val());
+                // alert("隐藏域:" + $("#hidden-startDate").val());
+                // alert("隐藏域:" + $("#hidden-endDate").val());
 				pageList(1,3);
 			})
 
@@ -121,9 +125,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			// alert("发起分页查询123");
 			//在执行分页带参查询时候，将隐藏域的值设置到条件框中
 			$("#serach-name").val($("#hidden-name").val());
-			$("#search-owner").val($("#hidden-owner").val());
-			$("#search-startDate").val($("#hidden-startDate").val());
-			$("#search-endDate").val($("#hidden-endDate").val());
+            $("#serach-owner").val($("#hidden-owner").val());
+            $("#serach-name").val($("#hidden-name").val());
+            $("#serach-name").val($("#hidden-name").val());
 			$.ajax({
 				url: "workbench/activity/pageList.do",
 				data: {
@@ -132,7 +136,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					name: $.trim($("#serach-name").val()),
 					owner: $.trim($("#serach-owner").val()),
 					startDate: $.trim($("#serach-startDate").val()),
-					endDate: $.trim($("#end-endDate").val())
+					endDate: $.trim($("#search-endDate").val())
 				},
 				type: "get",
 				dataType: "json",
