@@ -34,7 +34,7 @@ import java.util.Map;
  * @date: 2020/10/9 15:19
  */
 
-@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do"})
+@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do"})
 public class ActivityController extends HttpServlet {
 
     @Override
@@ -61,9 +61,35 @@ public class ActivityController extends HttpServlet {
         else if("/workbench/activity/delete.do".equals(path)){
             delete(request, response);
         }
+        else if ("/workbench/activity/getUserListAndActivity.do".equals(path)){
+            getUserListAndActivity(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 获取用户对象列表和市场活动对象
+     * @param request
+     * @param response
+     */
+    private void getUserListAndActivity(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到获取用户对象列表和市场活动对象");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ActivityService activityService = (ActivityService) ac.getBean("activityServiceImpl");
+        UserService userService = (UserService) ac.getBean("userServiceImpl");
+        //获取参数
+        String id = request.getParameter("id");
+        //用户列表
+        List<User> userList = userService.getUserList();
+        //活动对象
+        Activity activity = activityService.getActById(id);
+        //封装数据
+        Map<String, Object> map = new HashMap<>();
+        map.put("userList", userList);
+        map.put("act", activity);
+        PrintJson.printJsonObj(response, map);
     }
 
     /**

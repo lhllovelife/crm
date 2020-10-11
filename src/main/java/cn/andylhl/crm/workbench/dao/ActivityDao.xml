@@ -5,6 +5,11 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityDao">
 
+    <!--根据id查单条 Activity getActById(String id);-->
+    <select id="getActById" parameterType="String" resultType="Activity">
+        select * from tbl_activity where id = #{id}
+    </select>
+
     <!--根绝id删除市场活动 int deleteActByIds(String[] ids);-->
     <delete id="deleteActByIds" parameterType="String">
         delete from tbl_activity where id in

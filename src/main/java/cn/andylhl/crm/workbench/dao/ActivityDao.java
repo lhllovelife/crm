@@ -21,4 +21,6 @@ public interface ActivityDao {
 
     //根绝id删除市场活动
     int deleteActByIds(String[] ids);
+
+    Activity getActById(String id);
 }

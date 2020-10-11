@@ -83,4 +83,14 @@ public class ActivityServiceImpl implements ActivityService {
         }
 
     }
+
+    /**
+     * 根据id获取活动对象
+     * @param id
+     * @return
+     */
+    @Override
+    public Activity getActById(String id) {
+        return activityDao.getActById(id);
+    }
 }

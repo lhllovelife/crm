@@ -79,6 +79,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						if(data.success){
 							//清空表单内容
 							// $("#activityForm").get(0).reset();
+							pageList(1,3);
 							$("#createActivityModal").modal("hide");
 						}
 						else {
@@ -151,6 +152,34 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						}
 					})
 				}
+			})
+
+			//为修改按钮绑定事件
+			$("#editBtn").click(function () {
+				//1. 进行判断，0条或多条不能修改，只有单条能进行 修改
+				var num = $("input[name=xz]:checked").size();
+				if (num == 0){
+					alert("请选择要修改的活动项");
+					return;
+				}
+				else if (num > 1){
+					alert("不允许批量修改");
+					return;
+				}
+				//执行到这里说明选中项只有一条
+				//打开修改的模态窗口前需要先从后台取数据
+				$.ajax({
+					url: "workbench/activity/getUserListAndActivity.do",
+					data: {
+						id : $("input[name=xz]:checked").val()
+					},
+					type: "get",
+					dataJson: "json",
+					success: function (data) {
+						//userList和 Activity
+						$("#editActivityModal").modal("show");
+					}
+				})
 			})
 
 		});

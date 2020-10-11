@@ -29,4 +29,6 @@ public interface ActivityService {
      * @return
      */
     void deleteAct(String[] ids) throws ActivityRemarkExecption, ActivityExecption;
+
+    Activity getActById(String id);
 }
