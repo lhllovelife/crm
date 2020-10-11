@@ -104,7 +104,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 // alert("隐藏域:" + $("#hidden-owner").val());
                 // alert("隐藏域:" + $("#hidden-startDate").val());
                 // alert("隐藏域:" + $("#hidden-endDate").val());
-				pageList(1,3);
+				pageList(1 , $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
 			})
 
 			//为全选按钮绑定事件
@@ -144,7 +144,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						dataType: "json",
 						success: function (data) {
 							if (data.success){
-								alert("删除成功");
+								// alert("删除成功");
 								pageList(1 , $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
 							}
 							else{
@@ -216,7 +216,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					dataType: "json",
 					success: function (data) {
 						if(data.success){
-							alert("更新成功");
+							// alert("更新成功");
 							//执行更新后回到当前页
 							pageList($("#activityPage").bs_pagination('getOption', 'currentPage')
 									,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
