@@ -101,4 +101,16 @@ public class ActivityServiceImpl implements ActivityService {
             throw new ActivityExecption("市场活动信息更新异常");
         }
     }
+
+    /**
+     * 通过id获得市场活动信息（owner为真是姓名）
+     * @param id
+     * @return
+     */
+    @Override
+    public Activity getActDetatilById(String id) {
+        return activityDao.getActDetailById(id);
+    }
+
+
 }

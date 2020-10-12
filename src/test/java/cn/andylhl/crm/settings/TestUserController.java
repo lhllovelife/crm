@@ -18,9 +18,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
 
 /***
  * @Title: TestUserController
@@ -118,5 +118,13 @@ public class TestUserController {
             System.out.println("----删除失败，无异常---");
         }
 
+    }
+
+    @Test
+    public void test06(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        Activity a = service.getActDetatilById("1b2c8961708c4e1785c1627b3cabfe6c");
+        System.out.println(a);
     }
 }

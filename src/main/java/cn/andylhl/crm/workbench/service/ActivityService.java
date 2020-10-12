@@ -37,4 +37,11 @@ public interface ActivityService {
      * @param activity
      */
     void updateActivity(Activity activity) throws ActivityExecption;
+
+    /**
+     * 通过id查询市场活动详细信息
+     * @param id
+     * @return
+     */
+    Activity getActDetatilById(String id);
 }

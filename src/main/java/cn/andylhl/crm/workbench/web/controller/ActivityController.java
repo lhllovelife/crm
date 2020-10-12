@@ -34,7 +34,7 @@ import java.util.Map;
  * @date: 2020/10/9 15:19
  */
 
-@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do", "/workbench/activity/update.do"})
+@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do", "/workbench/activity/update.do", "/workbench/activity/detail.do"})
 public class ActivityController extends HttpServlet {
 
     @Override
@@ -67,9 +67,30 @@ public class ActivityController extends HttpServlet {
         else if ("/workbench/activity/update.do".equals(path)){
             update(request, response);
         }
+        else if ("/workbench/activity/detail.do".equals(path)){
+            detail(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     *展现市场活动详细信息列表
+     * @param request
+     * @param response
+     */
+    private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("进入到展现市场活动信息控制器");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        //获取参数（活动id）
+        String id = request.getParameter("id");
+        //通过id查询该活动的详细信息
+        Activity activity = service.getActDetatilById(id);
+        //将查询信息放置request域中进行跳转
+        request.setAttribute("a", activity);
+        request.getRequestDispatcher("/workbench/activity/detail.jsp").forward(request, response);
     }
 
     /**

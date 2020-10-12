@@ -26,4 +26,6 @@ public interface ActivityDao {
 
     //更新市场活动信息
     int updateActivity(Activity activity);
+
+    Activity getActDetailById(String id);
 }

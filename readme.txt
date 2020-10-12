@@ -132,4 +132,6 @@ prj-crm-01
         7. 所有数据铺完之后，展开模态窗口
         8. 使用map封装需要返回的数据
         9. 执行更新 请求url: /workbench/activity/update.do
+    - 跳转到详细信息页
+        1. 传统请求过后台，workbench/activity/detail.do，跳转到详细信息页
 
