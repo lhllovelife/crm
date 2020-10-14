@@ -134,4 +134,7 @@ prj-crm-01
         9. 执行更新 请求url: /workbench/activity/update.do
     - 跳转到详细信息页
         1. 传统请求过后台，workbench/activity/detail.do，跳转到详细信息页
+        2. 在详细信息页，使用EL表达式展示市场活动详细信息数据
+        3. 页面加载完毕发送ajax请求，获取该市场活下的所有的的备注信息
+           后台接口：/workbench/activity/getRemarkListByAid.do 根据市场活动id查备注
 

@@ -11,6 +11,7 @@ import cn.andylhl.crm.utils.UUIDUtil;
 import cn.andylhl.crm.utils.WebUtil;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.domain.Activity;
+import cn.andylhl.crm.workbench.domain.ActivityRemark;
 import cn.andylhl.crm.workbench.service.ActivityService;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -34,7 +35,7 @@ import java.util.Map;
  * @date: 2020/10/9 15:19
  */
 
-@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do", "/workbench/activity/update.do", "/workbench/activity/detail.do"})
+@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do", "/workbench/activity/update.do", "/workbench/activity/detail.do", "/workbench/activity/getRemarkListByAid.do"})
 public class ActivityController extends HttpServlet {
 
     @Override
@@ -70,9 +71,26 @@ public class ActivityController extends HttpServlet {
         else if ("/workbench/activity/detail.do".equals(path)){
             detail(request, response);
         }
+        else if("/workbench/activity/getRemarkListByAid.do".equals(path)){
+            getRemarkListByAid(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 根据id获取市场活动备注信息
+     * @param request
+     * @param response
+     */
+    private void getRemarkListByAid(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到获取市场活动备注控制器");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        String id = request.getParameter("id");
+        List<ActivityRemark> remarkList = service.getRemarkListByAid(id);
+        PrintJson.printJsonObj(response, remarkList);
     }
 
     /**

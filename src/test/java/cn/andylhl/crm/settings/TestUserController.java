@@ -10,6 +10,7 @@ import cn.andylhl.crm.utils.UUIDUtil;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
 import cn.andylhl.crm.workbench.dao.ActivityRemarkDao;
 import cn.andylhl.crm.workbench.domain.Activity;
+import cn.andylhl.crm.workbench.domain.ActivityRemark;
 import cn.andylhl.crm.workbench.service.ActivityService;
 import org.apache.ibatis.javassist.util.HotSwapAgent;
 import org.junit.Test;
@@ -126,5 +127,16 @@ public class TestUserController {
         ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
         Activity a = service.getActDetatilById("1b2c8961708c4e1785c1627b3cabfe6c");
         System.out.println(a);
+    }
+
+    @Test
+    public void test07(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        List<ActivityRemark> remarkList = service.getRemarkListByAid("1b2c8961708c4e1785c1627b3cbfe6c");
+        System.out.println("返回值："+ remarkList);
+        for (ActivityRemark ar : remarkList){
+            System.out.println(ar);
+        }
     }
 }

@@ -5,6 +5,29 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityRemarkDao">
 
+    <!--根据id获取市场活动备注信息 List<ActivityRemark> getRemarkListByAid(String id);-->
+    <select id="getRemarkListByAid" parameterType="String" resultType="ActivityRemark">
+        select
+        ar.id,
+        ar.noteContent,
+        ar.createTime,
+        ar.createBy,
+        ar.editTime,
+        ar.editBy,
+        ar.editFlag,
+        ar.activityId
+
+        from
+            tbl_activity_remark ar
+        join
+            tbl_activity a
+        on
+            ar.activityId = a.id
+        where
+            a.id = #{id}
+
+    </select>
+
     <!--    //根据id获取备注数量
     int getCountByIds(String[] ids);-->
     <select id="getCountByIds" parameterType="String" resultType="int">

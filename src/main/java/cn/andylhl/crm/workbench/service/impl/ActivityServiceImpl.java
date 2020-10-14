@@ -6,6 +6,7 @@ import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
 import cn.andylhl.crm.workbench.dao.ActivityRemarkDao;
 import cn.andylhl.crm.workbench.domain.Activity;
+import cn.andylhl.crm.workbench.domain.ActivityRemark;
 import cn.andylhl.crm.workbench.service.ActivityService;
 
 import java.util.List;
@@ -112,5 +113,13 @@ public class ActivityServiceImpl implements ActivityService {
         return activityDao.getActDetailById(id);
     }
 
-
+    /**
+     * 根据id获取市场活动备注信息
+     * @param id
+     * @return
+     */
+    @Override
+    public List<ActivityRemark> getRemarkListByAid(String id) {
+        return activityRemarkDao.getRemarkListByAid(id);
+    }
 }

@@ -4,7 +4,9 @@ import cn.andylhl.crm.exception.ActivityExecption;
 import cn.andylhl.crm.exception.ActivityRemarkExecption;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.domain.Activity;
+import cn.andylhl.crm.workbench.domain.ActivityRemark;
 
+import java.util.List;
 import java.util.Map;
 
 /***
@@ -44,4 +46,6 @@ public interface ActivityService {
      * @return
      */
     Activity getActDetatilById(String id);
+
+    List<ActivityRemark> getRemarkListByAid(String id);
 }
