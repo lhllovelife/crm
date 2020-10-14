@@ -4,6 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityRemarkDao">
+    <!--更新备注信息 int updateRemark(ActivityRemark remark);-->
+    <update id="updateRemark" parameterType="ActivityRemark">
+        update tbl_activity_remark set
+            noteContent = #{noteContent},
+            editTime = #{editTime},
+            editBy = #{editBy},
+            editFlag = #{editFlag}
+        where
+            id = #{id}
+    </update>
+
+
     <!--//保存备注信息 int saveRemark(ActivityRemark remark);-->
     <insert id="saveRemark" parameterType="ActivityRemark">
         insert into tbl_activity_remark

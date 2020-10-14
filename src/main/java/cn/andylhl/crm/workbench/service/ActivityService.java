@@ -52,4 +52,6 @@ public interface ActivityService {
     void deleteRemark(String id) throws ActivityRemarkExecption;
 
     void saveRemark(ActivityRemark remark) throws ActivityRemarkExecption;
+
+    void updateRemark(ActivityRemark remark) throws ActivityRemarkExecption;
 }

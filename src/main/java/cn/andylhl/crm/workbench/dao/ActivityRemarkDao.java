@@ -25,4 +25,7 @@ public interface ActivityRemarkDao {
 
     //保存备注信息
     int saveRemark(ActivityRemark remark);
+
+    //更新备注信息
+    int updateRemark(ActivityRemark remark);
 }

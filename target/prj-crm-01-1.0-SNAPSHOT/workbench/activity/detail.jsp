@@ -91,6 +91,32 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 }
             })
         })
+        //更新市场活动备注信息，为更新按钮绑定事件
+        $("#updateRemarkBtn").click(function () {
+            $.ajax({
+                url: "workbench/activity/updateRemark.do",
+                data: {
+                    id : $("#remarkId").val(),
+                    noteContent: $.trim($("#noteContent").val())
+                },
+                type: "post",
+                dataType: "json",
+                success : function (data) {
+                    if (data.success){
+                        //更新成功
+                        // alert("更新成功");
+                        //刷新备注列表
+                        showRemarkList();
+                        //关闭模态窗口
+                        $("#editRemarkModal").modal("hide");
+                    }
+                    else {
+                        alert("更新失败");
+                    }
+                }
+            })
+        })
+
 	});
 
 	//发送ajax信息，获取该市场活动下的所有备注信息，进行展示
@@ -112,7 +138,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					html +='<h5>'+n.noteContent+'</h5>';
 					html +='<font color="gray">市场活动</font> <font color="gray">-</font> <b>'+'${requestScope.a.name}'+'</b> <small style="color: gray;"> '+(n.editFlag == 0 ? n.createTime : n.editTime)+' 由'+((n.editFlag == 0 ? n.createBy : n.editBy))+'</small>';
 					html +='<div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">';
-					html +='<a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #FF0000;"></span></a>';
+					html +='<a class="myHref" href="javascript:void(0); onclick=editRemark(\''+n.id+'\') "><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #FF0000;"></span></a>';
 					html +='&nbsp;&nbsp;&nbsp;&nbsp;';
 					html +='<a class="myHref" href="javascript:void(0); onclick = delRemark(\''+n.id+'\') "><span class="glyphicon glyphicon-remove" style="font-size: 20px; color: #FF0000;"></span></a>';
 					html +='</div>';
@@ -143,6 +169,15 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 }
             }
         })
+    }
+
+    function editRemark(id) {
+	    //清空模态窗口中文本域
+        $("#noteContent").val("");
+        //设置隐藏域，保存要修改的备注的主键id
+        $("#remarkId").val(id);
+        //打开模态窗口
+        $("#editRemarkModal").modal("show");
     }
 	
 </script>

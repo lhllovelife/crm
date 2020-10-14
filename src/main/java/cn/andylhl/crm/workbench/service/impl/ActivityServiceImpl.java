@@ -148,4 +148,17 @@ public class ActivityServiceImpl implements ActivityService {
             throw new ActivityRemarkExecption("保存备注信息异常");
         }
     }
+
+    /**
+     * 更新备注信息
+     * @param remark
+     */
+    @Override
+    public void updateRemark(ActivityRemark remark) throws ActivityRemarkExecption {
+        int count = 0;
+        count = activityRemarkDao.updateRemark(remark);
+        if (count == 0){
+            throw new ActivityRemarkExecption("更新备注信息异常");
+        }
+    }
 }

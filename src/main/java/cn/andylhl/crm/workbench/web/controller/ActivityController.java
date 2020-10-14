@@ -35,7 +35,7 @@ import java.util.Map;
  * @date: 2020/10/9 15:19
  */
 
-@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do", "/workbench/activity/update.do", "/workbench/activity/detail.do", "/workbench/activity/getRemarkListByAid.do", "/workbench/activity/deleteRemark.do", "/workbench/activity/saveRemark.do"})
+@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do", "/workbench/activity/update.do", "/workbench/activity/detail.do", "/workbench/activity/getRemarkListByAid.do", "/workbench/activity/deleteRemark.do", "/workbench/activity/saveRemark.do", "/workbench/activity/updateRemark.do"})
 public class ActivityController extends HttpServlet {
 
     @Override
@@ -80,8 +80,40 @@ public class ActivityController extends HttpServlet {
         else if ("/workbench/activity/saveRemark.do".equals(path)){
             saveRemark(request, response);
         }
+        else if ("/workbench/activity/updateRemark.do".equals(path)){
+            updateRemark(request, response);
+        }
         else {
             System.out.println("无效访问地址");
+        }
+    }
+
+    /**
+     * 更新备注信息
+     * @param request
+     * @param response
+     */
+    private void updateRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到更新备注信息控制器");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        String id = request.getParameter("id");
+        String noteContent = request.getParameter("noteContent");
+        ActivityRemark remark = new ActivityRemark();
+
+        HttpSession session = request.getSession(false);
+        User user = (User)session.getAttribute("user");
+        remark.setId(id);
+        remark.setNoteContent(noteContent);
+        remark.setEditTime(DateUtil.format(new Date(), Const.DATE_Format_ALL));
+        remark.setEditBy(user.getName());
+        remark.setEditFlag("1");
+        try {
+            service.updateRemark(remark);
+            PrintJson.printJsonFlag(response, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            PrintJson.printJsonFlag(response, false);
         }
     }
 
