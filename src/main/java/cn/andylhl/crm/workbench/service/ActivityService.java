@@ -48,4 +48,6 @@ public interface ActivityService {
     Activity getActDetatilById(String id);
 
     List<ActivityRemark> getRemarkListByAid(String id);
+
+    void deleteRemark(String id) throws ActivityRemarkExecption;
 }

@@ -122,4 +122,17 @@ public class ActivityServiceImpl implements ActivityService {
     public List<ActivityRemark> getRemarkListByAid(String id) {
         return activityRemarkDao.getRemarkListByAid(id);
     }
+
+    /**
+     * 删除指定id的备注信息
+     * @param id
+     */
+    @Override
+    public void deleteRemark(String id) throws ActivityRemarkExecption {
+        int count = 0;
+        count = activityRemarkDao.deleteRemark(id);
+        if (count == 0){
+            throw new ActivityRemarkExecption("删除备注信息异常");
+        }
+    }
 }

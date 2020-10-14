@@ -5,6 +5,11 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityRemarkDao">
 
+    <!--//根据备注id删除备注（根据主键删除） int deleteRemark(String id);-->
+    <delete id="deleteRemark" parameterType="String">
+        delete from tbl_activity_remark where id = #{id}
+    </delete>
+
     <!--根据id获取市场活动备注信息 List<ActivityRemark> getRemarkListByAid(String id);-->
     <select id="getRemarkListByAid" parameterType="String" resultType="ActivityRemark">
         select

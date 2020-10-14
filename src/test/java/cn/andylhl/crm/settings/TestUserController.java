@@ -139,4 +139,17 @@ public class TestUserController {
             System.out.println(ar);
         }
     }
+
+    @Test
+    public void test08(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        try {
+            service.deleteRemark("A0002");
+            System.out.println("-------删除成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("-------删除失败");
+        }
+    }
 }

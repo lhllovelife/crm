@@ -19,4 +19,7 @@ public interface ActivityRemarkDao {
     int deleteActRemByIds(String[] ids);
 
     List<ActivityRemark> getRemarkListByAid(String id);
+
+    //根据备注id删除备注（根据主键删除）
+    int deleteRemark(String id);
 }

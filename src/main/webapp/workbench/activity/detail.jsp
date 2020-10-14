@@ -60,7 +60,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		})
 
 
-		//展现市场活动备注信息
+		//页面加载完毕自动展现市场活动备注信息
 		showRemarkList();
 	});
 
@@ -85,7 +85,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					html +='<div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">';
 					html +='<a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #FF0000;"></span></a>';
 					html +='&nbsp;&nbsp;&nbsp;&nbsp;';
-					html +='<a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-remove" style="font-size: 20px; color: #FF0000;"></span></a>';
+					html +='<a class="myHref" href="javascript:void(0); onclick = delRemark(\''+n.id+'\') "><span class="glyphicon glyphicon-remove" style="font-size: 20px; color: #FF0000;"></span></a>';
 					html +='</div>';
 					html +='</div>';
 					html +='</div>';
@@ -94,6 +94,27 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			}
 		})
 	}
+	//ajaxqingqiu删除市场活动备注
+    function delRemark(id){
+	    $.ajax({
+            url : "workbench/activity/deleteRemark.do",
+            data: {
+                "id" : id
+            },
+            type: "post",
+            dataType : "json",
+            success: function (data) {
+                if (data.success){
+                    //刷新备注列表
+                    showRemarkList();
+
+                }
+                else {
+                    alert("删除失败");
+                }
+            }
+        })
+    }
 	
 </script>
 
