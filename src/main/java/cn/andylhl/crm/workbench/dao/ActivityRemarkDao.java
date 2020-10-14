@@ -22,4 +22,7 @@ public interface ActivityRemarkDao {
 
     //根据备注id删除备注（根据主键删除）
     int deleteRemark(String id);
+
+    //保存备注信息
+    int saveRemark(ActivityRemark remark);
 }

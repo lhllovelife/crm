@@ -138,4 +138,6 @@ prj-crm-01
         3. 页面加载完毕发送ajax请求，获取该市场活下的所有的的备注信息
            后台接口：/workbench/activity/getRemarkListByAid.do 根据市场活动id查备注
         4. 删除指定id的备注 workbench/activity/deleteRemark.do
+        5. 添加备注：workbench/activity/saveRemark.do
+        6. 修改备注：workbench/activity/updateRemark.do
 

@@ -135,4 +135,17 @@ public class ActivityServiceImpl implements ActivityService {
             throw new ActivityRemarkExecption("删除备注信息异常");
         }
     }
+
+    /**
+     * 保存备注信息
+     * @param remark
+     */
+    @Override
+    public void saveRemark(ActivityRemark remark) throws ActivityRemarkExecption {
+        int count = 0;
+        count = activityRemarkDao.saveRemark(remark);
+        if (count == 0){
+            throw new ActivityRemarkExecption("保存备注信息异常");
+        }
+    }
 }

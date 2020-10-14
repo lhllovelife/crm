@@ -62,6 +62,35 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 		//页面加载完毕自动展现市场活动备注信息
 		showRemarkList();
+
+		//为保存备注按钮绑定事件
+        $("#saveRemarkBtn").click(function () {
+            var noteContent =  $.trim($("#remark").val());
+            if (noteContent == ""){
+                alert("备注信息不能为空");
+                return;
+            }
+            //发送ajax请求为该活动保存该条备注信息
+            $.ajax({
+                url: "workbench/activity/saveRemark.do",
+                data: {
+                    id : '${requestScope.a.id}',
+                    "noteContent" : noteContent
+                },
+                type: "post",
+                dataType: "json",
+                success : function (data) {
+                    if (data.success){
+                        //刷新备注列表
+                        showRemarkList();
+                    }
+                    else {
+                        //保存失败
+                        alert("保存失败");
+                    }
+                }
+            })
+        })
 	});
 
 	//发送ajax信息，获取该市场活动下的所有备注信息，进行展示
@@ -94,7 +123,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			}
 		})
 	}
-	//ajaxqingqiu删除市场活动备注
+	//ajax请求删除市场活动备注
     function delRemark(id){
 	    $.ajax({
             url : "workbench/activity/deleteRemark.do",
@@ -302,7 +331,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<textarea id="remark" class="form-control" style="width: 850px; resize : none;" rows="2"  placeholder="添加备注..."></textarea>
 				<p id="cancelAndSaveBtn" style="position: relative;left: 737px; top: 10px; display: none;">
 					<button id="cancelBtn" type="button" class="btn btn-default">取消</button>
-					<button type="button" class="btn btn-primary">保存</button>
+					<button type="button" class="btn btn-primary" id="saveRemarkBtn">保存</button>
 				</p>
 			</form>
 		</div>

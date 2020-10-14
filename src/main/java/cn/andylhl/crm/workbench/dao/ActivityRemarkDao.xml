@@ -4,6 +4,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityRemarkDao">
+    <!--//保存备注信息 int saveRemark(ActivityRemark remark);-->
+    <insert id="saveRemark" parameterType="ActivityRemark">
+        insert into tbl_activity_remark
+        (
+            id,
+            noteContent,
+            createTime,
+            createBy,
+            editFlag,
+            activityId
+        )
+        values
+        (
+            #{id},
+            #{noteContent},
+            #{createTime},
+            #{createBy},
+            #{editFlag},
+            #{activityId}
+        )
+    </insert>
 
     <!--//根据备注id删除备注（根据主键删除） int deleteRemark(String id);-->
     <delete id="deleteRemark" parameterType="String">
@@ -30,6 +51,8 @@
             ar.activityId = a.id
         where
             a.id = #{id}
+        order by
+            ar.createTime
 
     </select>
 

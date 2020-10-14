@@ -35,7 +35,7 @@ import java.util.Map;
  * @date: 2020/10/9 15:19
  */
 
-@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do", "/workbench/activity/update.do", "/workbench/activity/detail.do", "/workbench/activity/getRemarkListByAid.do", "/workbench/activity/deleteRemark.do"})
+@WebServlet(urlPatterns = {"/workbench/activity/getUserList.do","/workbench/activity/save.do", "/workbench/activity/pageList.do", "/workbench/activity/delete.do", "/workbench/activity/getUserListAndActivity.do", "/workbench/activity/update.do", "/workbench/activity/detail.do", "/workbench/activity/getRemarkListByAid.do", "/workbench/activity/deleteRemark.do", "/workbench/activity/saveRemark.do"})
 public class ActivityController extends HttpServlet {
 
     @Override
@@ -77,8 +77,50 @@ public class ActivityController extends HttpServlet {
         else if("/workbench/activity/deleteRemark.do".equals(path)){
             deleteRemark(request, response);
         }
+        else if ("/workbench/activity/saveRemark.do".equals(path)){
+            saveRemark(request, response);
+        }
         else {
             System.out.println("无效访问地址");
+        }
+    }
+
+    /**
+     * 保存备注信息
+     * @param request
+     * @param response
+     */
+    private void saveRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到保存备注信息控制器");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ActivityService service = (ActivityService) ac.getBean("activityServiceImpl");
+        String id = request.getParameter("id");
+        String noteContent = request.getParameter("noteContent");
+        ActivityRemark remark = new ActivityRemark();
+        /*
+    private String id; //主键
+    private String noteContent; //备注内容
+    private String createTime; //创建时间 19位 年月日时分秒
+    private String createBy; //创建人 varchar(255)
+    private String editTime; //修改时间 19位
+    private String editBy; //修改人 varchar(255)
+    private String editFlag; //修改标记 cahr(1)
+    private String activityId; //市场活动id
+         */
+        HttpSession session = request.getSession(false);
+        User user = (User)session.getAttribute("user");
+        remark.setId(UUIDUtil.getUUID());
+        remark.setNoteContent(noteContent);
+        remark.setCreateTime(DateUtil.format(new Date(), Const.DATE_Format_ALL));
+        remark.setCreateBy(user.getName());
+        remark.setEditFlag("0");
+        remark.setActivityId(id);
+        try {
+            service.saveRemark(remark);
+            PrintJson.printJsonFlag(response, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            PrintJson.printJsonFlag(response, false);
         }
     }
 

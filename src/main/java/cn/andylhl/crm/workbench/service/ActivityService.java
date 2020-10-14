@@ -50,4 +50,6 @@ public interface ActivityService {
     List<ActivityRemark> getRemarkListByAid(String id);
 
     void deleteRemark(String id) throws ActivityRemarkExecption;
+
+    void saveRemark(ActivityRemark remark) throws ActivityRemarkExecption;
 }
