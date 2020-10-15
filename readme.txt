@@ -141,3 +141,8 @@ prj-crm-01
         5. 添加备注：workbench/activity/saveRemark.do
         6. 修改备注：workbench/activity/updateRemark.do
 
+四 、线索模块
+    - 准备工作
+        1. 导入“线索”、“客户”、“联系人”、“交易”相关表
+        2. 将“线索”、“客户”、“联系人”、“交易”模块的html修改为jsp，解决404错误。
+
