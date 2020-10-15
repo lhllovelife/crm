@@ -146,4 +146,5 @@ prj-crm-01
         1. 导入“线索”、“客户”、“联系人”、“交易”相关表
         2. 将“线索”、“客户”、“联系人”、“交易”模块的html修改为jsp，解决404错误。
         3. 创建线索后台包结构 dao service controller domain
+        4. 数据字典 写活拉框的（动态的） DicType DicValue
 

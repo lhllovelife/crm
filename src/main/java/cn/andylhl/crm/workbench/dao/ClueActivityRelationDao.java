@@ -6,5 +6,5 @@ package cn.andylhl.crm.workbench.dao;
  * @author: lhl
  * @date: 2020/10/15 21:29
  */
-public interface ClueActivityRelation {
+public interface ClueActivityRelationDao {
 }
