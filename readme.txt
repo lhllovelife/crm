@@ -149,6 +149,10 @@ prj-crm-01
         4. 数据字典 写活拉框的（动态的） DicType DicValue
     -  服务器缓存中操作数据字典
         1. 使用监听器 web.listener  SysInitListener 系统初始化时，将数据字典初始化到服务器内存中去
+           map中套list
+        (创建失败，clue包结构需要重新)
+    - 打开线索创建模态窗口
+        1.
 
-        创建失败，clue包结构需要重新
+
 
