@@ -2,8 +2,12 @@ package cn.andylhl.crm.settings;
 
 import cn.andylhl.crm.exception.ActivityExecption;
 import cn.andylhl.crm.exception.ActivityRemarkExecption;
+import cn.andylhl.crm.settings.dao.DicTypeDao;
 import cn.andylhl.crm.settings.dao.UserDao;
+import cn.andylhl.crm.settings.domain.DicType;
+import cn.andylhl.crm.settings.domain.DicValue;
 import cn.andylhl.crm.settings.domain.User;
+import cn.andylhl.crm.settings.service.DicService;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.MD5Util;
 import cn.andylhl.crm.utils.UUIDUtil;
@@ -150,6 +154,26 @@ public class TestUserController {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("-------删除失败");
+        }
+    }
+
+    @Test
+    public void test09(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        DicService service = (DicService) ac.getBean("dicServiceImpl");
+//        DicTypeDao dicTypeDao = (DicTypeDao) ac.getBean("dicTypeDao");
+//        List<DicType> typeList = dicTypeDao.getAll();
+//        for (DicType type : typeList){
+//            System.out.println(type);
+//        }
+        Map<String, List<DicValue>> map = service.getAll();
+        Set<String> set = map.keySet();
+        for (String s : set){
+            System.out.println("++++++");
+            List<DicValue> valueList = map.get(s);
+            for (DicValue value : valueList){
+                System.out.println(value);
+            }
         }
     }
 }

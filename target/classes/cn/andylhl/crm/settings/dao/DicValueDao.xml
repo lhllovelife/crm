@@ -5,4 +5,8 @@
 
 <mapper namespace="cn.andylhl.crm.settings.dao.DicValueDao">
 
+    <!--//通过typeCode值获取所有value List<DicValue> getAllByCode(String typeCode);-->
+    <select id="getAllByCode" parameterType="String" resultType="DicValue">
+        select * from tbl_dic_value where typeCode = #{typeCode}
+    </select>
 </mapper>

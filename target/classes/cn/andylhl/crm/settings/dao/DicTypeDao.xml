@@ -4,5 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.andylhl.crm.settings.dao.DicTypeDao">
-
+    <!--//获取所有字典类型对象 List<DicType> getAll();-->
+    <select id="getAll" resultType="DicType">
+        select * from tbl_dic_type
+    </select>
 </mapper>

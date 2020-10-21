@@ -85,4 +85,9 @@
         <property name="activityRemarkDao" ref="activityRemarkDao"/>
     </bean>
 
+    <!--声明DicServiceImpl-->
+    <bean id="dicServiceImpl" class="cn.andylhl.crm.settings.service.impl.DicServiceImpl">
+        <property name="dicTypeDao" ref="dicTypeDao"/>
+        <property name="dicValueDao" ref="dicValueDao"/>
+    </bean>
 </beans>

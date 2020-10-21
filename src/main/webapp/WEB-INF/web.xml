@@ -34,6 +34,10 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+  <listener>
+    <listener-class>cn.andylhl.crm.web.listener.SystemInitListener</listener-class>
+  </listener>
+
   <!--登录拦截过滤器-->
   <filter>
     <filter-name>LoginFilter</filter-name>
