@@ -90,4 +90,10 @@
         <property name="dicTypeDao" ref="dicTypeDao"/>
         <property name="dicValueDao" ref="dicValueDao"/>
     </bean>
+
+    <!--声明ClueServiceImpl-->
+    <bean id="clueServiceImpl" class="cn.andylhl.crm.workbench.service.impl.ClueServiceImpl">
+        <property name="activityDao" ref="activityDao"/>
+        <property name="clueDao" ref="clueDao"/>
+    </bean>
 </beans>

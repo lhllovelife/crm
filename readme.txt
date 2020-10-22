@@ -153,7 +153,14 @@ prj-crm-01
            map<String, List<DicValue>>
         (创建失败，clue包结构需要重新)
     - 打开线索创建模态窗口
-        1.
-
+        1. 为创建按钮绑定事件，打开线索模块添加模态窗口
+        2. 模态窗口打开前，ajax请求获取用户列表
+        2. 后台接口：“workbench/clue/getUserList.do” 获取用户列表
+        3. 线索添加操作，后台接口 “workbench/clue/save.do”
+        4. 下拉框，jstl.
+    - 线索添加
+        1. 处理字段，要和数据库表中一致
+        2. 为保存按钮绑定事件，执行线索的添加操作
+        2. 后台提供接口，保存线索对象，"workbench/clue/save.do"
 
 

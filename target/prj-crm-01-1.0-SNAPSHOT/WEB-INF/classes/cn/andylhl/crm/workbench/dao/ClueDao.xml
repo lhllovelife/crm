@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.andylhl.crm.workbench.dao.ClueDao">
+
+    <!--保存线索对象 int save(Clue clue);-->
+    <insert id="save" parameterType="Clue">
+        insert into tbl_clue
+        (
+            id,
+            fullname,
+            appellation,
+            owner,
+            company,
+            job,
+            email,
+            phone,
+            website,
+            mphone,
+            state,
+            source,
+            createBy,
+            createTime,
+            description,
+            contactSummary,
+            nextContactTime,
+            address
+        )
+
+        values
+        (
+            #{id},
+            #{fullname},
+            #{appellation},
+            #{owner},
+            #{company},
+            #{job},
+            #{email},
+            #{phone},
+            #{website},
+            #{mphone},
+            #{state},
+            #{source},
+            #{createBy},
+            #{createTime},
+            #{description},
+            #{contactSummary},
+            #{nextContactTime},
+            #{address}
+        )
+    </insert>
+</mapper>
