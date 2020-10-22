@@ -87,6 +87,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					if (data.success){
 						//保存成功，清空表单内容
 						$("#clueForm").get(0).reset();
+						//分页查询
+						pageList(1, 3);
 						$("#createClueModal").modal("hide");
 					}
 					else {
@@ -119,6 +121,43 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		//为单个复选框按钮绑定事件（该复选框是动态生成的，为其绑定事件需要先绑定外层有效元素）
 		$("#clueBody").on("click", $("input[name=xz]"), function () {
 			$("#qx").prop("checked", $("input[name=xz]").size() == $("input[name=xz]:checked").size());
+		})
+		//删除线索对象
+		$("#deleteBtn").click(function () {
+			//获取选中的单选框
+			var num = $("input[name=xz]:checked").size();
+			if (num == 0){
+				alert("请选择删除项");
+				return;
+			}
+			if (window.confirm("您确定要删除吗？")){
+				var parm = "";
+				$obj = $("input[name=xz]:checked");
+				for (var i = 0; i < $obj.size(); i++){
+					var obj = $obj.get(i);
+					parm += "id=" + obj.value;
+					if(i < $obj.size() - 1) {
+						parm += "&";
+					}
+				}
+				//ajax请求执行删除操作
+				$.ajax({
+					url: "workbench/clue/delete.do",
+					data: parm,
+					type: "post",
+					dataType: "json",
+					success: function (data) {
+						if (data.success){
+							alert("删除成功");
+							//分页查询
+							pageList(1, 3);
+						}
+						else {
+							alert("删除失败");
+						}
+					}
+				})
+			}
 		})
 
 	});
@@ -160,7 +199,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				var html = "";
 				$.each(data.dataList, function (i, n) {
 					html += '<tr>';
-					html += '<td><input type="checkbox" name="xz" id="'+n.id+'"/></td>';
+					html += '<td><input type="checkbox" name="xz" value="'+n.id+'"/></td>';
 					html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=\'workbench/clue/detail.jsp\';">'+ n.fullname + n.appellation +'</a></td>';
 					html += '<td>'+n.company+'</td>';
 					html += '<td>'+n.phone+'</td>';
@@ -589,7 +628,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<div class="btn-group" style="position: relative; top: 18%;">
 				  <button type="button" class="btn btn-primary" id="createBtn"><span class="glyphicon glyphicon-plus"></span> 创建</button>
 				  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editClueModal"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
-				  <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除</button>
+				  <button type="button" class="btn btn-danger" id="deleteBtn"><span class="glyphicon glyphicon-minus"></span> 删除</button>
 				</div>
 				
 				
