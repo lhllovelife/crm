@@ -13,6 +13,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 <link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
 <link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="jquery/bs_pagination/jquery.bs_pagination.min.css">
 
 <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
 <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
@@ -21,6 +22,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script type="text/javascript" src="jquery/bs_pagination/jquery.bs_pagination.min.js"></script>
+<script type="text/javascript" src="jquery/bs_pagination/en.js"></script>
 
 <script type="text/javascript">
 
@@ -92,8 +96,96 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			})
 
 		})
+		//页面加载完毕执行分页查询
+		pageList(1, 3);
+
+		//为查询按钮绑定事件
+		$("#searchBtn").click(function () {
+			//点击查询按钮，将参数条件设置到隐藏域中
+			$("#hidden-fullname").val($.trim($("#search-fullname").val()));
+			$("#hidden-company").val($.trim($("#search-company").val()));
+			$("#hidden-phone").val($.trim($("#search-phone").val()));
+			$("#hidden-source").val($.trim($("#search-source").val()));
+			$("#hidden-owner").val($.trim($("#search-owner").val()));
+			$("#hidden-mphone").val($.trim($("#search-mphone").val()));
+			$("#hidden-state").val($.trim($("#search-state").val()));
+			pageList(1, 3);
+		})
 
 	});
+
+	function pageList(pageNo, pageSize){
+		//将隐藏域中的值设置到参数框中
+		$("#search-fullname").val($.trim($("#hidden-fullname").val()));
+		$("#search-company").val($.trim($("#hidden-company").val()));
+		$("#search-phone").val($.trim($("#hidden-phone").val()));
+		$("#search-source").val($.trim($("#hidden-source").val()));
+		$("#search-owner").val($.trim($("#hidden-owner").val()));
+		$("#search-mphone").val($.trim($("#hidden-mphone").val()));
+		$("#search-state").val($.trim($("#hidden-state").val()));
+
+		fullname = $.trim($("#search-fullname").val());
+		company = $.trim($("#search-company").val());
+		phone = $.trim($("#search-phone").val());
+		source = $.trim($("#search-source").val());
+		owner = $.trim($("#search-owner").val());
+		mphone = $.trim($("#search-mphone").val());
+		state =  $.trim($("#search-state").val());
+		$.ajax({
+			url: "workbench/clue/pageList.do",
+			data: {
+				"pageNo" : pageNo,
+				"pageSize" : pageSize,
+				"fullname" : fullname,
+				"company" : company,
+				"phone" : phone,
+				"source" : source,
+				"owner" : owner,
+				"mphone" : mphone,
+				"state" : state
+			},
+			type: "get",
+			dataType: "json",
+			success: function (data) {
+				//动态展示分页数据
+				var html = "";
+				$.each(data.dataList, function (i, n) {
+					html += '<tr>';
+					html += '<td><input type="checkbox" name="xz" id="'+n.id+'"/></td>';
+					html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=\'workbench/clue/detail.jsp\';">'+ n.fullname + n.appellation +'</a></td>';
+					html += '<td>'+n.company+'</td>';
+					html += '<td>'+n.phone+'</td>';
+					html += '<td>'+n.mphone+'</td>';
+					html += '<td>'+n.source+'</td>';
+					html += '<td>'+n.owner+'</td>';
+					html += '<td>'+n.state+'</td>';
+					html += '</tr>';
+				})
+				$("#clueBody").html(html);
+				//加入分页插件
+				var totalPages = (data.total % pageSize == 0) ? (data.total / pageSize) : ( (parseInt(data.total / pageSize)+1));
+				$("#cluePage").bs_pagination({
+					currentPage: pageNo, // 页码
+					rowsPerPage: pageSize, // 每页显示的记录条数
+					maxRowsPerPage: 20, // 每页最多显示的记录条数
+					totalPages: totalPages, // 总页数
+					totalRows: data.total, // 总记录条数
+
+					visiblePageLinks: 3, // 显示几个卡片
+
+					showGoToPage: true,
+					showRowsPerPage: true,
+					showRowsInfo: true,
+					showRowsDefaultInfo: true,
+
+					onChangePage : function(event, data){
+						pageList(data.currentPage , data.rowsPerPage);
+					}
+				});
+
+			}
+		})
+	}
 	
 </script>
 </head>
@@ -409,7 +501,14 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		
 			<div class="btn-toolbar" role="toolbar" style="height: 80px;">
 				<form class="form-inline" role="form" style="position: relative;top: 8%; left: 5px;">
-				  
+					<%--隐藏域展示存储查询参数--%>
+					<input id="hidden-fullname" type="hidden"/>
+					<input id="hidden-company" type="hidden"/>
+					<input id="hidden-phone" type="hidden"/>
+					<input id="hidden-source" type="hidden"/>
+					<input id="hidden-owner" type="hidden"/>
+					<input id="hidden-mphone" type="hidden"/>
+					<input id="hidden-state" type="hidden"/>
 				  <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">名称</div>
@@ -473,7 +572,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				    </div>
 				  </div>
 
-				  <button type="submit" class="btn btn-default">查询</button>
+				  <button type="button" class="btn btn-default" id="searchBtn">查询</button>
 				  
 				</form>
 			</div>
@@ -500,64 +599,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<td>线索状态</td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td><input type="checkbox" /></td>
-							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/clue/detail.jsp';">李四先生</a></td>
-							<td>动力节点</td>
-							<td>010-84846003</td>
-							<td>12345678901</td>
-							<td>广告</td>
-							<td>zhangsan</td>
-							<td>已联系</td>
-						</tr>
-                        <tr class="active">
-                            <td><input type="checkbox" /></td>
-                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/clue/detail.jsp';">李四先生</a></td>
-                            <td>动力节点</td>
-                            <td>010-84846003</td>
-                            <td>12345678901</td>
-                            <td>广告</td>
-                            <td>zhangsan</td>
-                            <td>已联系</td>
-                        </tr>
+					<tbody id="clueBody">
 					</tbody>
 				</table>
 			</div>
 			
-			<div style="height: 50px; position: relative;top: 60px;">
-				<div>
-					<button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
-				</div>
-				<div class="btn-group" style="position: relative;top: -34px; left: 110px;">
-					<button type="button" class="btn btn-default" style="cursor: default;">显示</button>
-					<div class="btn-group">
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							10
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">20</a></li>
-							<li><a href="#">30</a></li>
-						</ul>
-					</div>
-					<button type="button" class="btn btn-default" style="cursor: default;">条/页</button>
-				</div>
-				<div style="position: relative;top: -88px; left: 285px;">
-					<nav>
-						<ul class="pagination">
-							<li class="disabled"><a href="#">首页</a></li>
-							<li class="disabled"><a href="#">上一页</a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">下一页</a></li>
-							<li class="disabled"><a href="#">末页</a></li>
-						</ul>
-					</nav>
-				</div>
+			<div style="height: 50px; position: relative;top: 60px;" id="cluePage">
+
 			</div>
 			
 		</div>

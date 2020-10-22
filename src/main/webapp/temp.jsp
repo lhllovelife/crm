@@ -11,3 +11,21 @@
 
 </body>
 </html>
+
+
+$.ajax({
+url: "",
+data: {
+
+},
+type: "post",
+dataType: "json",
+success: function (data) {
+
+}
+})
+
+
+<c:forEach items="" var="">
+
+</c:forEach>
