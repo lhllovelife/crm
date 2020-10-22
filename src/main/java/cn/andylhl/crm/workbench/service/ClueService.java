@@ -1,7 +1,10 @@
 package cn.andylhl.crm.workbench.service;
 
 import cn.andylhl.crm.exception.ClueExecption;
+import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.domain.Clue;
+
+import java.util.Map;
 
 /***
  * @Title: ClueService
@@ -12,4 +15,8 @@ import cn.andylhl.crm.workbench.domain.Clue;
 public interface ClueService {
     //保存线索对象
     void save(Clue clue) throws ClueExecption;
+
+    //执行分页查询带参数查询
+    PaginationVO<Clue> pageList(Map<String, Object> conditionMap);
+
 }

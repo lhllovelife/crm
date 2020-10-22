@@ -11,11 +11,14 @@ import cn.andylhl.crm.settings.service.DicService;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.MD5Util;
 import cn.andylhl.crm.utils.UUIDUtil;
+import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
 import cn.andylhl.crm.workbench.dao.ActivityRemarkDao;
 import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.domain.ActivityRemark;
+import cn.andylhl.crm.workbench.domain.Clue;
 import cn.andylhl.crm.workbench.service.ActivityService;
+import cn.andylhl.crm.workbench.service.ClueService;
 import org.apache.ibatis.javassist.util.HotSwapAgent;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -175,5 +178,31 @@ public class TestUserController {
                 System.out.println(value);
             }
         }
+    }
+
+    @Test
+    public void test10(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ClueService service = (ClueService) ac.getBean("clueServiceImpl");
+
+        Map<String, Object> conditionMap = new HashMap<>();
+        conditionMap.put("pageNo", 0);
+        conditionMap.put("pageSize", 3);
+//        conditionMap.put("fullname", );
+//        conditionMap.put("company", "万");
+//        conditionMap.put("phone", "155");
+//        conditionMap.put("source", "员工介绍");
+        conditionMap.put("owner", "张三");
+//        conditionMap.put("mphone", mphone);
+//        conditionMap.put("state", state);
+        PaginationVO<Clue> paginationVO = service.pageList(conditionMap);
+        System.out.println("====查询结果====");
+        Integer total = paginationVO.getTotal();
+        List<Clue> dataList = paginationVO.getDataList();
+        System.out.println("总记录条数: "+total);
+        for (Clue clue : dataList){
+            System.out.println(clue);
+        }
+
     }
 }

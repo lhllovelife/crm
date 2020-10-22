@@ -1,10 +1,14 @@
 package cn.andylhl.crm.workbench.service.impl;
 
 import cn.andylhl.crm.exception.ClueExecption;
+import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
 import cn.andylhl.crm.workbench.dao.ClueDao;
 import cn.andylhl.crm.workbench.domain.Clue;
 import cn.andylhl.crm.workbench.service.ClueService;
+
+import java.util.List;
+import java.util.Map;
 
 /***
  * @Title: ClueServiceImpl
@@ -35,5 +39,15 @@ public class ClueServiceImpl implements ClueService {
         if (count != 1){
             throw new ClueExecption("保存线索对象异常");
         }
+    }
+
+    @Override
+    public PaginationVO<Clue> pageList(Map<String, Object> conditionMap) {
+        PaginationVO<Clue> paginationVO = new PaginationVO<>();
+        int total = clueDao.getTotalByConditionMap(conditionMap);
+        List<Clue> dataList = clueDao.getClueListByConditionMap(conditionMap);
+        paginationVO.setTotal(total);
+        paginationVO.setDataList(dataList);
+        return paginationVO;
     }
 }
