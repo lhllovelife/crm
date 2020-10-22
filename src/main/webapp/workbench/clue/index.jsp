@@ -111,6 +111,15 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			$("#hidden-state").val($.trim($("#search-state").val()));
 			pageList(1, 3);
 		})
+		//为全选框绑定事件
+		$("#qx").click(function () {
+			//设置单选框的状态与该全选框一致
+			$("input[name=xz]").prop("checked", this.checked);
+		})
+		//为单个复选框按钮绑定事件（该复选框是动态生成的，为其绑定事件需要先绑定外层有效元素）
+		$("#clueBody").on("click", $("input[name=xz]"), function () {
+			$("#qx").prop("checked", $("input[name=xz]").size() == $("input[name=xz]:checked").size());
+		})
 
 	});
 
@@ -589,7 +598,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<table class="table table-hover">
 					<thead>
 						<tr style="color: #B3B3B3;">
-							<td><input type="checkbox" /></td>
+							<td><input type="checkbox"  id="qx"/></td>
 							<td>名称</td>
 							<td>公司</td>
 							<td>公司座机</td>
