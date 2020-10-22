@@ -95,5 +95,7 @@
     <bean id="clueServiceImpl" class="cn.andylhl.crm.workbench.service.impl.ClueServiceImpl">
         <property name="activityDao" ref="activityDao"/>
         <property name="clueDao" ref="clueDao"/>
+        <property name="clueRemarkDao" ref="clueRemarkDao"/>
+        <property name="clueActivityRelationDao" ref="clueActivityRelationDao"/>
     </bean>
 </beans>

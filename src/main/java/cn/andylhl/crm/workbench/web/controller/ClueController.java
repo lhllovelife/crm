@@ -26,7 +26,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/21 19:32
  */
-@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do"})
+@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -49,9 +49,26 @@ public class ClueController extends HttpServlet {
         else if ("/workbench/clue/pageList.do".equals(path)){
             pageList(request, response);
         }
+        else if ("/workbench/clue/delete.do".equals(path)){
+            delete(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 删除线索对象，及线索对象备注，及线索对象与市场活动之间关系
+     * @param request
+     * @param response
+     */
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行线索对象删除操作");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ClueService service = (ClueService) ac.getBean("clueServiceImpl");
+        String[] ids = request.getParameterValues("id");
+        service.deleteByIds(ids);
+
     }
 
     /**

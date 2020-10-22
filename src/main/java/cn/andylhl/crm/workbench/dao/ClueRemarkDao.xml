@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.andylhl.crm.workbench.dao.ClueRemarkDao">
+
+    <!--根据id数组删除备注 int deleteClueRemarkByIds(String[] ids);-->
+    <delete id="deleteClueRemarkByIds" parameterType="String">
+        delete from tbl_clue_remark where clueid in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--根据id数组查询备注数目 int getClueRemarkSizeByIds(String[] ids);-->
+    <select id="getClueRemarkSizeByIds" parameterType="String" resultType="int">
+        select
+            count(*)
+        from
+            tbl_clue_remark
+        where
+            clueid  in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

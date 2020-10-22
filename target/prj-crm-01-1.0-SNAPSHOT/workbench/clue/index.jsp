@@ -163,6 +163,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	});
 
 	function pageList(pageNo, pageSize){
+		//翻页时，全选框干掉
+		$("#qx").prop("checked",false);
 		//将隐藏域中的值设置到参数框中
 		$("#search-fullname").val($.trim($("#hidden-fullname").val()));
 		$("#search-company").val($.trim($("#hidden-company").val()));

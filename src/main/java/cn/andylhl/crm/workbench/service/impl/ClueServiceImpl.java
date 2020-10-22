@@ -3,8 +3,11 @@ package cn.andylhl.crm.workbench.service.impl;
 import cn.andylhl.crm.exception.ClueExecption;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
+import cn.andylhl.crm.workbench.dao.ClueActivityRelationDao;
 import cn.andylhl.crm.workbench.dao.ClueDao;
+import cn.andylhl.crm.workbench.dao.ClueRemarkDao;
 import cn.andylhl.crm.workbench.domain.Clue;
+import cn.andylhl.crm.workbench.domain.ClueRemark;
 import cn.andylhl.crm.workbench.service.ClueService;
 
 import java.util.List;
@@ -19,6 +22,8 @@ import java.util.Map;
 public class ClueServiceImpl implements ClueService {
     private ActivityDao activityDao;
     private ClueDao clueDao;
+    private ClueRemarkDao clueRemarkDao;
+    private ClueActivityRelationDao clueActivityRelationDao;
 
     public void setActivityDao(ActivityDao activityDao) {
         this.activityDao = activityDao;
@@ -26,6 +31,14 @@ public class ClueServiceImpl implements ClueService {
 
     public void setClueDao(ClueDao clueDao) {
         this.clueDao = clueDao;
+    }
+
+    public void setClueRemarkDao(ClueRemarkDao clueRemarkDao) {
+        this.clueRemarkDao = clueRemarkDao;
+    }
+
+    public void setClueActivityRelationDao(ClueActivityRelationDao clueActivityRelationDao) {
+        this.clueActivityRelationDao = clueActivityRelationDao;
     }
 
     /**
@@ -49,5 +62,15 @@ public class ClueServiceImpl implements ClueService {
         paginationVO.setTotal(total);
         paginationVO.setDataList(dataList);
         return paginationVO;
+    }
+
+    /**
+     * 删除线索对象，及线索对象备注，及线索对象与市场活动之间关系
+     * @param ids
+     */
+    @Override
+    public void deleteByIds(String[] ids) {
+        int remarkCount1 = clueRemarkDao.getClueRemarkSizeByIds(ids);
+        int remarkCount2 = clueRemarkDao.deleteClueRemarkByIds(ids);
     }
 }
