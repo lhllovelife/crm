@@ -202,5 +202,5 @@ prj-crm-01
             7. 所有数据铺完之后，展开模态窗口
             8. 使用map封装需要返回的数据
             9. 执行更新 请求url: /workbench/clue/update.do
-
-            该写更新sql语句
+    - 跳转到详细信息页
+            1. "workbench/clue/detail.do",使用传统请求，直接将clueid写在链接后面

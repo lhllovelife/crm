@@ -107,4 +107,14 @@ public class ClueServiceImpl implements ClueService {
             throw new ClueExecption("线索对象更新异常");
         }
     }
+
+    /**
+     * //根绝id获取线索对象信息(owner显示为真名)
+     * @param id
+     * @return
+     */
+    @Override
+    public Clue getDetailById(String id) {
+        return clueDao.getDetailById(id);
+    }
 }

@@ -29,7 +29,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/21 19:32
  */
-@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do"})
+@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,9 +61,27 @@ public class ClueController extends HttpServlet {
         else if ("/workbench/clue/update.do".equals(path)){
             update(request, response);
         }
+        else if ("/workbench/clue/detail.do".equals(path)){
+            detail(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 跳转到详细信息页
+     * @param request
+     * @param response
+     */
+    private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("执行跳转到详细信息页");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ClueService service = (ClueService) ac.getBean("clueServiceImpl");
+        String id = request.getParameter("id");
+        Clue clue = service.getDetailById(id);
+        request.setAttribute("clue", clue);
+        request.getRequestDispatcher("/workbench/clue/detail.jsp").forward(request, response);
     }
 
     /**

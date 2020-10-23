@@ -5,6 +5,39 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueDao">
 
+    <!--根绝id获取线索对象信息(owner显示为真名) Clue getDetailById(String id);-->
+    <select id="getDetailById" parameterType="String" resultType="Clue">
+        select
+            c.id,
+            c.fullname,
+            c.appellation,
+            u.name as owner,
+            c.company,
+            c.job,
+            c.email,
+            c.phone,
+            c.website,
+            c.mphone,
+            c.state,
+            c.source,
+            c.createBy,
+            c.createTime,
+            c.editBy,
+            c.editTime,
+            c.description,
+            c.contactSummary,
+            c.nextContactTime,
+            c.address
+        from
+            tbl_clue c
+        join
+            tbl_user u
+        on
+            c.owner = u.id
+        where
+            c.id = #{id}
+    </select>
+
     <!--更新线索对象信息 int update(Clue clue);-->
     <update id="update" parameterType="Clue">
         update tbl_clue set

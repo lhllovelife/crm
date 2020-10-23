@@ -28,4 +28,7 @@ public interface ClueDao {
 
     //更新线索对象信息
     int update(Clue clue);
+
+    //根绝id获取线索对象信息(owner显示为真名)
+    Clue getDetailById(String id);
 }
