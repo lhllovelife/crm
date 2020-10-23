@@ -5,6 +5,11 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueDao">
 
+    <!--根据id获取线索对象信息 Clue getClueById(String id);-->
+    <select id="getClueById" parameterType="String" resultType="Clue">
+        select * from tbl_clue where id = #{id}
+    </select>
+
     <!--根据id数组删除线索对象 int deleteByIds(String[] ids);-->
     <delete id="deleteByIds" parameterType="String">
         delete from tbl_clue where id in

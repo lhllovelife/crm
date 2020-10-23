@@ -85,4 +85,14 @@ public class ClueServiceImpl implements ClueService {
             throw new ClueExecption("删除线索对象异常");
         }
     }
+
+    /**
+     * 根据id获取线索对象信息
+     * @param id
+     * @return
+     */
+    @Override
+    public Clue getClueById(String id) {
+        return clueDao.getClueById(id);
+    }
 }

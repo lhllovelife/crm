@@ -5,7 +5,9 @@ import cn.andylhl.crm.settings.domain.User;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.*;
 import cn.andylhl.crm.vo.PaginationVO;
+import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.domain.Clue;
+import cn.andylhl.crm.workbench.service.ActivityService;
 import cn.andylhl.crm.workbench.service.ClueService;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -27,7 +29,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/21 19:32
  */
-@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do"})
+@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,9 +55,33 @@ public class ClueController extends HttpServlet {
         else if ("/workbench/clue/delete.do".equals(path)){
             delete(request, response);
         }
+        else if ("/workbench/clue/getUserListAndClueById.do".equals(path)){
+            getUserListAndClueById(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 根据线索线索对象id查询线索对象信息，并且获取用户列表
+     * @param request
+     * @param response
+     */
+    private void getUserListAndClueById(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("获取用户列表和市对象信息");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        UserService userService = (UserService) ac.getBean("userServiceImpl");
+        ClueService clueService = (ClueService) ac.getBean("clueServiceImpl");
+        //获取参数
+        String id = request.getParameter("id");
+        List<User> userList = userService.getUserList();
+        Clue clue = clueService.getClueById(id);
+        //封装数据
+        Map<String, Object> map = new HashMap<>();
+        map.put("userList", userList);
+        map.put("clue", clue);
+        PrintJson.printJsonObj(response, map);
     }
 
     /**

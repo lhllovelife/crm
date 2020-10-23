@@ -22,4 +22,7 @@ public interface ClueDao {
 
     //根据id数组删除线索对象
     int deleteByIds(String[] ids);
+
+    //根据id获取线索对象信息
+    Clue getClueById(String id);
 }

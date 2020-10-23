@@ -184,8 +184,21 @@ prj-crm-01
             2. delete.do ("/workbench/clue/delete.do")
             3. 拼接参数
             4. ajax
-            5. 执行市场活动删除操作
+            5. 执行线索相关删除操作
                 查询需要删除的备注数量
                 删除备注，返回收到影响的条数
-                删除市场活动
+                查询需要删除的线索关联的市场活动数量
+                解除关联，返回收到的影响的条数
+                删除线索对象
             6. if(window.confirm("msg")){执行相应操作}
+    - 线索对象修改
+            1. 点击修改按钮（editBtn）,过后台
+                选择器: $(input[name=xz])
+                       $(input[name=xz]:checked) 复选框中属性为checked的
+            2. 进行判断，0条或多条不能修改，只有单条能进行 修改
+            3. 请求url: /workbench/clue/getUserListAndClue.do
+            4. 需要后台提供数据：线索对象信息，用户列表
+            6. textarea
+            7. 所有数据铺完之后，展开模态窗口
+            8. 使用map封装需要返回的数据
+            9. 执行更新 请求url: /workbench/activity/update.do
