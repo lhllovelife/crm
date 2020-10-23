@@ -23,4 +23,7 @@ public interface ClueRemarkDao {
 
     //根据id删除线索备注
     int deleteRemarkById(String id);
+
+    //保存备注
+    int saveRemark(ClueRemark clueRemark);
 }

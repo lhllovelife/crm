@@ -5,6 +5,28 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueRemarkDao">
 
+    <!--保存备注 int saveRemark(ClueRemark clueRemark);-->
+    <insert id="saveRemark" parameterType="ClueRemark">
+        insert into tbl_clue_remark
+        (
+            id,
+            noteContent,
+            createBy,
+            createTime,
+            editFlag,
+            clueId
+        )
+        values
+        (
+            #{id},
+            #{noteContent},
+            #{createBy},
+            #{createTime},
+            #{editFlag},
+            #{clueId}
+        )
+    </insert>
+
     <!--根据id删除线索备注 int deleteRemarkById(String id);-->
     <delete id="deleteRemarkById" parameterType="String">
         delete from tbl_clue_remark where id = #{id}

@@ -41,4 +41,7 @@ public interface ClueService {
 
     //根据id删除执行备注
     void deleteRemarkById(String id) throws ClueRemarkException;
+
+    //保存线索备注
+    void saveRemark(ClueRemark clueRemark) throws ClueRemarkException;
 }

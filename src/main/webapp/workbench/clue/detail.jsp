@@ -64,6 +64,31 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		//页面加载完毕，展示备注信息列表
 		showRemarkList();
 
+		//为保存备注按钮绑定事件
+		$("#saveBtn").click(function () {
+			var noteContent = $.trim($("#remark").val());
+			//发送ajax请求保存备注信息
+			$.ajax({
+				url: "workbench/clue/saveRemark.do",
+				data: {
+					"clueId" : "${clue.id}",
+					"noteContent" : noteContent
+				},
+				type: "post",
+				dataType: "json",
+				success: function (data) {
+					if (data.success){
+						//保存成功，更新备注列表
+						showRemarkList();
+					}
+					else {
+						alert("保存失败");
+					}
+				}
+			})
+
+		})
+
 	});
 
 	function showRemarkList() {
@@ -474,7 +499,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<textarea id="remark" class="form-control" style="width: 850px; resize : none;" rows="2"  placeholder="添加备注..."></textarea>
 				<p id="cancelAndSaveBtn" style="position: relative;left: 737px; top: 10px; display: none;">
 					<button id="cancelBtn" type="button" class="btn btn-default">取消</button>
-					<button type="button" class="btn btn-primary">保存</button>
+					<button type="button" class="btn btn-primary" id="saveBtn">保存</button>
 				</p>
 			</form>
 		</div>

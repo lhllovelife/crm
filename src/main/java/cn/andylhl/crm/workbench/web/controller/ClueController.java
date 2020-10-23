@@ -31,7 +31,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/21 19:32
  */
-@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do", "/workbench/clue/getRemarkListByAid.do", "/workbench/clue/deleteRemark.do"})
+@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do", "/workbench/clue/getRemarkListByAid.do", "/workbench/clue/deleteRemark.do", "/workbench/clue/saveRemark.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -72,8 +72,36 @@ public class ClueController extends HttpServlet {
         else if ("/workbench/clue/deleteRemark.do".equals(path)){
             deleteRemark(request, response);
         }
+        else if ("/workbench/clue/saveRemark.do".equals(path)){
+            saveRemark(request, response);
+        }
         else {
             System.out.println("无效访问地址");
+        }
+    }
+
+    /**
+     * 保存指定线索的备注
+     * @param request
+     * @param response
+     */
+    private void saveRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行备注保存");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ClueService service = (ClueService) ac.getBean("clueServiceImpl");
+        ClueRemark clueRemark = new ClueRemark();
+        WebUtil.makeRequestToObject(request, clueRemark);
+        String createBy = ((User) request.getSession().getAttribute("user")).getName();
+        clueRemark.setId(UUIDUtil.getUUID());
+        clueRemark.setCreateBy(createBy);
+        clueRemark.setCreateTime(DateUtil.format(new Date(), Const.DATE_Format_ALL));
+        clueRemark.setEditFlag("0");
+        try {
+            service.saveRemark(clueRemark);
+            PrintJson.printJsonFlag(response, true);
+        } catch (ClueRemarkException e) {
+            PrintJson.printJsonFlag(response, false);
+            e.printStackTrace();
         }
     }
 

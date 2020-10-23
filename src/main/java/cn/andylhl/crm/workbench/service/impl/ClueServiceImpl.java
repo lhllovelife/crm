@@ -142,4 +142,16 @@ public class ClueServiceImpl implements ClueService {
             throw new ClueRemarkException("删除线索备注异常");
         }
     }
+
+    /**
+     * 保存线索备注
+     * @param clueRemark
+     */
+    @Override
+    public void saveRemark(ClueRemark clueRemark) throws ClueRemarkException {
+        int count = clueRemarkDao.saveRemark(clueRemark);
+        if (count != 1){
+            throw new ClueRemarkException("线索备注保存异常");
+        }
+    }
 }
