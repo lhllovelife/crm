@@ -7,6 +7,7 @@ import cn.andylhl.crm.utils.*;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.domain.Clue;
+import cn.andylhl.crm.workbench.domain.ClueRemark;
 import cn.andylhl.crm.workbench.service.ActivityService;
 import cn.andylhl.crm.workbench.service.ClueService;
 import org.springframework.web.context.WebApplicationContext;
@@ -29,7 +30,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/21 19:32
  */
-@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do"})
+@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do", "/workbench/clue/getRemarkListByAid.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,9 +65,26 @@ public class ClueController extends HttpServlet {
         else if ("/workbench/clue/detail.do".equals(path)){
             detail(request, response);
         }
+        else if ("/workbench/clue/getRemarkListByAid.do".equals(path)){
+            getRemarkListByAid(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 获取线索相关备注信息
+     * @param request
+     * @param response
+     */
+    private void getRemarkListByAid(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行查询线索相关备注信息");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ClueService service = (ClueService) ac.getBean("clueServiceImpl");
+        String id = request.getParameter("id");
+        List<ClueRemark> remarkList = service.getRemarkListById(id);
+        PrintJson.printJsonObj(response, remarkList);
     }
 
     /**

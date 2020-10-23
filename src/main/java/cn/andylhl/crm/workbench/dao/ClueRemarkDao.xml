@@ -5,6 +5,11 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueRemarkDao">
 
+    <!--根绝id查询线索相关备注 List<ClueRemark> getRemarkListById(String id);-->
+    <select id="getRemarkListById" parameterType="String" resultType="ClueRemark">
+        select * from tbl_clue_remark where clueId = #{id}
+    </select>
+
     <!--根据id数组删除备注 int deleteClueRemarkByIds(String[] ids);-->
     <delete id="deleteClueRemarkByIds" parameterType="String">
         delete from tbl_clue_remark where clueid in

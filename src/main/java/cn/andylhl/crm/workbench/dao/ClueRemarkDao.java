@@ -1,5 +1,9 @@
 package cn.andylhl.crm.workbench.dao;
 
+import cn.andylhl.crm.workbench.domain.ClueRemark;
+
+import java.util.List;
+
 /***
  * @Title: ClueRemarkDao
  * @Description: 线索备注dao
@@ -13,4 +17,7 @@ public interface ClueRemarkDao {
 
     //根据id数组删除备注
     int deleteClueRemarkByIds(String[] ids);
+
+    //根绝id查询线索相关备注
+    List<ClueRemark> getRemarkListById(String id);
 }

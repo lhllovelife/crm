@@ -203,4 +203,10 @@ prj-crm-01
             8. 使用map封装需要返回的数据
             9. 执行更新 请求url: /workbench/clue/update.do
     - 跳转到详细信息页
-            1. "workbench/clue/detail.do",使用传统请求，直接将clueid写在链接后面
+            1. 传统请求过后台，workbench/clue/detail.do，跳转到详细信息页
+            2. 在详细信息页，使用EL表达式展示市场活动详细信息数据
+            3. 页面加载完毕发送ajax请求，获取该线索下的所有的的备注信息
+               后台接口：/workbench/clue/getRemarkListByAid.do 根据市场活动id查备注
+            4. 删除指定id的备注 workbench/clue/deleteRemark.do
+            5. 添加备注：workbench/clue/saveRemark.do
+            6. 修改备注：workbench/clue/updateRemark.do

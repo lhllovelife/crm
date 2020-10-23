@@ -3,7 +3,11 @@ package cn.andylhl.crm.workbench.service;
 import cn.andylhl.crm.exception.ClueExecption;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.domain.Clue;
+import cn.andylhl.crm.workbench.domain.ClueRemark;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /***
@@ -30,4 +34,7 @@ public interface ClueService {
 
     //根绝id获取线索对象信息(owner显示为真名)
     Clue getDetailById(String id);
+
+    //获取线索相关备注
+    List<ClueRemark> getRemarkListById(String id);
 }

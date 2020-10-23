@@ -10,6 +10,8 @@ import cn.andylhl.crm.workbench.domain.Clue;
 import cn.andylhl.crm.workbench.domain.ClueRemark;
 import cn.andylhl.crm.workbench.service.ClueService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -116,5 +118,15 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public Clue getDetailById(String id) {
         return clueDao.getDetailById(id);
+    }
+
+    /**
+     * 获取线索相关备注
+     * @param id
+     * @return
+     */
+    @Override
+    public List<ClueRemark> getRemarkListById(String id) {
+        return clueRemarkDao.getRemarkListById(id);
     }
 }

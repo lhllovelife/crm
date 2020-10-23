@@ -238,7 +238,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				dataType: "json",
 				success: function (data) {
 					if (data.success){
-						alert("更新成功");
+						// alert("更新成功");
 						// pageList(1, 3);
 						//更新完成之后回到当前页
 						pageList($("#cluePage").bs_pagination('getOption', 'currentPage')
