@@ -26,4 +26,7 @@ public interface ClueRemarkDao {
 
     //保存备注
     int saveRemark(ClueRemark clueRemark);
+
+    //更新备注
+    int updateRemark(ClueRemark clueRemark);
 }

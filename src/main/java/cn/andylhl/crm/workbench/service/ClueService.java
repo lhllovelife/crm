@@ -44,4 +44,7 @@ public interface ClueService {
 
     //保存线索备注
     void saveRemark(ClueRemark clueRemark) throws ClueRemarkException;
+
+    //更新备注
+    void updateRemark(ClueRemark clueRemark) throws ClueRemarkException;
 }

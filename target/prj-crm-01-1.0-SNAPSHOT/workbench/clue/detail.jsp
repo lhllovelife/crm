@@ -88,6 +88,31 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			})
 
 		})
+		//为更新备注按钮绑定事件
+		$("#updateRemarkBtn").click(function () {
+			var id = $("#remarkId").val();
+			var noteContent = $("#noteContent").val();
+			//发送ajax请求执行更新操作
+			$.ajax({
+				url: "workbench/clue/updateRemark.do",
+				data: {
+					"id" : id,
+					"noteContent" : noteContent
+				},
+				type: "post",
+				dataType: "json",
+				success: function (data) {
+					if (data.success){
+						showRemarkList();
+						$("#editRemarkModal").modal("hide");
+					}
+					else {
+						alert("更新备注失败");
+					}
+				}
+			})
+
+		})
 
 	});
 
@@ -109,7 +134,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					html += '<h5>'+n.noteContent+'</h5>';
 					html += '<font color="gray">线索</font> <font color="gray">-</font> <b>'+"${clue.fullname}${clue.appellation}"+'-'+"${clue.company}"+'</b> <small style="color: gray;"> '+ (n.editFlag == 0 ? n.createTime : n.editTime) +' 由'+(n.editFlag == 0 ? n.createBy : n.editBy)+'</small>';
 					html += '<div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">';
-					html += '<a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #FF0000;"></span></a>';
+					html += '<a class="myHref" href="javascript:void(0);" onclick="editRemark(\''+n.id+'\')"><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #FF0000;"></span></a>';
 					html += '&nbsp;&nbsp;&nbsp;&nbsp;';
 					html += '<a class="myHref" href="javascript:void(0);" onclick="delRemark(\''+n.id+'\')"><span class="glyphicon glyphicon-remove" style="font-size: 20px; color: #FF0000;"></span></a>';
 					html += '</div>';
@@ -140,13 +165,51 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				}
 			}
 		})
+	}
 
+	function editRemark(id) {
+		//清空模态窗口文本域
+		$("#noteContent").val("");
+		//设置隐藏域 线索id
+		$("#remarkId").val(id);
+		//打开修改备注的模态窗口
+		$("#editRemarkModal").modal("show");
 	}
 	
 </script>
 
 </head>
 <body>
+
+	<!-- 修改市场活动备注的模态窗口 -->
+	<div class="modal fade" id="editRemarkModal" role="dialog">
+		<%-- 备注的id --%>
+		<input type="hidden" id="remarkId">
+		<div class="modal-dialog" role="document" style="width: 40%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">修改备注</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label for="edit-describe" class="col-sm-2 control-label">内容</label>
+							<div class="col-sm-10" style="width: 81%;">
+								<textarea class="form-control" rows="3" id="noteContent"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="updateRemarkBtn">更新</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- 关联市场活动的模态窗口 -->
 	<div class="modal fade" id="bundModal" role="dialog">

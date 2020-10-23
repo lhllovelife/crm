@@ -5,6 +5,18 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueRemarkDao">
 
+    <!--更新备注 int updateRemark(ClueRemark clueRemark);-->
+    <update id="updateRemark" parameterType="ClueRemark">
+        update tbl_clue_remark set
+            noteContent = #{noteContent},
+            editBy = #{editBy},
+            editTime = #{editTime},
+            editFlag = #{editFlag}
+        where
+            id = #{id}
+
+    </update>
+
     <!--保存备注 int saveRemark(ClueRemark clueRemark);-->
     <insert id="saveRemark" parameterType="ClueRemark">
         insert into tbl_clue_remark
