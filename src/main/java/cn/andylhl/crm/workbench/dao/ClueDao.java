@@ -19,4 +19,7 @@ public interface ClueDao {
     int getTotalByConditionMap(Map<String, Object> conditionMap);
 
     List<Clue> getClueListByConditionMap(Map<String, Object> conditionMap);
+
+    //根据id数组删除线索对象
+    int deleteByIds(String[] ids);
 }

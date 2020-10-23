@@ -5,4 +5,25 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueActivityRelationDao">
 
+    <!--根据id数组删除线索所关联的市场活动 int deleteCarByyIds(String[] ids);-->
+    <delete id="deleteCarByyIds" parameterType="String">
+        delete from tbl_clue_activity_relation where clueId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--根据id数组查询线索所关联的市场活动数目 int getCarSizeByIds(String[] ids);-->
+    <select id="getCarSizeByIds" parameterType="String" resultType="int">
+        select
+            count(*)
+        from
+            tbl_clue_activity_relation
+        where
+            clueId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>

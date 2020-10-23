@@ -20,5 +20,5 @@ public interface ClueService {
     PaginationVO<Clue> pageList(Map<String, Object> conditionMap);
 
     //删除线索对象，及线索对象备注，及线索对象与市场活动之间关系
-    void deleteByIds(String[] ids);
+    void deleteByIds(String[] ids) throws ClueExecption;
 }

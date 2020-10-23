@@ -5,6 +5,14 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueDao">
 
+    <!--根据id数组删除线索对象 int deleteByIds(String[] ids);-->
+    <delete id="deleteByIds" parameterType="String">
+        delete from tbl_clue where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
     <!--分页带参数查询线索对像记录条数 int getTotalByConditionMap(Map<String, Object> conditionMap);-->
         <select id="getTotalByConditionMap" parameterType="Map" resultType="int">
             select

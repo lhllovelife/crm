@@ -1,5 +1,6 @@
 package cn.andylhl.crm.workbench.web.controller;
 
+import cn.andylhl.crm.exception.ClueExecption;
 import cn.andylhl.crm.settings.domain.User;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.*;
@@ -67,7 +68,13 @@ public class ClueController extends HttpServlet {
         WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
         ClueService service = (ClueService) ac.getBean("clueServiceImpl");
         String[] ids = request.getParameterValues("id");
-        service.deleteByIds(ids);
+        try {
+            service.deleteByIds(ids);
+            PrintJson.printJsonFlag(response, true);
+        } catch (Exception e) {
+            PrintJson.printJsonFlag(response, false);
+            e.printStackTrace();
+        }
 
     }
 

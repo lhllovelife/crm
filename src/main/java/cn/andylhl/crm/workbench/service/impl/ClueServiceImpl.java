@@ -69,8 +69,20 @@ public class ClueServiceImpl implements ClueService {
      * @param ids
      */
     @Override
-    public void deleteByIds(String[] ids) {
+    public void deleteByIds(String[] ids) throws ClueExecption {
         int remarkCount1 = clueRemarkDao.getClueRemarkSizeByIds(ids);
         int remarkCount2 = clueRemarkDao.deleteClueRemarkByIds(ids);
+        if(remarkCount1 != remarkCount2){
+            throw new ClueExecption("删除线索对象相关备注异常");
+        }
+        int carCount1 = clueActivityRelationDao.getCarSizeByIds(ids);
+        int carCount2 = clueActivityRelationDao.deleteCarByyIds(ids);
+        if (carCount1 != carCount2){
+            throw new ClueExecption("删除线索相关市场活动异常");
+        }
+        int clueCount = clueDao.deleteByIds(ids);
+        if (clueCount != ids.length){
+            throw new ClueExecption("删除线索对象异常");
+        }
     }
 }
