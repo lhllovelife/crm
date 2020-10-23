@@ -20,4 +20,7 @@ public interface ClueRemarkDao {
 
     //根绝id查询线索相关备注
     List<ClueRemark> getRemarkListById(String id);
+
+    //根据id删除线索备注
+    int deleteRemarkById(String id);
 }

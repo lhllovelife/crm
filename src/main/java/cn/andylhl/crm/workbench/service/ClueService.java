@@ -1,6 +1,7 @@
 package cn.andylhl.crm.workbench.service;
 
 import cn.andylhl.crm.exception.ClueExecption;
+import cn.andylhl.crm.exception.ClueRemarkException;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.domain.Clue;
 import cn.andylhl.crm.workbench.domain.ClueRemark;
@@ -37,4 +38,7 @@ public interface ClueService {
 
     //获取线索相关备注
     List<ClueRemark> getRemarkListById(String id);
+
+    //根据id删除执行备注
+    void deleteRemarkById(String id) throws ClueRemarkException;
 }

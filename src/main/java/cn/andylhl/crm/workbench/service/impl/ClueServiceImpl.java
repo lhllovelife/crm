@@ -1,6 +1,7 @@
 package cn.andylhl.crm.workbench.service.impl;
 
 import cn.andylhl.crm.exception.ClueExecption;
+import cn.andylhl.crm.exception.ClueRemarkException;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
 import cn.andylhl.crm.workbench.dao.ClueActivityRelationDao;
@@ -128,5 +129,17 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public List<ClueRemark> getRemarkListById(String id) {
         return clueRemarkDao.getRemarkListById(id);
+    }
+
+    /**
+     * 根据id删除执行备注
+     * @param id
+     */
+    @Override
+    public void deleteRemarkById(String id) throws ClueRemarkException {
+        int count = clueRemarkDao.deleteRemarkById(id);
+        if (count != 1){
+            throw new ClueRemarkException("删除线索备注异常");
+        }
     }
 }

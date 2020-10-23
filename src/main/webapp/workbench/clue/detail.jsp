@@ -86,12 +86,33 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					html += '<div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">';
 					html += '<a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #FF0000;"></span></a>';
 					html += '&nbsp;&nbsp;&nbsp;&nbsp;';
-					html += '<a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-remove" style="font-size: 20px; color: #FF0000;"></span></a>';
+					html += '<a class="myHref" href="javascript:void(0);" onclick="delRemark(\''+n.id+'\')"><span class="glyphicon glyphicon-remove" style="font-size: 20px; color: #FF0000;"></span></a>';
 					html += '</div>';
 					html += '</div>';
 					html += '</div>';
 				})
 				$("#remarkBody").html(html);
+			}
+		})
+	}
+
+	function delRemark(id) {
+		//发送ajax请求，根据备注id,执行单个删除
+		$.ajax({
+			url: "workbench/clue/deleteRemark.do",
+			data: {
+				"id" : id
+			},
+			type: "post",
+			dataType: "json",
+			success: function (data) {
+				if (data.success){
+					// alert("删除成功");
+					showRemarkList();
+				}
+				else{
+					alert("删除失败");
+				}
 			}
 		})
 

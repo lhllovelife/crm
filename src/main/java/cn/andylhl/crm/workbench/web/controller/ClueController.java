@@ -1,6 +1,7 @@
 package cn.andylhl.crm.workbench.web.controller;
 
 import cn.andylhl.crm.exception.ClueExecption;
+import cn.andylhl.crm.exception.ClueRemarkException;
 import cn.andylhl.crm.settings.domain.User;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.*;
@@ -30,7 +31,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/21 19:32
  */
-@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do", "/workbench/clue/getRemarkListByAid.do"})
+@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do", "/workbench/clue/getRemarkListByAid.do", "/workbench/clue/deleteRemark.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,8 +69,30 @@ public class ClueController extends HttpServlet {
         else if ("/workbench/clue/getRemarkListByAid.do".equals(path)){
             getRemarkListByAid(request, response);
         }
+        else if ("/workbench/clue/deleteRemark.do".equals(path)){
+            deleteRemark(request, response);
+        }
         else {
             System.out.println("无效访问地址");
+        }
+    }
+
+    /**
+     * 删除指定备注
+     * @param request
+     * @param response
+     */
+    private void deleteRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行删除线索备注");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ClueService service = (ClueService) ac.getBean("clueServiceImpl");
+        String id = request.getParameter("id");
+        try {
+            service.deleteRemarkById(id);
+            PrintJson.printJsonFlag(response, true);
+        } catch (ClueRemarkException e) {
+            PrintJson.printJsonFlag(response, false);
+            e.printStackTrace();
         }
     }
 
