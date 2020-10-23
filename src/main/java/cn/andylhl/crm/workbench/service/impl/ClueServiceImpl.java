@@ -95,4 +95,16 @@ public class ClueServiceImpl implements ClueService {
     public Clue getClueById(String id) {
         return clueDao.getClueById(id);
     }
+
+    /**
+     * 更新线索对象信息
+     * @param clue
+     */
+    @Override
+    public void update(Clue clue) throws ClueExecption {
+        int count = clueDao.update(clue);
+        if (count != 1){
+            throw new ClueExecption("线索对象更新异常");
+        }
+    }
 }

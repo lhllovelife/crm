@@ -25,4 +25,7 @@ public interface ClueDao {
 
     //根据id获取线索对象信息
     Clue getClueById(String id);
+
+    //更新线索对象信息
+    int update(Clue clue);
 }

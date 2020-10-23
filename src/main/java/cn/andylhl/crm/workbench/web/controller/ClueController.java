@@ -29,7 +29,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/21 19:32
  */
-@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do"})
+@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -58,9 +58,57 @@ public class ClueController extends HttpServlet {
         else if ("/workbench/clue/getUserListAndClueById.do".equals(path)){
             getUserListAndClueById(request, response);
         }
+        else if ("/workbench/clue/update.do".equals(path)){
+            update(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 线索对象信息修改
+     * @param request
+     * @param response
+     */
+    private void update(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行线索对象信息更新操作");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ClueService service = (ClueService) ac.getBean("clueServiceImpl");
+        Clue clue = new Clue();
+        WebUtil.makeRequestToObject(request, clue);
+        String editBy = ((User) request.getSession().getAttribute("user")).getName();
+        clue.setEditBy(editBy);
+        clue.setEditTime(DateUtil.format(new Date(), Const.DATE_Format_ALL));
+        try {
+            service.update(clue);
+            PrintJson.printJsonFlag(response, true);
+        } catch (Exception e) {
+            PrintJson.printJsonFlag(response, false);
+            e.printStackTrace();
+        }
+/*
+Clue{
+
+id='9151f19f53f54fe9b0d68af6c1e8d866',
+fullname='张勇',
+appellation='先生',
+owner='40f6cdea0bd34aceb77492a1656d9fb3',
+company='阿里妈妈',
+job='CEO',
+email='zy@alimama.com',
+phone='阿里妈妈公司座机123',
+website='alimama.com',
+mphone='1333636',
+state='试图联系',
+source='广告',
+createBy='null', createTime='null',
+editBy='null', editTime='null',
+description='更新描述', contactSummary='更新联系纪要',
+nextContactTime='2020-10-24',
+address='杭州市阿里妈妈地址更细'
+}
+ */
     }
 
     /**

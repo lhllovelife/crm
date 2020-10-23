@@ -196,9 +196,11 @@ prj-crm-01
                 选择器: $(input[name=xz])
                        $(input[name=xz]:checked) 复选框中属性为checked的
             2. 进行判断，0条或多条不能修改，只有单条能进行 修改
-            3. 请求url: /workbench/clue/getUserListAndClue.do
+            3. 请求url: /workbench/clue/getUserListAndClueById.do
             4. 需要后台提供数据：线索对象信息，用户列表
             6. textarea
             7. 所有数据铺完之后，展开模态窗口
             8. 使用map封装需要返回的数据
-            9. 执行更新 请求url: /workbench/activity/update.do
+            9. 执行更新 请求url: /workbench/clue/update.do
+
+            该写更新sql语句

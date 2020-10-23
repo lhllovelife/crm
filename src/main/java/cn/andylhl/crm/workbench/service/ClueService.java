@@ -24,4 +24,7 @@ public interface ClueService {
 
     //根据id获取线索对象信息
     Clue getClueById(String id);
+
+    //更新线索对象信息
+    void update(Clue clue) throws ClueExecption;
 }

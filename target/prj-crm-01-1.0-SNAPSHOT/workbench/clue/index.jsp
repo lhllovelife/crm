@@ -88,7 +88,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						//保存成功，清空表单内容
 						$("#clueForm").get(0).reset();
 						//分页查询
-						pageList(1, 3);
+						// pageList(1, 3);
+						pageList(1 ,$("#cluePage").bs_pagination('getOption', 'rowsPerPage'));
 						$("#createClueModal").modal("hide");
 					}
 					else {
@@ -111,7 +112,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			$("#hidden-owner").val($.trim($("#search-owner").val()));
 			$("#hidden-mphone").val($.trim($("#search-mphone").val()));
 			$("#hidden-state").val($.trim($("#search-state").val()));
-			pageList(1, 3);
+			// pageList(1, 3);
+			pageList(1 ,$("#cluePage").bs_pagination('getOption', 'rowsPerPage'));
 		})
 		//为全选框绑定事件
 		$("#qx").click(function () {
@@ -150,7 +152,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						if (data.success){
 							alert("删除成功");
 							//分页查询
-							pageList(1, 3);
+							// pageList(1, 3);
+							pageList(1 ,$("#cluePage").bs_pagination('getOption', 'rowsPerPage'));
 						}
 						else {
 							alert("删除失败");
@@ -202,12 +205,54 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					$("#edit-contactSummary").val(data.clue.contactSummary);
 					$("#edit-nextContactTime").val(data.clue.nextContactTime);
 					$("#edit-address").val(data.clue.address);
+					//铺完数据，打开模态窗口
+					$("#editClueModal").modal("show");
                 }
             })
-
-
-            $("#editClueModal").modal("show");
         })
+		//执行更新操作
+		$("#updateBtn").click(function () {
+			var id = $("input[name=xz]:checked").val();
+			//发送ajax请求更新操作
+			$.ajax({
+				url: "workbench/clue/update.do",
+				data: {
+					"id" : id,
+					"owner" : $.trim($("#edit-owner").val()),
+					"company" : $.trim($("#edit-company").val()),
+					"appellation" : $.trim($("#edit-appellation").val()),
+					"fullname" : $.trim($("#edit-fullname").val()),
+					"job" : $.trim($("#edit-job").val()),
+					"email" : $.trim($("#edit-email").val()),
+					"phone" : $.trim($("#edit-phone").val()),
+					"website" : $.trim($("#edit-website").val()),
+					"mphone" : $.trim($("#edit-mphone").val()),
+					"state" : $.trim($("#edit-state").val()),
+					"source" : $.trim($("#edit-source").val()),
+					"description" : $.trim($("#edit-description").val()),
+					"contactSummary" : $.trim($("#edit-contactSummary").val()),
+					"nextContactTime" : $.trim($("#edit-nextContactTime").val()),
+					"address" : $.trim($("#edit-address").val())
+				},
+				type: "post",
+				dataType: "json",
+				success: function (data) {
+					if (data.success){
+						alert("更新成功");
+						// pageList(1, 3);
+						//更新完成之后回到当前页
+						pageList($("#cluePage").bs_pagination('getOption', 'currentPage')
+								,$("#cluePage").bs_pagination('getOption', 'rowsPerPage'));
+
+						//关闭模态窗口
+						$("#editClueModal").modal("hide");
+					}
+					else {
+						alert("更新失败");
+					}
+				}
+			})
+		})
 
 	});
 
@@ -557,7 +602,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">更新</button>
+					<button type="button" class="btn btn-primary" id="updateBtn">更新</button>
 				</div>
 			</div>
 		</div>

@@ -5,6 +5,30 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueDao">
 
+    <!--更新线索对象信息 int update(Clue clue);-->
+    <update id="update" parameterType="Clue">
+        update tbl_clue set
+            fullname = #{fullname},
+            appellation = #{appellation},
+            owner = #{owner},
+            company = #{company},
+            job = #{job},
+            email = #{email},
+            phone = #{phone},
+            website = #{website},
+            mphone = #{mphone},
+            state = #{state},
+            source = #{source},
+            editBy = #{editBy},
+            editTime = #{editTime},
+            description = #{description},
+            contactSummary = #{contactSummary},
+            nextContactTime = #{nextContactTime},
+            address = #{address}
+            where id = #{id}
+
+    </update>
+
     <!--根据id获取线索对象信息 Clue getClueById(String id);-->
     <select id="getClueById" parameterType="String" resultType="Clue">
         select * from tbl_clue where id = #{id}
