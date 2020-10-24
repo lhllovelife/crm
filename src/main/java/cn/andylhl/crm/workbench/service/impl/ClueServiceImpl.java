@@ -7,6 +7,7 @@ import cn.andylhl.crm.workbench.dao.ActivityDao;
 import cn.andylhl.crm.workbench.dao.ClueActivityRelationDao;
 import cn.andylhl.crm.workbench.dao.ClueDao;
 import cn.andylhl.crm.workbench.dao.ClueRemarkDao;
+import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.domain.Clue;
 import cn.andylhl.crm.workbench.domain.ClueRemark;
 import cn.andylhl.crm.workbench.service.ClueService;
@@ -165,5 +166,15 @@ public class ClueServiceImpl implements ClueService {
         if (count != 1){
             throw new ClueRemarkException("更新备注异常");
         }
+    }
+
+    /**
+     * 根据线索id，查询所关联的市场活动
+     * @param clueId
+     * @return
+     */
+    @Override
+    public List<Activity> getActivityListByClueId(String clueId) {
+        return activityDao.getActivityListByClueId(clueId);
     }
 }

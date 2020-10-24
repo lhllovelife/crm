@@ -3,6 +3,7 @@ package cn.andylhl.crm.workbench.service;
 import cn.andylhl.crm.exception.ClueExecption;
 import cn.andylhl.crm.exception.ClueRemarkException;
 import cn.andylhl.crm.vo.PaginationVO;
+import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.domain.Clue;
 import cn.andylhl.crm.workbench.domain.ClueRemark;
 
@@ -33,7 +34,7 @@ public interface ClueService {
     //更新线索对象信息
     void update(Clue clue) throws ClueExecption;
 
-    //根绝id获取线索对象信息(owner显示为真名)
+    //根据id获取线索对象信息(owner显示为真名)
     Clue getDetailById(String id);
 
     //获取线索相关备注
@@ -47,4 +48,6 @@ public interface ClueService {
 
     //更新备注
     void updateRemark(ClueRemark clueRemark) throws ClueRemarkException;
+    //根据线索id，查询所关联的市场活动
+    List<Activity> getActivityListByClueId(String clueId);
 }

@@ -5,6 +5,29 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityDao">
 
+    <!--根据线索id，查询所关联的市场活动 List<Activity> getActivityListByClueId(String clueId);-->
+    <!--关系表 市场活动表 用户表-->
+    <select id="getActivityListByClueId" parameterType="String" resultType="Activity">
+        select
+            car.id as id,
+            a.name,
+            a.startDate,
+            a.endDate,
+            u.name as owner
+        from
+            tbl_clue_activity_relation car
+        join
+            tbl_activity a
+        on
+            car.activityId = a.id
+        join
+            tbl_user u
+        on
+            a.owner = u.id
+        where
+            car.clueId = #{clueId}
+    </select>
+
     <!--通过id获得市场活动信息（owner为真是姓名） Activity getActDetailById(String id);-->
     <select id="getActDetailById" parameterType="String" resultType="Activity">
         select

@@ -28,4 +28,7 @@ public interface ActivityDao {
     int updateActivity(Activity activity);
 
     Activity getActDetailById(String id);
+
+    //根据线索id，查询所关联的市场活动
+    List<Activity> getActivityListByClueId(String clueId);
 }

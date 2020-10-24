@@ -210,3 +210,8 @@ prj-crm-01
             4. 删除指定id的备注 workbench/clue/deleteRemark.do
             5. 添加备注：workbench/clue/saveRemark.do
             6. 修改备注：workbench/clue/updateRemark.do
+    - 展现关联的市场活动列表
+        市场活动 线索 多对多关系
+            1. 获取线索所相关的市场活动
+               后台接口: "workbench/clue/getActivityListByClueId.do" 根据线索id查询关联的市场活动列表
+            2. 接口: "workbench/clue/unbund.do" 执行解除关联操作
