@@ -1,5 +1,6 @@
 package cn.andylhl.crm.workbench.web.controller;
 
+import cn.andylhl.crm.exception.ClueActivityRelationExecption;
 import cn.andylhl.crm.exception.ClueExecption;
 import cn.andylhl.crm.exception.ClueRemarkException;
 import cn.andylhl.crm.settings.domain.User;
@@ -31,7 +32,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/21 19:32
  */
-@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do", "/workbench/clue/getRemarkListByAid.do", "/workbench/clue/deleteRemark.do", "/workbench/clue/saveRemark.do", "/workbench/clue/updateRemark.do", "/workbench/clue/getActivityListByClueId.do"})
+@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do", "/workbench/clue/getRemarkListByAid.do", "/workbench/clue/deleteRemark.do", "/workbench/clue/saveRemark.do", "/workbench/clue/updateRemark.do", "/workbench/clue/getActivityListByClueId.do", "/workbench/clue/unbund.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -81,8 +82,30 @@ public class ClueController extends HttpServlet {
         else if ("/workbench/clue/getActivityListByClueId.do".equals(path)){
             getActivityListByClueId(request, response);
         }
+        else if ("/workbench/clue/unbund.do".equals(path)){
+            unbund(request, response);
+        }
         else {
             System.out.println("无效访问地址");
+        }
+    }
+
+    /**
+     * 解除关联
+     * @param request
+     * @param response
+     */
+    private void unbund(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行解除关联操作");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ClueService service = (ClueService) ac.getBean("clueServiceImpl");
+        String id = request.getParameter("id");
+        try {
+            service.deleteCarById(id);
+            PrintJson.printJsonFlag(response, true);
+        } catch (Exception e) {
+            PrintJson.printJsonFlag(response, false);
+            e.printStackTrace();
         }
     }
 

@@ -115,6 +115,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		//页面加载完毕，获取线索所关联的市场活动
 		showActivityList();
 
+		//为关联按钮绑定事件
+		$("#bundBtn").click(function () {
+			alert(123)
+			$("#bundModal").modal("show");
+		})
+
 	});
 
 	function showRemarkList() {
@@ -203,7 +209,23 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	}
 
 	function unbund(id) {
-		alert(id);
+		$.ajax({
+			url: "workbench/clue/unbund.do",
+			data: {
+				"id" : id
+			},
+			type: "post",
+			dataType: "json",
+			success: function (data) {
+				if (data.success){
+					showActivityList();
+				}
+				else {
+					alert("解除关联失败");
+				}
+			}
+		})
+
 	}
 </script>
 
@@ -634,7 +656,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			</div>
 			
 			<div>
-				<a href="javascript:void(0);" data-toggle="modal" data-target="#bundModal" style="text-decoration: none;"><span class="glyphicon glyphicon-plus"></span>关联市场活动</a>
+				<a href="javascript:void(0);" id="bundBtn" style="text-decoration: none;"><span class="glyphicon glyphicon-plus"></span>关联市场活动</a>
 			</div>
 		</div>
 	</div>

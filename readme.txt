@@ -215,3 +215,8 @@ prj-crm-01
             1. 获取线索所相关的市场活动
                后台接口: "workbench/clue/getActivityListByClueId.do" 根据线索id查询关联的市场活动列表
             2. 接口: "workbench/clue/unbund.do" 执行解除关联操作
+            3. 点击关联市场活动按钮，打开模态窗口
+                * modal窗口弹出之前：清空tbody
+                * modal窗口弹出之前：清空输入框
+                * modal窗口弹出之前：重置复选框
+

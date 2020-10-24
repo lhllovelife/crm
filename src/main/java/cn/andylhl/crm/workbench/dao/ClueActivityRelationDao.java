@@ -18,4 +18,6 @@ public interface ClueActivityRelationDao {
     //根据id数组删除线索所关联的市场活动
     int deleteCarByyIds(String[] ids);
 
+    //根据id删除一条关联
+    int deleteCarById(String id);
 }

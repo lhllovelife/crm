@@ -1,5 +1,6 @@
 package cn.andylhl.crm.workbench.service;
 
+import cn.andylhl.crm.exception.ClueActivityRelationExecption;
 import cn.andylhl.crm.exception.ClueExecption;
 import cn.andylhl.crm.exception.ClueRemarkException;
 import cn.andylhl.crm.vo.PaginationVO;
@@ -50,4 +51,7 @@ public interface ClueService {
     void updateRemark(ClueRemark clueRemark) throws ClueRemarkException;
     //根据线索id，查询所关联的市场活动
     List<Activity> getActivityListByClueId(String clueId);
+
+    //解除关联
+    void deleteCarById(String id) throws ClueActivityRelationExecption;
 }

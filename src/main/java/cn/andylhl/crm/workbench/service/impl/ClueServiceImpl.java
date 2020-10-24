@@ -1,5 +1,6 @@
 package cn.andylhl.crm.workbench.service.impl;
 
+import cn.andylhl.crm.exception.ClueActivityRelationExecption;
 import cn.andylhl.crm.exception.ClueExecption;
 import cn.andylhl.crm.exception.ClueRemarkException;
 import cn.andylhl.crm.vo.PaginationVO;
@@ -176,5 +177,17 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public List<Activity> getActivityListByClueId(String clueId) {
         return activityDao.getActivityListByClueId(clueId);
+    }
+
+    /**
+     * 解除关联
+     * @param id
+     */
+    @Override
+    public void deleteCarById(String id) throws ClueActivityRelationExecption {
+        int count = clueActivityRelationDao.deleteCarById(id);
+        if(count != 1){
+            throw new ClueActivityRelationExecption("解除关联异常");
+        }
     }
 }
