@@ -31,4 +31,7 @@ public interface ActivityDao {
 
     //根据线索id，查询所关联的市场活动
     List<Activity> getActivityListByClueId(String clueId);
+
+    //获取该线索未关联的市场活动(带参数模糊查询)
+    List<Activity> getActivityListByNameAndNotByClueId(Map<String, String> paraMap);
 }

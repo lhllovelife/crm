@@ -190,4 +190,14 @@ public class ClueServiceImpl implements ClueService {
             throw new ClueActivityRelationExecption("解除关联异常");
         }
     }
+
+    /**
+     * 获取该线索未关联的市场活动(带参数模糊查询)
+     * @param paraMap
+     * @return
+     */
+    @Override
+    public List<Activity> getActivityListByNameAndNotByClueId(Map<String, String> paraMap) {
+        return activityDao.getActivityListByNameAndNotByClueId(paraMap);
+    }
 }

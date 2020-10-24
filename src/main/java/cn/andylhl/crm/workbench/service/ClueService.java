@@ -54,4 +54,7 @@ public interface ClueService {
 
     //解除关联
     void deleteCarById(String id) throws ClueActivityRelationExecption;
+
+    //获取该线索未关联的市场活动(带参数模糊查询)
+    List<Activity> getActivityListByNameAndNotByClueId(Map<String, String> paraMap);
 }

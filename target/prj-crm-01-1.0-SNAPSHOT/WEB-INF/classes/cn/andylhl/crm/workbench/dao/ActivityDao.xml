@@ -5,6 +5,50 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityDao">
 
+    <!--获取该线索未关联的市场活动(带参数模糊查询)-->
+    <!--List<Activity> getActivityListByNameAndNotByClueId(Map<String, String> paraMap);-->
+    <select id="getActivityListByNameAndNotByClueId" parameterType="Map" resultType="Activity">
+        select
+            a.id,
+            u.name as owner,
+            a.name,
+            a.startDate,
+            a.endDate,
+            a.cost,
+            a.description,
+            a.createTime,
+            a.createBy,
+            a.editTime,
+            a.editBy
+        from
+            tbl_activity a
+        join
+            tbl_user u
+        on
+            a.owner = u.id
+        <where>
+            <if test="aname != null and aname !=''">
+                and a.name like '%' #{aname} '%'
+            </if>
+            <if test="clueId != null and clueId != ''">
+                and a.id not in
+                (
+                    select
+                        car.activityId
+                    from
+                        tbl_clue_activity_relation car
+                    where
+                        car.clueId = #{clueId}
+                )
+            </if>
+        </where>
+         order by a.createTime desc
+
+
+
+    </select>
+
+
     <!--根据线索id，查询所关联的市场活动 List<Activity> getActivityListByClueId(String clueId);-->
     <!--关系表 市场活动表 用户表-->
     <select id="getActivityListByClueId" parameterType="String" resultType="Activity">

@@ -117,8 +117,44 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 		//为关联按钮绑定事件
 		$("#bundBtn").click(function () {
-			alert(123)
+			//清空bundActBody
+			$("#bundActBody").html("");
+			//文本框获取焦点
+			// $("#aname").focus();
 			$("#bundModal").modal("show");
+		})
+		//为模态窗口中搜索框绑定事件
+		$("#aname").keydown(function (event) {
+			if (event.keyCode == 13){
+				// alert("查询并展现市场活动列表")
+				//查询并展现市场活动列表
+				$.ajax({
+					url: "workbench/clue/getActivityListByNameAndNotByClueId.do",
+					data: {
+						"aname" : $.trim($("#aname").val()),
+						"clueId" : "${clue.id}"
+					},
+					type: "post",
+					dataType: "json",
+					success: function (data) {
+						//展示数据
+						var html = "";
+						$.each(data, function (i, n) {
+							html += '<tr>';
+							html += '<td><input type="checkbox" name="xz" value="\''+n.id+'\'" /></td>';
+							html += '<td>'+n.name+'</td>';
+							html += '<td>'+n.startDate+'</td>';
+							html += '<td>'+n.endDate+'</td>';
+							html += '<td>'+n.owner+'</td>';
+							html += '</tr>';
+						})
+						$("#bundActBody").html(html);
+					}
+				})
+
+				//禁用默认行为
+				return false;
+			}
 		})
 
 	});
@@ -276,7 +312,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<div class="btn-group" style="position: relative; top: 18%; left: 8px;">
 						<form class="form-inline" role="form">
 						  <div class="form-group has-feedback">
-						    <input type="text" class="form-control" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
+						    <input type="text" id="aname" class="form-control" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
 						    <span class="glyphicon glyphicon-search form-control-feedback"></span>
 						  </div>
 						</form>
@@ -292,8 +328,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 								<td></td>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
+						<tbody id="bundActBody">
+<%--							<tr>
 								<td><input type="checkbox"/></td>
 								<td>发传单</td>
 								<td>2020-10-10</td>
@@ -306,7 +342,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 								<td>2020-10-10</td>
 								<td>2020-10-20</td>
 								<td>zhangsan</td>
-							</tr>
+							</tr>--%>
 						</tbody>
 					</table>
 				</div>

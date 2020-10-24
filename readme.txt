@@ -219,4 +219,7 @@ prj-crm-01
                 * modal窗口弹出之前：清空tbody
                 * modal窗口弹出之前：清空输入框
                 * modal窗口弹出之前：重置复选框
-
+                * 文本框获取焦点
+            4. 后台接口: "workbench/clue/getActivityListByNameAndNotByClueId.do"
+            5. 排除掉已经关联的市场活动
+     - 关联（多对多）
