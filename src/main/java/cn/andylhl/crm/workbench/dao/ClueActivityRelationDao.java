@@ -1,6 +1,7 @@
 package cn.andylhl.crm.workbench.dao;
 
 import cn.andylhl.crm.workbench.domain.Activity;
+import cn.andylhl.crm.workbench.domain.ClueActivityRelation;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface ClueActivityRelationDao {
 
     //根据id删除一条关联
     int deleteCarById(String id);
+
+    //添加一条线索与市场活动的关联
+    int saveCar(ClueActivityRelation car);
 }

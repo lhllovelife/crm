@@ -5,6 +5,22 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueActivityRelationDao">
 
+    <!--添加一条线索与市场活动的关联 int saveCar(ClueActivityRelation car);-->
+    <insert id="saveCar" parameterType="ClueActivityRelation">
+        insert into tbl_clue_activity_relation
+        (
+            id,
+            clueId,
+            activityId
+        )
+        values
+        (
+            #{id},
+            #{clueId},
+            #{activityId}
+        )
+    </insert>
+
     <!--根据id删除一条关联 int deleteById(String id);-->
     <delete id="deleteCarById" parameterType="String">
         delete from tbl_clue_activity_relation where id = #{id}

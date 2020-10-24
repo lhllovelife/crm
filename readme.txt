@@ -223,3 +223,6 @@ prj-crm-01
             4. 后台接口: "workbench/clue/getActivityListByNameAndNotByClueId.do"
             5. 排除掉已经关联的市场活动
      - 关联（多对多）
+        1. 为关联按钮绑定事件
+        2. 处理单选框，多选框
+        3. 后台接口："workbench/clue/bund.do"

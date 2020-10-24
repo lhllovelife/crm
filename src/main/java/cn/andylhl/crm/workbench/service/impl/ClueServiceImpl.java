@@ -3,6 +3,7 @@ package cn.andylhl.crm.workbench.service.impl;
 import cn.andylhl.crm.exception.ClueActivityRelationExecption;
 import cn.andylhl.crm.exception.ClueExecption;
 import cn.andylhl.crm.exception.ClueRemarkException;
+import cn.andylhl.crm.utils.UUIDUtil;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.dao.ActivityDao;
 import cn.andylhl.crm.workbench.dao.ClueActivityRelationDao;
@@ -10,11 +11,13 @@ import cn.andylhl.crm.workbench.dao.ClueDao;
 import cn.andylhl.crm.workbench.dao.ClueRemarkDao;
 import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.domain.Clue;
+import cn.andylhl.crm.workbench.domain.ClueActivityRelation;
 import cn.andylhl.crm.workbench.domain.ClueRemark;
 import cn.andylhl.crm.workbench.service.ClueService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -199,5 +202,26 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public List<Activity> getActivityListByNameAndNotByClueId(Map<String, String> paraMap) {
         return activityDao.getActivityListByNameAndNotByClueId(paraMap);
+    }
+
+    /**
+     * 关联市场活动
+     * @param clueId
+     * @param aids
+     */
+    @Override
+    public void saveCar(String clueId, String[] aids) throws ClueActivityRelationExecption {
+        //遍历aids执行关联
+        int count = 0;
+        for (String aid : aids){
+            ClueActivityRelation car = new ClueActivityRelation();
+            car.setId(UUIDUtil.getUUID());
+            car.setClueId(clueId);
+            car.setActivityId(aid);
+            count += clueActivityRelationDao.saveCar(car);
+        }
+        if (count != aids.length){
+            throw new ClueActivityRelationExecption("关联市场活动异常");
+        }
     }
 }

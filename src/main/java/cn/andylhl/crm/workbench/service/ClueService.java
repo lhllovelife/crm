@@ -57,4 +57,7 @@ public interface ClueService {
 
     //获取该线索未关联的市场活动(带参数模糊查询)
     List<Activity> getActivityListByNameAndNotByClueId(Map<String, String> paraMap);
+
+    //关联市场活动
+    void saveCar(String clueId, String[] aids) throws ClueActivityRelationExecption;
 }

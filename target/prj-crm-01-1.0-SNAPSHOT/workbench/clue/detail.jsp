@@ -117,6 +117,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 		//为关联按钮绑定事件
 		$("#bundBtn").click(function () {
+			//干掉全选框
+			$("#qx").prop("checked", false);
+			//清空输入框
+			$("#aname").val("");
 			//清空bundActBody
 			$("#bundActBody").html("");
 			//文本框获取焦点
@@ -127,6 +131,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		$("#aname").keydown(function (event) {
 			if (event.keyCode == 13){
 				// alert("查询并展现市场活动列表")
+				//干掉全选框
+				$("#qx").prop("checked", false);
 				//查询并展现市场活动列表
 				$.ajax({
 					url: "workbench/clue/getActivityListByNameAndNotByClueId.do",
@@ -141,7 +147,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						var html = "";
 						$.each(data, function (i, n) {
 							html += '<tr>';
-							html += '<td><input type="checkbox" name="xz" value="\''+n.id+'\'" /></td>';
+							html += '<td><input type="checkbox" name="xz" value="'+n.id+'" /></td>';
 							html += '<td>'+n.name+'</td>';
 							html += '<td>'+n.startDate+'</td>';
 							html += '<td>'+n.endDate+'</td>';
@@ -155,6 +161,51 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				//禁用默认行为
 				return false;
 			}
+		})
+
+		//处理多选框
+		$("#qx").click(function () {
+			$("input[name=xz]").prop("checked", this.checked);
+		})
+		//处理单选框
+		$("#bundActBody").on("click", $("input[name=xz]"), function () {
+			$("#qx").prop("checked", $("input[name='xz']:checked").size() == $("input[name='xz']").size())
+		})
+
+		//为关联按钮绑定事件
+		$("#bundActBtn").click(function () {
+			var num = $("input[name=xz]:checked").size();
+			if (num == 0){
+				alert("请选择要关联的市场活动");
+				return;
+			}
+			//拼接参数 workbench/clue/bund.do?clueId=XXX&aid=12&aid=123
+			var bundParam = "clueId=" + "${clue.id}" + "&";
+			var $obj = $("input[name=xz]:checked");
+			for (var i = 0; i < num; i++){
+				bundParam += "aid=" + $obj.get(i).value;
+				if (i < num - 1){
+					bundParam += '&';
+				}
+			}
+			//发送ajax请求执行关联市场活动操作
+			$.ajax({
+				url: "workbench/clue/bund.do",
+				data: bundParam,
+				type: "post",
+				dataType: "json",
+				success: function (data) {
+					if (data.success){
+						//刷新已关联的市场活动列表
+						showActivityList();
+						//关闭模态窗口
+						$("#bundModal").modal("hide");
+					}
+					else {
+						alert("关联失败");
+					}
+				}
+			})
 		})
 
 	});
@@ -320,7 +371,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<table id="activityTable" class="table table-hover" style="width: 900px; position: relative;top: 10px;">
 						<thead>
 							<tr style="color: #B3B3B3;">
-								<td><input type="checkbox"/></td>
+								<td><input type="checkbox" id="qx"/></td>
 								<td>名称</td>
 								<td>开始日期</td>
 								<td>结束日期</td>
@@ -348,7 +399,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">关联</button>
+					<button type="button" class="btn btn-primary" id="bundActBtn">关联</button>
 				</div>
 			</div>
 		</div>
