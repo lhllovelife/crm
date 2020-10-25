@@ -32,7 +32,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/21 19:32
  */
-@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do", "/workbench/clue/getRemarkListByAid.do", "/workbench/clue/deleteRemark.do", "/workbench/clue/saveRemark.do", "/workbench/clue/updateRemark.do", "/workbench/clue/getActivityListByClueId.do", "/workbench/clue/unbund.do", "/workbench/clue/getActivityListByNameAndNotByClueId.do", "/workbench/clue/bund.do", "/workbench/clue/goConvert", "/workbench/clue/getActivityListByName.do"})
+@WebServlet(urlPatterns = {"/workbench/clue/getUserList.do", "/workbench/clue/save.do", "/workbench/clue/pageList.do", "/workbench/clue/delete.do", "/workbench/clue/getUserListAndClueById.do", "/workbench/clue/update.do", "/workbench/clue/detail.do", "/workbench/clue/getRemarkListByAid.do", "/workbench/clue/deleteRemark.do", "/workbench/clue/saveRemark.do", "/workbench/clue/updateRemark.do", "/workbench/clue/getActivityListByClueId.do", "/workbench/clue/unbund.do", "/workbench/clue/getActivityListByNameAndNotByClueId.do", "/workbench/clue/bund.do", "/workbench/clue/goConvert", "/workbench/clue/getActivityListByName.do", "/workbench/clue/convert.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -97,9 +97,36 @@ public class ClueController extends HttpServlet {
         else if ("/workbench/clue/getActivityListByName.do".equals(path)){
             getActivityListByName(request, response);
         }
+        else if ("/workbench/clue/convert.do".equals(path)){
+            convert(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 执行线索转换
+     * @param request
+     * @param response
+     */
+    private void convert(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行线索转换");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        ClueService service = (ClueService) ac.getBean("clueServiceImpl");
+        //接受参数
+        String flag = request.getParameter("flag");
+        String clueId = request.getParameter("clueId");
+        String money = request.getParameter("money");
+        String name = request.getParameter("name");
+        String expectedDate = request.getParameter("expectedDate");
+        String stage = request.getParameter("stage");
+        String activityId = request.getParameter("activityId");
+        if ("tran".equals(flag)){
+            //创建交易
+        }
+
+
     }
 
     /**

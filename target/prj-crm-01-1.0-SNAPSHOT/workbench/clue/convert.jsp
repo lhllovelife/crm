@@ -89,6 +89,19 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			$("#activityName").val(activiyName);
 			//关闭模态窗口
 			$("#searchActivityModal").modal("hide");
+		})
+		//为转换按钮绑定事件
+		$("#covertBtn").click(function () {
+			var flag = $("#isCreateTransaction").prop("checked");
+			if (flag){
+				//创建一笔交易 使用表单进行提交
+				$("#convertForm").submit();
+			}
+			else {
+				//传统请求访问
+				//不需要创建交易，只需要传递一个参数"clueId"进行线索转换即可
+				window.location.href = "workbench/clue/convert.do?clueId=${clue.id}";
+			}
 
 		})
 	});
@@ -168,22 +181,24 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	</div>
 	<div id="create-transaction2" style="position: relative; left: 40px; top: 20px; width: 80%; background-color: #F7F7F7; display: none;" >
 
-		<form>
+		<form id="convertForm" action="workbench/clue/convert.do" method="post">
+			<input type="hidden" name="clueId" value="${clue.id}">
+			<input type="hidden" name="flag" value="tran">
 		  <div class="form-group" style="width: 400px; position: relative; left: 20px;">
 		    <label for="amountOfMoney">金额</label>
-		    <input type="text" class="form-control" id="amountOfMoney">
+		    <input type="text" class="form-control" id="money" name="money">
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="tradeName">交易名称</label>
-		    <input type="text" class="form-control" id="tradeName" value="动力节点-">
+		    <input type="text" class="form-control" id="name" name="name">
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="expectedClosingDate">预计成交日期</label>
-		    <input type="text" class="form-control time" id="expectedClosingDate">
+		    <input type="text" class="form-control time" id="expectedDate" name="expectedDate">
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="stage">阶段</label>
-		    <select id="stage"  class="form-control">
+		    <select id="stage" name="stage" class="form-control">
 		    	<option></option>
 				<c:forEach items="${applicationScope.stageList}" var="a">
 					<option value="${a.value}">${a.text}</option>
@@ -193,7 +208,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="activity">市场活动源&nbsp;&nbsp;<a href="javascript:void(0);" id="openSearchModalBtn" style="text-decoration: none;"><span class="glyphicon glyphicon-search"></span></a></label>
 		    <input type="text" id="activityName" class="form-control" id="activity" placeholder="点击上面搜索" readonly>
-			<input type="hidden" id="activityId">
+			<input type="hidden" id="activityId" name="activityId">
 		  </div>
 		</form>
 
@@ -204,7 +219,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		<b>${clue.owner}</b>
 	</div>
 	<div id="operation" style="position: relative; left: 40px; height: 35px; top: 100px;">
-		<input class="btn btn-primary" type="button" value="转换">
+		<input class="btn btn-primary" type="button" value="转换" id="covertBtn">
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input class="btn btn-default" type="button" value="取消">
 	</div>

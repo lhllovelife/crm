@@ -238,4 +238,10 @@ prj-crm-01
         5. 将查询的市场活动在页面展示
         6. "submitActivityBtn"
         7. 为提交(市场活动按钮绑定事件，填充市场活动源)
-
+        8. "covertBtn", 为转换按钮绑定事件，执行线索的转换操作
+        9. 线索转换时是否需要创建交易，创建分支。
+        	- 不需要创建交易
+        	"workbench/clue/convert.do?clueId=xxx"
+        	不需要创建交易时候，只需要传递一个clueId即可。
+        	- 需要创建交易
+        	表单: "tranForm"，提供一个flag参数，供后端判断是否需要创建交易
