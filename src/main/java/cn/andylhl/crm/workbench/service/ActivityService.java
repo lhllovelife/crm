@@ -54,4 +54,7 @@ public interface ActivityService {
     void saveRemark(ActivityRemark remark) throws ActivityRemarkExecption;
 
     void updateRemark(ActivityRemark remark) throws ActivityRemarkExecption;
+
+    //根据名字模糊查询市场活动
+    List<Activity> getActivityListByName(String aname);
 }

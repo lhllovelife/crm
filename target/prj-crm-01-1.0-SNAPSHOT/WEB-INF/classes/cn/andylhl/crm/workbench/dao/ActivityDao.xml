@@ -5,6 +5,40 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ActivityDao">
 
+    <!--执行根据名字模糊查询市场活动-->
+    <!--List<Activity> getActivityListByName(String aname);-->
+    <select id="getActivityListByName" parameterType="String" resultType="Activity">
+        select
+        a.id,
+        u.name as owner,
+        a.name,
+        a.startDate,
+        a.endDate,
+        a.cost,
+        a.description,
+        a.createTime,
+        a.createBy,
+        a.editTime,
+        a.editBy
+        from
+        tbl_activity a
+        join
+        tbl_user u
+        on
+        a.owner = u.id
+<!--        <where>-->
+<!--            <if test="aname != null and aname !=''">-->
+<!--                and a.name like '%' #{aname} '%'-->
+<!--            </if>-->
+<!--        </where>-->
+        where a.name like '%' #{aname} '%'
+        order by a.createTime desc
+
+
+
+
+    </select>
+
     <!--获取该线索未关联的市场活动(带参数模糊查询)-->
     <!--List<Activity> getActivityListByNameAndNotByClueId(Map<String, String> paraMap);-->
     <select id="getActivityListByNameAndNotByClueId" parameterType="Map" resultType="Activity">

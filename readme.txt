@@ -226,3 +226,16 @@ prj-crm-01
         1. 为关联按钮绑定事件
         2. 处理单选框，多选框
         3. 后台接口："workbench/clue/bund.do"
+     - 转换页面处理(前端)
+        1. 点击转换，过后台，取数据，跳转到线索转换页面，el表达式取数据。
+        2. 转换页面处理
+        	- 日历控件
+        	- 阶段下拉框，数据字典
+        	- 为小放大镜绑定事件 "openSearchModalBtn"
+        3. 搜索模态窗口的文本框 "anme"
+        4. 后台接口: "workbench/clue/getActivityListByName.do" 通过名字模糊查询市场活动
+           注意：mybatis中传入String类型参数的问题, 用在where下的动态参数中，会报错。
+        5. 将查询的市场活动在页面展示
+        6. "submitActivityBtn"
+        7. 为提交(市场活动按钮绑定事件，填充市场活动源)
+

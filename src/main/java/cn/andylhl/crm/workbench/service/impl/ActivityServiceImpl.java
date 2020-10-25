@@ -161,4 +161,14 @@ public class ActivityServiceImpl implements ActivityService {
             throw new ActivityRemarkExecption("更新备注信息异常");
         }
     }
+
+    /**
+     * 执行根据名字模糊查询市场活动
+     * @param aname
+     * @return
+     */
+    @Override
+    public List<Activity> getActivityListByName(String aname) {
+        return activityDao.getActivityListByName(aname);
+    }
 }
