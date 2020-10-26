@@ -3,6 +3,7 @@ package cn.andylhl.crm.workbench.web.controller;
 import cn.andylhl.crm.exception.ClueActivityRelationExecption;
 import cn.andylhl.crm.exception.ClueExecption;
 import cn.andylhl.crm.exception.ClueRemarkException;
+import cn.andylhl.crm.exception.CustomerExecption;
 import cn.andylhl.crm.settings.domain.User;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.*;
@@ -10,6 +11,7 @@ import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.domain.Clue;
 import cn.andylhl.crm.workbench.domain.ClueRemark;
+import cn.andylhl.crm.workbench.domain.Tran;
 import cn.andylhl.crm.workbench.service.ActivityService;
 import cn.andylhl.crm.workbench.service.ClueService;
 import org.springframework.web.context.WebApplicationContext;
@@ -21,10 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /***
  * @Title: ClueController
@@ -114,6 +113,7 @@ public class ClueController extends HttpServlet {
         System.out.println("执行线索转换");
         WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
         ClueService service = (ClueService) ac.getBean("clueServiceImpl");
+        String createBy = ((User) request.getSession().getAttribute("user")).getName();
         //接受参数
         String flag = request.getParameter("flag");
         String clueId = request.getParameter("clueId");
@@ -122,10 +122,46 @@ public class ClueController extends HttpServlet {
         String expectedDate = request.getParameter("expectedDate");
         String stage = request.getParameter("stage");
         String activityId = request.getParameter("activityId");
+        Tran tran = null;
         if ("tran".equals(flag)){
             //创建交易
+            tran = new Tran();
+            tran.setId(UUIDUtil.getUUID());
+            tran.setMoney(money);
+            tran.setName(name);
+            tran.setExpectedDate(expectedDate);
+            tran.setStage(stage);
+            tran.setActivityId(activityId);
+        }
+        try {
+            service.convert(clueId, tran, createBy);
+            //无异常出现，跳转到线索界面
+            request.getRequestDispatcher("/workbench/clue/index.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+        /*
+id
+owner
+money
+name
+expectedDate
+customerId
+stage
+type
+source
+activityId
+contactsId
+createBy
+createTime
+editBy
+editTime
+description
+contactSummary
+nextContactTime
+
+         */
 
     }
 

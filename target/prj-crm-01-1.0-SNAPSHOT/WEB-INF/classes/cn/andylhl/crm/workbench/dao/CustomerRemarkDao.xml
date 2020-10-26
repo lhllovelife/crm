@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.andylhl.crm.workbench.dao.CustomerRemarkDao">
+
+    <!--保存客户备注信息-->
+    <!--int save(CustomerRemark customerRemark);-->
+    <insert id="save" parameterType="CustomerRemark">
+        insert into tbl_customer_remark
+        (
+            id,
+            noteContent,
+            createBy,
+            createTime,
+            editBy,
+            editTime,
+            editFlag,
+            customerId
+        )
+        values
+        (
+            #{id},
+            #{noteContent},
+            #{createBy},
+            #{createTime},
+            #{editBy},
+            #{editTime},
+            #{editFlag},
+            #{customerId}
+        )
+    </insert>
+
+</mapper>

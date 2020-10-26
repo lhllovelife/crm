@@ -1,12 +1,11 @@
 package cn.andylhl.crm.workbench.service;
 
-import cn.andylhl.crm.exception.ClueActivityRelationExecption;
-import cn.andylhl.crm.exception.ClueExecption;
-import cn.andylhl.crm.exception.ClueRemarkException;
+import cn.andylhl.crm.exception.*;
 import cn.andylhl.crm.vo.PaginationVO;
 import cn.andylhl.crm.workbench.domain.Activity;
 import cn.andylhl.crm.workbench.domain.Clue;
 import cn.andylhl.crm.workbench.domain.ClueRemark;
+import cn.andylhl.crm.workbench.domain.Tran;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,4 +59,7 @@ public interface ClueService {
 
     //关联市场活动
     void saveCar(String clueId, String[] aids) throws ClueActivityRelationExecption;
+
+    //进行线索转换（tran不为空时，创建一笔交易）
+    void convert(String clueId, Tran tran, String createBy) throws CustomerExecption, ContactsExecption, CustomerRemarkExecption, ContactsRemarkExecption, ContactsActivityRelationExecption, TranExecption, TranHistoryExecption, ClueExecption;
 }

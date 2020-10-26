@@ -5,6 +5,18 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueActivityRelationDao">
 
+    <!--根据线索id删除市场活动关系
+    int deleteCarByClueId(String clueId);-->
+    <delete id="deleteCarByClueId" parameterType="String">
+        delete from tbl_clue_activity_relation where clueId = #{clueId}
+    </delete>
+
+    <!--//获取线索与市场活动的关系信息
+    List<ClueActivityRelation> getClueActivityRelationById(String clueId);-->
+    <select id="getClueActivityRelationById" parameterType="String" resultType="ClueActivityRelation">
+        select * from tbl_clue_activity_relation where clueId = #{clueId}
+    </select>
+    
     <!--添加一条线索与市场活动的关联 int saveCar(ClueActivityRelation car);-->
     <insert id="saveCar" parameterType="ClueActivityRelation">
         insert into tbl_clue_activity_relation

@@ -29,4 +29,7 @@ public interface ClueRemarkDao {
 
     //更新备注
     int updateRemark(ClueRemark clueRemark);
+
+    //根据clueId删除备注
+    int deleteRemarkByClueId(String clueId);
 }

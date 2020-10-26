@@ -31,4 +31,7 @@ public interface ClueDao {
 
     //根绝id获取线索对象信息(owner显示为真名)
     Clue getDetailById(String id);
+
+    //根据id删除线索
+    int deleteById(String clueId);
 }

@@ -5,4 +5,48 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.CustomerDao">
 
+    <!--将提取的客户信息进行存储-->
+    <!--int save(Customer customer);-->
+    <insert id="save" parameterType="Customer">
+        insert into tbl_customer
+        (
+            id,
+            owner,
+            name,
+            website,
+            phone,
+            createBy,
+            createTime,
+            editBy,
+            editTime,
+            contactSummary,
+            nextContactTime,
+            description,
+            address
+        )
+        values
+        (
+            #{id},
+            #{owner},
+            #{name},
+            #{website},
+            #{phone},
+            #{createBy},
+            #{createTime},
+            #{editBy},
+            #{editTime},
+            #{contactSummary},
+            #{nextContactTime},
+            #{description},
+            #{address}
+        )
+    </insert>
+
+
+    <!--根据公司的名称精确匹配，判断该客户是否存在-->
+    <!--Customer getCustomerByName(String companyName);-->
+    <select id="getCustomerByName" parameterType="String" resultType="Customer">
+        select * from tbl_customer where name = #{companyName}
+    </select>
+
 </mapper>

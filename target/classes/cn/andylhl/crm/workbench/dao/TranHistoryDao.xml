@@ -5,4 +5,29 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.TranHistoryDao">
 
+    <!--保存交易历史信息
+    int save(TranHistory tranHistory);-->
+    <insert id="save" parameterType="TranHistory">
+        insert into tbl_tran_history
+        (
+            id,
+            stage,
+            money,
+            expectedDate,
+            createTime,
+            createBy,
+            tranId
+        )
+        values
+        (
+            #{id},
+            #{stage},
+            #{money},
+            #{expectedDate},
+            #{createTime},
+            #{createBy},
+            #{tranId}
+        )
+    </insert>
+
 </mapper>

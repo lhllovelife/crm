@@ -24,4 +24,10 @@ public interface ClueActivityRelationDao {
 
     //添加一条线索与市场活动的关联
     int saveCar(ClueActivityRelation car);
+
+    //获取线索与市场活动的关系信息
+    List<ClueActivityRelation> getClueActivityRelationById(String clueId);
+
+    //根据线索id删除市场活动关系
+    int deleteCarByClueId(String clueId);
 }

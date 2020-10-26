@@ -1,10 +1,15 @@
 package cn.andylhl.crm.workbench.dao;
 
+import cn.andylhl.crm.workbench.domain.ContactsActivityRelation;
+
 /***
- * @Title: ContactsActivityRelationDao
- * @Description: 联系人市场活动关系dao
+ * @Title: CcontactsActivityRelationDao
+ * @Description:
  * @author: lhl
- * @date: 2020/10/25 22:06
+ * @date: 2020/10/26 9:09
  */
-public class ContactsActivityRelationDao {
+public interface ContactsActivityRelationDao {
+
+    //保存联系人市场活动信息
+    int save(ContactsActivityRelation contactsActivityRelation);
 }

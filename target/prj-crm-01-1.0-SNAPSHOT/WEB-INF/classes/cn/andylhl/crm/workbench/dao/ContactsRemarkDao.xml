@@ -3,6 +3,33 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.andylhl.crm.workbench.dao.ContactsRemark">
+<mapper namespace="cn.andylhl.crm.workbench.dao.ContactsRemarkDao">
+
+    <!--保存客户备注信息
+    int save(ContactsRemark contactsRemark);-->
+    <insert id="save" parameterType="ContactsRemark">
+        insert into tbl_contacts_remark
+        (
+            id,
+            noteContent,
+            createBy,
+            createTime,
+            editBy,
+            editTime,
+            editFlag,
+            contactsId
+        )
+        values
+        (
+           #{id},
+           #{noteContent},
+           #{createBy},
+           #{createTime},
+           #{editBy},
+           #{editTime},
+           #{editFlag},
+           #{contactsId}
+        )
+    </insert>
 
 </mapper>

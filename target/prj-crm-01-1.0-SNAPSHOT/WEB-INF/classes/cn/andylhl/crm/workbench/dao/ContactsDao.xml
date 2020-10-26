@@ -5,4 +5,51 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ContactsDao">
 
+    <!--保存联系人信息-->
+    <!--int save(Contacts contacts);-->
+    <insert id="save" parameterType="Contacts">
+        insert into tbl_contacts
+        (
+            id,
+            owner,
+            source,
+            customerId,
+            fullname,
+            appellation,
+            email,
+            mphone,
+            job,
+            birth,
+            createBy,
+            createTime,
+            editBy,
+            editTime,
+            description,
+            contactSummary,
+            nextContactTime,
+            address
+        )
+        values
+        (
+            #{id},
+            #{owner},
+            #{source},
+            #{customerId},
+            #{fullname},
+            #{appellation},
+            #{email},
+            #{mphone},
+            #{job},
+            #{birth},
+            #{createBy},
+            #{createTime},
+            #{editBy},
+            #{editTime},
+            #{description},
+            #{contactSummary},
+            #{nextContactTime},
+            #{address}
+        )
+    </insert>
+
 </mapper>

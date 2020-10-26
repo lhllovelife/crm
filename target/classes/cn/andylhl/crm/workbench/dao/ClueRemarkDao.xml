@@ -5,6 +5,12 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.ClueRemarkDao">
 
+    <!--根据clueId删除备注
+    int deleteRemarkByClueId(String clueId);-->
+    <delete id="deleteRemarkByClueId" parameterType="String">
+        delete from tbl_clue_remark where clueId = #{clueId}
+    </delete>
+
     <!--更新备注 int updateRemark(ClueRemark clueRemark);-->
     <update id="updateRemark" parameterType="ClueRemark">
         update tbl_clue_remark set
