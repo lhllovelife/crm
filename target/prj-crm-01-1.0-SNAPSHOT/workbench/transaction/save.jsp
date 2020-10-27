@@ -1,9 +1,14 @@
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 	request.getServerPort() + request.getContextPath() + "/";
 %>
-
+<%
+	Map<String, String> pMap = (Map<String, String>) request.getServletContext().getAttribute("pMap");
+	Set<String> stageSet = pMap.keySet();
+%>
 
 <!DOCTYPE html>
 <html>
@@ -58,6 +63,24 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			},
 			delay: 1500
 		});
+		//为阶段下拉框绑定change事件
+		$("#create-stage").change(function () {
+			var stage = $("#create-stage").val();
+			//拼接json
+			var json = {
+				<%
+					for (String stage : stageSet){
+						String possibility = pMap.get(stage);
+
+				%>
+					"<%=stage%>" : <%=possibility%>,
+				<%
+					}
+				%>
+			};
+			// alert(json[stage]);
+			$("#create-possibility").val(json[stage]);
+		})
 
 
 	});
@@ -222,7 +245,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			</div>
 			<label for="create-transactionStage" class="col-sm-2 control-label">阶段<span style="font-size: 15px; color: red;">*</span></label>
 			<div class="col-sm-10" style="width: 300px;">
-			  <select class="form-control" id="create-transactionStage">
+			  <select class="form-control" id="create-stage">
 			  	<option></option>
 				  <c:forEach items="${stageList}" var="s">
 					  <option value="${s.value}">${s.text}</option>

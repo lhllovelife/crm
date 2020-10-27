@@ -10,9 +10,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /***
  * @Title: SystemInitListener
@@ -37,6 +35,20 @@ public class SystemInitListener implements ServletContextListener {
             application.setAttribute(key, valueList);
         }
         System.out.println("取数据字典结束");
+
+        System.out.println("读取阶段-可能性配置文件开始");
+        ResourceBundle bundle = ResourceBundle.getBundle("Stage2Possibility");
+        Enumeration<String> keys = bundle.getKeys();
+        Map<String, String> pMap = new HashMap<>();
+        //遍历key
+        while (keys.hasMoreElements()){
+            String stage = keys.nextElement();
+            String posibility = bundle.getString(stage);
+            pMap.put(stage, posibility);
+        }
+        application.setAttribute("pMap", pMap);
+        System.out.println("读取阶段-可能性配置文件结束");
+
     }
 
     @Override
