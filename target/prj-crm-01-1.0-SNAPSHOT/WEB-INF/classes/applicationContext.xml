@@ -110,4 +110,9 @@
         <property name="tranRemarkDao" ref="tranRemarkDao"/>
         <property name="tranHistoryDao" ref="tranHistoryDao"/>
     </bean>
+
+    <!--声明CustomerServiceImpl-->
+    <bean id="customerServiceImpl" class="cn.andylhl.crm.workbench.service.impl.CustomerServiceImpl">
+        <property name="customerDao" ref="customerDao"/>
+    </bean>
 </beans>

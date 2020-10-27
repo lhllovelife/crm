@@ -14,3 +14,18 @@ $.ajax({
 <c:forEach items="" var="">
 
 </c:forEach>
+
+
+<c:forEach items="${clueStateList}" var="c">
+    <option value="${c.value}">${c.text}</option>
+</c:forEach>
+
+//加载日历控件
+$(".time").datetimepicker({
+    minView: "month",
+    language:  'zh-CN',
+    format: 'yyyy-mm-dd',
+    autoclose: true,
+    todayBtn: true,
+    pickerPosition: "bottom-left"
+});

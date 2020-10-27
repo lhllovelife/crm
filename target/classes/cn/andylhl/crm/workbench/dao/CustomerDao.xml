@@ -5,6 +5,12 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.CustomerDao">
 
+    <!--根据名字模糊查询表中客户姓名-->
+    <!--List<String> getCustomerName(String name);-->
+    <select id="getCustomerName" parameterType="String" resultType="String">
+        select name from tbl_customer where name like '%' #{name} '%'
+    </select>
+
     <!--将提取的客户信息进行存储-->
     <!--int save(Customer customer);-->
     <insert id="save" parameterType="Customer">

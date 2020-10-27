@@ -2,6 +2,8 @@ package cn.andylhl.crm.workbench.dao;
 
 import cn.andylhl.crm.workbench.domain.Customer;
 
+import java.util.List;
+
 /***
  * @Title: CustomerDao
  * @Description: 客户dao
@@ -15,4 +17,7 @@ public interface CustomerDao {
 
     //将提取的客户信息进行存储
     int save(Customer customer);
+
+    //根据名字模糊查询表中客户姓名
+    List<String> getCustomerName(String name);
 }
