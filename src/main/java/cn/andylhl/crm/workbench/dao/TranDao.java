@@ -2,6 +2,9 @@ package cn.andylhl.crm.workbench.dao;
 
 import cn.andylhl.crm.workbench.domain.Tran;
 
+import java.util.List;
+import java.util.Map;
+
 /***
  * @Title: TranDao
  * @Description: 交易dao
@@ -18,4 +21,10 @@ public interface TranDao {
 
     //变更交易状态
     int update(Tran tran);
+
+    //获取阶段类型最多的数量
+    int getMax();
+
+    //获取图表数据
+    List<Map<String, String>> getChart();
 }

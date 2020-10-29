@@ -5,6 +5,37 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.TranDao">
 
+    <!--获取图表数据
+    List<Map<String, String>> getChart();-->
+    <select id="getChart" resultType="Map">
+        select
+            count(*) as value,
+            stage as name
+        from
+            tbl_tran
+        group by
+            stage
+
+    </select>
+
+    <!--//获取阶段类型最多的数量
+    int getMax();-->
+    <select id="getMax" resultType="int">
+        select
+            count(*) as num
+        from
+            tbl_tran
+        group by
+            stage
+        order by
+            num desc
+        limit 0, 1
+
+
+
+    </select>
+
+
 <!--    变更交易状态-->
 <!--    int update(Tran tran);-->
     <update id="update" parameterType="Tran">

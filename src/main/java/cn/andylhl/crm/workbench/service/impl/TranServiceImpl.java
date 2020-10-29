@@ -14,10 +14,10 @@ import cn.andylhl.crm.workbench.domain.Tran;
 import cn.andylhl.crm.workbench.domain.TranHistory;
 import cn.andylhl.crm.workbench.service.TranService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.crypto.Data;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /***
  * @Title: TranServiceImpl
@@ -136,6 +136,21 @@ public class TranServiceImpl implements TranService {
         if (count2 != 1){
             throw new TranHistoryExecption("交易历史信息保存异常");
         }
+    }
 
+    /**
+     * 获取交易漏斗图所需数据
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    public Map<String, Object> getCharts(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        int max = tranDao.getMax();
+        map.put("max", max);
+        List<Map<String, String>> dataList = tranDao.getChart();
+        map.put("dataList", dataList);
+        return map;
     }
 }

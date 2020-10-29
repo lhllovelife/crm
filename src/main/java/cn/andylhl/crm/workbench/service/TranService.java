@@ -6,7 +6,10 @@ import cn.andylhl.crm.exception.TranHistoryExecption;
 import cn.andylhl.crm.workbench.domain.Tran;
 import cn.andylhl.crm.workbench.domain.TranHistory;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /***
  * @Title: TranService
@@ -27,4 +30,7 @@ public interface TranService {
 
     //更改交易阶段
     void changeStage(Tran tran) throws TranExecption, TranHistoryExecption;
+
+    //获取交易漏斗图所需数据
+    Map<String, Object> getCharts(HttpServletRequest request, HttpServletResponse response);
 }

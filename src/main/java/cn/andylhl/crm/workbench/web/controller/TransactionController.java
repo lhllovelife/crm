@@ -28,7 +28,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/27 18:05
  */
-@WebServlet(urlPatterns = {"/workbench/transaction/getUserList.do", "/workbench/transaction/getCustomerName.do", "/workbench/transaction/save.do", "/workbench/transaction/detail.do", "/workbench/transaction/getHistoryList.do", "/workbench/transaction/changetage.do"})
+@WebServlet(urlPatterns = {"/workbench/transaction/getUserList.do", "/workbench/transaction/getCustomerName.do", "/workbench/transaction/save.do", "/workbench/transaction/detail.do", "/workbench/transaction/getHistoryList.do", "/workbench/transaction/changetage.do", "/workbench/transaction/getCharts.do"})
 public class TransactionController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,9 +60,26 @@ public class TransactionController extends HttpServlet {
         else if ("/workbench/transaction/changetage.do".equals(path)){
             changetage(request, response);
         }
+        else if ("/workbench/transaction/getCharts.do".equals(path)){
+            getCharts(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 获取漏斗图所需数据
+     * @param request
+     * @param response
+     */
+    private void getCharts(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行获取漏斗图所需数据");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        TranService service = (TranService) ac.getBean("tranServiceImpl");
+        Map<String, Object> map = service.getCharts(request, response);
+        PrintJson.printJsonObj(response, map);
+
     }
 
     /**
