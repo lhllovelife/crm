@@ -15,4 +15,7 @@ public interface TranDao {
 
     //获取交易详细信息
     Tran detail(String id);
+
+    //变更交易状态
+    int update(Tran tran);
 }

@@ -5,6 +5,17 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.TranDao">
 
+<!--    变更交易状态-->
+<!--    int update(Tran tran);-->
+    <update id="update" parameterType="Tran">
+        update tbl_tran set
+            stage = #{stage},
+            editBy = #{editBy},
+            editTime = #{editTime}
+        where id = #{id}
+
+    </update>
+
     <!--获取交易详细信息
     Tran detail(String id);-->
     <select id="detail" parameterType="String" resultType="Tran">

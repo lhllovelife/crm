@@ -24,4 +24,7 @@ public interface TranService {
 
     //获取交易历史信息
     List<TranHistory> getHistoryList(String tranId);
+
+    //更改交易阶段
+    void changeStage(Tran tran) throws TranExecption, TranHistoryExecption;
 }

@@ -111,4 +111,31 @@ public class TranServiceImpl implements TranService {
     public List<TranHistory> getHistoryList(String tranId) {
         return tranHistoryDao.getHistoryList(tranId);
     }
+
+    /**
+     * 变更交易阶段
+     * @param tran
+     */
+    @Override
+    public void changeStage(Tran tran) throws TranExecption, TranHistoryExecption {
+        //更改交易对象信息
+        int count1 = tranDao.update(tran);
+        if (count1 != 1){
+            throw new TranExecption("交易状态变更异常");
+        }
+        //更改完成，添加一条交易历史
+        TranHistory tranHistory = new TranHistory();
+        tranHistory.setId(UUIDUtil.getUUID());
+        tranHistory.setStage(tran.getStage());
+        tranHistory.setMoney(tran.getMoney());
+        tranHistory.setExpectedDate(tran.getExpectedDate());
+        tranHistory.setCreateBy(tran.getEditBy());
+        tranHistory.setCreateTime(DateUtil.format(new Date(), Const.DATE_Format_ALL));
+        tranHistory.setTranId(tran.getId());
+        int count2 = tranHistoryDao.save(tranHistory);
+        if (count2 != 1){
+            throw new TranHistoryExecption("交易历史信息保存异常");
+        }
+
+    }
 }

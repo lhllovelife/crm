@@ -309,8 +309,19 @@ prj-crm-01
                         - 如果是当前阶段 绿色标记
                         - 如果小于当前阶段 绿圈
                         - 如果大于当前阶段 黑圈
-
-
+     - 点击阶段图标，更改交易阶段
+        1. 方法：改变交易阶段 changeState(listStage, i)
+           		参数：
+           			stage：需要改变的阶段
+           			i：需要改变的阶段对应的下标
+        2. 发送ajax, 上传参数：
+                tranId
+                stage
+                money（创建交易历史用）
+                expectedDate（创建交易历史用）
+        2. 后端接口："workbench/transaction/changetage.do"
+           业务层：更新阶段，更新修改者，更新修改时间，添加阶段历史
+        3. 改变阶段成功后，在页面局部刷新阶段，可能性，修改人，修改时间
 
 
 

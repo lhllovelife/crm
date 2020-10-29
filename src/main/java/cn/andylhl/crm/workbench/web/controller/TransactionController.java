@@ -1,5 +1,6 @@
 package cn.andylhl.crm.workbench.web.controller;
 
+import cn.andylhl.crm.exception.TranExecption;
 import cn.andylhl.crm.settings.domain.User;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.*;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +28,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/27 18:05
  */
-@WebServlet(urlPatterns = {"/workbench/transaction/getUserList.do", "/workbench/transaction/getCustomerName.do", "/workbench/transaction/save.do", "/workbench/transaction/detail.do", "/workbench/transaction/getHistoryList.do"})
+@WebServlet(urlPatterns = {"/workbench/transaction/getUserList.do", "/workbench/transaction/getCustomerName.do", "/workbench/transaction/save.do", "/workbench/transaction/detail.do", "/workbench/transaction/getHistoryList.do", "/workbench/transaction/changetage.do"})
 public class TransactionController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -55,8 +57,53 @@ public class TransactionController extends HttpServlet {
         else if ("/workbench/transaction/getHistoryList.do".equals(path)){
             getHistoryList(request, response);
         }
+        else if ("/workbench/transaction/changetage.do".equals(path)){
+            changetage(request, response);
+        }
         else {
             System.out.println("无效访问地址");
+        }
+    }
+
+    /**
+     * 更改交易阶段
+     * @param request
+     * @param response
+     */
+    private void changetage(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行更新交易阶段");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        TranService service = (TranService) ac.getBean("tranServiceImpl");
+        //接收参数
+        String tranId = request.getParameter("tranId");
+        String stage = request.getParameter("stage");
+        String money = request.getParameter("money");
+        String expectedDate = request.getParameter("expectedDate");
+        String editBy = ((User) request.getSession().getAttribute("user")).getName();
+
+        Tran tran = new Tran();
+        tran.setId(tranId);
+        tran.setStage(stage);
+        tran.setMoney(money);
+        tran.setExpectedDate(expectedDate);
+        tran.setEditBy(editBy);
+        tran.setEditTime(DateUtil.format(new Date(), Const.DATE_Format_ALL));
+        //更改交易阶段
+        Map<String, Object> map = new HashMap<>();
+        try {
+            service.changeStage(tran);
+            map.put("success", true);
+            Tran t = service.detail(tranId);
+            Map<String, String> pMap = (Map<String, String>) request.getServletContext().getAttribute("pMap");
+            String possibility = pMap.get(t.getStage());
+            t.setPossibility(possibility);
+            map.put("t", t);
+            PrintJson.printJsonObj(response, map);
+
+        } catch (Exception e) {
+            map.put("success", false);
+            PrintJson.printJsonObj(response, map);
+            e.printStackTrace();
         }
     }
 
