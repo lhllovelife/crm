@@ -27,6 +27,17 @@ public class Tran {
     private String contactSummary; //联系纪要
     private String nextContactTime; //下次联系时间
 
+    //额外添加属性
+    private String possibility; //在展示交易详细信息时，保存交易可能性数值
+
+    public String getPossibility() {
+        return possibility;
+    }
+
+    public void setPossibility(String possibility) {
+        this.possibility = possibility;
+    }
+
     public String getId() {
         return id;
     }

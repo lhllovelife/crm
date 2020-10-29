@@ -158,13 +158,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<tbody>
 						<tr>
 							<td><input type="checkbox" /></td>
-							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/transaction/detail.jsp';">动力节点-交易01</a></td>
-							<td>动力节点</td>
-							<td>谈判/复审</td>
+							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/transaction/detail.do?id=33c0a183cbe04186936c128db69ebb59';">LED屏幕租赁</a></td>
+							<td>阿里巴巴</td>
+							<td>03价值建议</td>
 							<td>新业务</td>
-							<td>zhangsan</td>
-							<td>广告</td>
-							<td>李四</td>
+							<td>张三</td>
+							<td>员工介绍</td>
+							<td>马云</td>
 						</tr>
                         <tr class="active">
                             <td><input type="checkbox" /></td>

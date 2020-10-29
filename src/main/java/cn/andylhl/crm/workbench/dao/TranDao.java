@@ -12,4 +12,7 @@ public interface TranDao {
 
     //保存交易信息
     int save(Tran tran);
+
+    //获取交易详细信息
+    Tran detail(String id);
 }

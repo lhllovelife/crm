@@ -280,6 +280,15 @@ prj-crm-01
          - 交易添加
          - 交易历史添加
         6.添加后重定向到列表页
+     - 点击交易名称进入到交易详细信息页，展现详细信息
+        1. 后端接口："workbench/transaction/detail.do"
+        2. 内连接 外连接。字段非必填时(市场活动源，联系人名称)，使用外连接。
+        3. 前端页面取值
+        4. 处理可能性，在后端
+        5. 在交易详细信息页加载完毕之后，展现交易历史列表，showHistotyList()
+           后端接口："workbench/transaction/getHistoryList.do"
+        6. 面试时注释：https://www.bilibili.com/video/BV1fT4y1E7a6?p=149
+
 
 
 

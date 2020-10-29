@@ -5,6 +5,49 @@
 
 <mapper namespace="cn.andylhl.crm.workbench.dao.TranDao">
 
+    <!--获取交易详细信息
+    Tran detail(String id);-->
+    <select id="detail" parameterType="String" resultType="Tran">
+        select
+            tran.id,
+            u.name as owner,
+            money,
+            tran.name,
+            tran.expectedDate,
+            c.name as customerId,
+            tran.stage,
+            tran.type,
+            tran.source,
+            a.name as activityId,
+            con.fullname as contactsId,
+            tran.createBy,
+            tran.createTime,
+            tran.editBy,
+            tran.editTime,
+            tran.description,
+            tran.contactSummary,
+            tran.nextContactTime
+        from
+            tbl_tran tran
+        join
+            tbl_user u
+        on
+            tran.owner = u.id
+        join
+            tbl_customer c
+        on
+            tran.customerId = c.id
+        left join
+            tbl_activity a
+        on
+            tran.activityId = a.id
+        left join
+            tbl_contacts con
+        on
+            tran.contactsId = con.id
+        where tran.id = #{id}
+    </select>
+
     <!--保存交易信息
     int save(Tran tran);-->
     <insert id="save" parameterType="Tran">

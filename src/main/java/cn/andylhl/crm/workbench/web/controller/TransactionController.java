@@ -1,12 +1,8 @@
 package cn.andylhl.crm.workbench.web.controller;
 
-
-import cn.andylhl.crm.exception.CustomerExecption;
-import cn.andylhl.crm.exception.TranExecption;
 import cn.andylhl.crm.settings.domain.User;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.*;
-import cn.andylhl.crm.workbench.domain.Customer;
 import cn.andylhl.crm.workbench.domain.Tran;
 import cn.andylhl.crm.workbench.service.CustomerService;
 import cn.andylhl.crm.workbench.service.TranService;
@@ -19,9 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PipedReader;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /***
  * @Title: TransactionController
@@ -29,7 +25,7 @@ import java.util.List;
  * @author: lhl
  * @date: 2020/10/27 18:05
  */
-@WebServlet(urlPatterns = {"/workbench/transaction/getUserList.do", "/workbench/transaction/getCustomerName.do", "/workbench/transaction/save.do"})
+@WebServlet(urlPatterns = {"/workbench/transaction/getUserList.do", "/workbench/transaction/getCustomerName.do", "/workbench/transaction/save.do", "/workbench/transaction/detail.do"})
 public class TransactionController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,9 +48,31 @@ public class TransactionController extends HttpServlet {
         else if ("/workbench/transaction/save.do".equals(path)){
             save(request, response);
         }
+        else if ("/workbench/transaction/detail.do".equals(path)){
+            detail(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 展示交易详细信息
+     * @param request
+     * @param response
+     */
+    private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("执行展示交易详细信息");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        TranService service = (TranService) ac.getBean("tranServiceImpl");
+        String id = request.getParameter("id");
+        Tran tran = service.detail(id);
+        //处理可能性数值
+        Map<String, String> pMap = (Map<String, String>) request.getServletContext().getAttribute("pMap");
+        String possibility = pMap.get(tran.getStage());
+        tran.setPossibility(possibility);
+        request.setAttribute("tran", tran);
+        request.getRequestDispatcher("/workbench/transaction/detail.jsp").forward(request, response);
     }
 
     /**

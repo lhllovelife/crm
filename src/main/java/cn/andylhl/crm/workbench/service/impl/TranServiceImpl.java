@@ -90,4 +90,14 @@ public class TranServiceImpl implements TranService {
             throw new TranHistoryExecption("交易历史信息保存异常");
         }
     }
+
+    /**
+     * 展示交易详细信息
+     * @param id
+     * @return
+     */
+    @Override
+    public Tran detail(String id) {
+        return tranDao.detail(id);
+    }
 }

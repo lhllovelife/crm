@@ -15,4 +15,7 @@ public interface TranService {
 
     //保存交易信息
     void save(Tran tran) throws CustomerExecption, TranExecption, TranHistoryExecption;
+
+    //展示交易详细信息
+    Tran detail(String id);
 }
