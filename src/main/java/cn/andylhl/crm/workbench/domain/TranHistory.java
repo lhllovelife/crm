@@ -15,6 +15,16 @@ public class TranHistory {
     private String createTime; //创建时间
     private String createBy; //创建人
     private String tranId; //交易id
+    //额外添加字段
+    private String possibility;
+
+    public String getPossibility() {
+        return possibility;
+    }
+
+    public void setPossibility(String possibility) {
+        this.possibility = possibility;
+    }
 
     public String getId() {
         return id;

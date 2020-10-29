@@ -287,7 +287,7 @@ prj-crm-01
         4. 处理可能性，在后端
         5. 在交易详细信息页加载完毕之后，展现交易历史列表，showHistotyList()
            后端接口："workbench/transaction/getHistoryList.do"
-        6. 面试时注释：https://www.bilibili.com/video/BV1fT4y1E7a6?p=149
+        6. 面试时问及注"注释问题"：https://www.bilibili.com/video/BV1fT4y1E7a6?p=149
 
 
 

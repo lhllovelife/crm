@@ -4,6 +4,7 @@ import cn.andylhl.crm.settings.domain.User;
 import cn.andylhl.crm.settings.service.UserService;
 import cn.andylhl.crm.utils.*;
 import cn.andylhl.crm.workbench.domain.Tran;
+import cn.andylhl.crm.workbench.domain.TranHistory;
 import cn.andylhl.crm.workbench.service.CustomerService;
 import cn.andylhl.crm.workbench.service.TranService;
 import org.springframework.web.context.WebApplicationContext;
@@ -25,7 +26,7 @@ import java.util.Map;
  * @author: lhl
  * @date: 2020/10/27 18:05
  */
-@WebServlet(urlPatterns = {"/workbench/transaction/getUserList.do", "/workbench/transaction/getCustomerName.do", "/workbench/transaction/save.do", "/workbench/transaction/detail.do"})
+@WebServlet(urlPatterns = {"/workbench/transaction/getUserList.do", "/workbench/transaction/getCustomerName.do", "/workbench/transaction/save.do", "/workbench/transaction/detail.do", "/workbench/transaction/getHistoryList.do"})
 public class TransactionController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,9 +52,34 @@ public class TransactionController extends HttpServlet {
         else if ("/workbench/transaction/detail.do".equals(path)){
             detail(request, response);
         }
+        else if ("/workbench/transaction/getHistoryList.do".equals(path)){
+            getHistoryList(request, response);
+        }
         else {
             System.out.println("无效访问地址");
         }
+    }
+
+    /**
+     * 获取交易历史信息
+     * @param request
+     * @param response
+     */
+    private void getHistoryList(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行获取交易历史信息");
+        WebApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+        TranService service = (TranService) ac.getBean("tranServiceImpl");
+        String tranId = request.getParameter("tranId");
+        List<TranHistory> tranHistoryList = service.getHistoryList(tranId);
+        //处理可能性
+        Map<String, String> pMap = (Map<String, String>) request.getServletContext().getAttribute("pMap");
+        for (TranHistory tranHistory : tranHistoryList){
+            String stage = tranHistory.getStage();
+            String possibility = pMap.get(stage);
+            tranHistory.setPossibility(possibility);
+        }
+
+        PrintJson.printJsonObj(response, tranHistoryList);
     }
 
     /**

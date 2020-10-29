@@ -16,6 +16,7 @@ import cn.andylhl.crm.workbench.service.TranService;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /***
@@ -99,5 +100,15 @@ public class TranServiceImpl implements TranService {
     @Override
     public Tran detail(String id) {
         return tranDao.detail(id);
+    }
+
+    /**
+     * 获取交易历史信息
+     * @param tranId
+     * @return
+     */
+    @Override
+    public List<TranHistory> getHistoryList(String tranId) {
+        return tranHistoryDao.getHistoryList(tranId);
     }
 }
