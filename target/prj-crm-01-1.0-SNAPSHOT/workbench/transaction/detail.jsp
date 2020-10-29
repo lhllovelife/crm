@@ -176,6 +176,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					$("#editTime").html(data.t.editTime);
 					//加载交易历史列表
 					showHistotyList();
+					//更改图标状态
+					changeIcon(stage, i);
 				}
 				else{
 					alert("失败");
@@ -184,15 +186,101 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		})
 
 	}
+/*
+	- 如果当前阶段的可能性为0 前7个一定是黑圈，后两个一个是红叉，一个是黑叉
+	- 遍历前7个
+	- 黑圈------------------------------
+			- 移除掉原有的样式
+	- 添加新样式
+	- 为新样式赋予颜色
+	- 遍历后两个
+	- 如果是当前阶段
+	- 红叉-----------------------------
+			- 如果不是当前阶段
+	- 黑叉----------------------------
+			- 如果当前阶段的可能性不为0 前7个绿圈，绿色标记，黑圈，后两个一定是黑叉
+	- 遍历前7个 绿圈，绿色标记，黑圈
+	- 如果是当前阶段
+	- 绿色标记--------------------------
+			- 如果小于当前阶段
+	- 绿圈------------------------------
+			- 如果大于当前阶段
+	- 黑叉----------------------------
+			- 遍历后两个
+	- 黑叉----------------------------
+*/
+	function changeIcon(stage, index) {
+		//当前阶段
+		var currentStage = stage
+		//当前阶段可能性
+		var currentPossibility = $("#possibility").html();
+		//当前阶段下标
+		var currentIndex = index;
+		//正常阶段和丢失阶段分界点
+		var point = <%=point%>;
+		// alert(currentIndex + " " + currentStage + " " + currentPossibility + " " + point)
+		if (currentPossibility == "0"){
+			// - 如果当前阶段的可能性为0 前7个一定是黑圈，后两个一个是红叉，一个是黑叉
+			//遍历前7个
+			for (var i = 0; i < point; i++){
+				//黑圈
+				// $("#"+i).removeClass();
+				// $("#"+i).addClass("glyphicon glyphicon-record mystage");
+				// $("#"+i).addClass("color", "#000000");
+				$("#"+i).removeClass();
+				//添加新样式
+				$("#"+i).addClass("glyphicon glyphicon-record mystage");
+				//为新样式赋予颜色
+				$("#"+i).css("color","#000000");
+			}
+			// - 遍历后两个
+			for (var i = point; i < <%=dvList.size()%>; i++){
+				if (currentIndex == i){
+					// - 如果是当前阶段 红叉
+					$("#"+i).removeClass();
+					$("#"+i).addClass("glyphicon glyphicon-remove mystage");
+					$("#"+i).css("color", "#FF0000");
+				}
+				else{
+					// - 如果是当前阶段 黑叉
+					$("#"+i).removeClass();
+					$("#"+i).addClass("glyphicon glyphicon-remove mystage");
+					$("#"+i).css("color", "#000000");
 
-
-	// function changeStage(listStage, i){
-	// 	//当前阶段
-	// 	var currentStage = listStage;
-	// 	var currentPossibility =  $("#possibility").html();
-	// 	var currentIndex = i;
-	// 	alert(currentIndex + " " + currentStage + " " + currentPossibility);
-	// }
+				}
+			}
+		}
+		else {
+			// - 如果当前阶段的可能性不为0 前7个绿圈，绿色标记，黑圈，后两个一定是黑叉
+			// - 遍历前7个 绿圈，绿色标记，黑圈
+			for (var i = 0; i < point; i++){
+				if (i < currentIndex){
+					// - 如果小于当前阶段  绿圈
+					$("#"+i).removeClass();
+					$("#"+i).addClass("glyphicon glyphicon-ok-circle mystage");
+					$("#"+i).css("color", "#90F790");
+				}
+				else if (i == currentIndex){
+					// - 如果是当前阶段 绿色标记
+					$("#"+i).removeClass();
+					$("#"+i).addClass("glyphicon glyphicon-map-marker mystage");
+					$("#"+i).css("color", "#90F790");
+				}
+				else if (i > currentIndex){
+					// - 如果大于当前阶段  黑圈
+					$("#"+i).removeClass();
+					$("#"+i).addClass("glyphicon glyphicon-record mystage");
+					$("#"+i).css("color", "#000000");
+				}
+			}
+			// - 遍历后两个 - 黑叉
+			for (var i = point; i < <%=dvList.size()%>; i++){
+				$("#"+i).removeClass();
+				$("#"+i).addClass("glyphicon glyphicon-remove mystage");
+				$("#"+i).css("color", "#000000");
+			}
+		}
+	}
 	
 	
 </script>
@@ -255,14 +343,14 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						if (currentStage.equals(listStage)){
 							//如果是当前阶段 红叉
 							%>
-		<span class="glyphicon glyphicon-remove mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #FF0000;"></span>
+		<span id="<%=i%>" class="glyphicon glyphicon-remove mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #FF0000;"></span>
 		-----------
 							<%
 						}
 						else{
 							//如果不是当前的阶段 黑叉
 							%>
-		<span class="glyphicon glyphicon-remove mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
+		<span id="<%=i%>" class="glyphicon glyphicon-remove mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
 		-----------
 							<%
 						}
@@ -270,7 +358,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					else {
 						//如果遍历出来的阶段的可能性不为0，说明是前7个，一定是黑圈
 							%>
-		<span class="glyphicon glyphicon-record mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
+		<span  id="<%=i%>" class="glyphicon glyphicon-record mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
 		-----------
 							<%
 					}
@@ -298,7 +386,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					if ("0".equals(listPossibility)){
 						//如果遍历出来的阶段的可能性为0，说明是后两个阶段  黑叉
 							%>
-		<span class="glyphicon glyphicon-remove mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
+		<span id="<%=i%>" class="glyphicon glyphicon-remove mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
 		-----------
 							<%
 
@@ -308,21 +396,21 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						if (i < currentIndex){
 							//如果小于当前阶段 绿圈
 							%>
-		<span class="glyphicon glyphicon-ok-circle mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #90F790;"></span>
+		<span id="<%=i%>" class="glyphicon glyphicon-ok-circle mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #90F790;"></span>
 		-----------
 							<%
 						}
 						else if (i == currentIndex){
 							//如果是当前阶段 绿色标记
 							%>
-		<span class="glyphicon glyphicon-map-marker mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #90F790;"></span>
+		<span id="<%=i%>" class="glyphicon glyphicon-map-marker mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #90F790;"></span>
 		-----------
 							<%
 						}
 						else if (i > currentIndex){
 							//如果大于当前阶段 黑圈
 							%>
-		<span class="glyphicon glyphicon-record mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
+		<span id="<%=i%>" class="glyphicon glyphicon-record mystage" onclick="changeStage('<%=listStage%>','<%=i%>')" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
 		-----------
 							<%
 						}
