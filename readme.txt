@@ -270,7 +270,16 @@ prj-crm-01
         4. 阶段和可能性之间对应关系。
         使用properties属性配置文件。服务器启动后，加载到内存中。使用MAp<String, String>进行保存键值对关系。
         在前端页面，进行拼接json。取json的形式: json[key]
-
+     - 添加交易
+        1.后端接口："workbench/transaction/save.do"
+        2.处理表单name属性。注意customerName。
+        3.为保存按钮绑定事件。“saveTranBtn”
+        4.发送传统请求，进行保存交易的业务，重定向
+        5.业务层
+         - 如果没有客户，则新创建客户
+         - 交易添加
+         - 交易历史添加
+        6.添加后重定向到列表页
 
 
 
