@@ -1,6 +1,36 @@
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="cn.andylhl.crm.settings.domain.DicValue" %>
+<%@ page import="cn.andylhl.crm.workbench.domain.Tran" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
 String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 	request.getServerPort() + request.getContextPath() + "/";
+
+	//准备字典类型为stage的字典值列表
+	List<DicValue> dvList = (List<DicValue>) application.getAttribute("stageList");
+	//准备阶段和可能性之间的对应关系
+	Map<String, String> pMap = (Map<String, String>) application.getAttribute("pMap");
+	//根据pMap准备pMap中的key集合
+	Set<String> keySet = pMap.keySet();
+	int point = 0;
+	//准备：前面正常阶段和后面丢失阶段的分界点下标
+	for (int i = 0; i < dvList.size(); i++){
+		//取得每一个DicValue
+		DicValue dicValue = dvList.get(i);
+		//取得该DicValue的value
+		String stage = dicValue.getValue();
+		String possibility = pMap.get(stage);
+		//可能性为0，则说明找到了正常阶段和丢失阶段的分界点
+		if ("0".equals(possibility)){
+			point = i;
+			break;
+		}
+	}
+
+
+
+
 %>
 
 <!DOCTYPE html>
@@ -143,10 +173,124 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		</div>
 	</div>
 
+<%--
+           - 如果当前阶段的可能性为0 前7个一定是黑圈，后两个一个是红叉，一个是黑叉
+                - 取得每一个遍历出来的阶段，根据每一个遍历出来的阶段取其可能性
+                    - 如果遍历出来的阶段的可能性为0，说明是后两个，一个是红叉，一个是黑叉
+                        - 如果是当前阶段 红叉
+                        - 如果不是当前的阶段 黑叉
+                    - 如果遍历出来的阶段的可能性不为0，说明是前7个，一定是黑圈
+           - 如果当前阶段的可能性不为0 前7个有可能性是绿圈，绿色标记，黑圈，后两个一定是黑叉
+                - 准备当前阶段的下标
+                - 取得每一个遍历出来的阶段，根据每一个遍历出来的阶段取其可能性
+                     - 如果遍历出来的阶段的可能性为0，说明是后两个阶段  黑叉
+                     - 如果遍历出来的阶段的可能性不为0 说明是前7个阶段 绿圈，绿色标记，黑圈
+                        - 如果是当前阶段 绿色标记
+                        - 如果小于当前阶段 绿圈
+                        - 如果大于当前阶段 黑圈
+--%>
 	<!-- 阶段状态 -->
 	<div style="position: relative; left: 40px; top: -50px;">
 		阶段&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom" data-content="资质审查" style="color: #90F790;"></span>
+		<%
+			/*准备当前阶段*/
+			Tran tran = (Tran) request.getAttribute("tran");
+			String currentStage = tran.getStage();
+			/*准备当前阶段的可能性*/
+			String possibility = pMap.get(currentStage);
+
+			if ("0".equals(possibility)){
+				//如果当前阶段的可能性为0 前7个一定是黑圈，后两个一个是红叉，一个是黑叉
+
+				//取得每一个遍历出来的阶段，根据每一个遍历出来的阶段取其可能性
+				for (int i = 0; i < dvList.size(); i++){
+					DicValue dv = dvList.get(i);
+					String listStage = dv.getValue();
+					String listPossibility = pMap.get(listStage);
+					if ("0".equals(listPossibility)){
+						//如果遍历出来的阶段的可能性为0，说明是后两个，一个是红叉，一个是黑叉
+						if (currentStage.equals(listStage)){
+							//如果是当前阶段 红叉
+							%>
+		<span class="glyphicon glyphicon-remove mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #FF0000;"></span>
+		-----------
+							<%
+						}
+						else{
+							//如果不是当前的阶段 黑叉
+							%>
+		<span class="glyphicon glyphicon-remove mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
+		-----------
+							<%
+						}
+					}
+					else {
+						//如果遍历出来的阶段的可能性不为0，说明是前7个，一定是黑圈
+							%>
+		<span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
+		-----------
+							<%
+					}
+				}
+			}
+			else {
+				//如果当前阶段的可能性不为0 前7个有可能性是绿圈，绿色标记，黑圈，后两个一定是黑叉
+
+				//准备当前阶段的下标
+				int currentIndex = 0;
+				for (int i = 0; i < dvList.size(); i++){
+					DicValue dv = dvList.get(i);
+					String listStage = dv.getValue();
+					String listPossibility = pMap.get(listStage);
+					//如果是当前阶段
+					if (currentStage.equals(listStage)){
+						currentIndex = i;
+						break;
+					}
+				}
+				for (int i = 0; i < dvList.size(); i++){
+					DicValue dv = dvList.get(i);
+					String listStage = dv.getValue();
+					String listPossibility = pMap.get(listStage);
+					if ("0".equals(listPossibility)){
+						//如果遍历出来的阶段的可能性为0，说明是后两个阶段  黑叉
+							%>
+		<span class="glyphicon glyphicon-remove mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
+		-----------
+							<%
+
+					}
+					else {
+						//如果遍历出来的阶段的可能性不为0 说明是前7个阶段 绿圈，绿色标记，黑圈
+						if (i < currentIndex){
+							//如果小于当前阶段 绿圈
+							%>
+		<span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #90F790;"></span>
+		-----------
+							<%
+						}
+						else if (i == currentIndex){
+							//如果是当前阶段 绿色标记
+							%>
+		<span class="glyphicon glyphicon-map-marker mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #90F790;"></span>
+		-----------
+							<%
+						}
+						else if (i > currentIndex){
+							//如果大于当前阶段 黑圈
+							%>
+		<span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dv.getText()%>" style="color: #000000;"></span>
+		-----------
+							<%
+						}
+					}
+				}
+			}
+
+
+
+		%>
+<%--		<span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom" data-content="资质审查" style="color: #90F790;"></span>
 		-----------
 		<span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom" data-content="需求分析" style="color: #90F790;"></span>
 		-----------
@@ -163,8 +307,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		<span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom" data-content="丢失的线索"></span>
 		-----------
 		<span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom" data-content="因竞争丢失关闭"></span>
-		-----------
-		<span class="closingDate">2010-10-10</span>
+		-------------%>
+		<span class="closingDate">${tran.expectedDate}</span>
 	</div>
 	
 	<!-- 详细信息 -->
