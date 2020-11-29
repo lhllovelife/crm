@@ -57,7 +57,9 @@ public class UserController extends HttpServlet {
         String loginAct = request.getParameter("loginAct");
         String loginPwd = request.getParameter("loginPwd");
         loginPwd = MD5Util.getMD5(loginPwd);
-        String ip = request.getServerName();
+//        String ip = request.getServerName();
+        String ip = request.getRemoteAddr();
+        System.out.println("来访ip: " + ip);
         try {
             User user = service.login(loginAct, loginPwd, ip);
             //将登录的用户信息存入session中
